@@ -1,0 +1,17 @@
+CALCULA FÁCIL HP — ÍCONE DO APP
+
+Arquivos:
+- index.html
+- manifest.json
+- logo.png
+- icon-192.png
+- icon-512.png
+
+Para o seu app atual:
+1. Mantenha index.html e manifest.json na mesma pasta.
+2. Coloque logo.png, icon-192.png e icon-512.png na mesma pasta.
+3. No seu index.html atual, mantenha no <head> as linhas do manifest e dos ícones.
+4. O nome mostrado ao instalar será "Calcula Fácil HP".
+5. O ícone do aplicativo será somente o símbolo HP.
+
+Se você estiver usando o código grande da calculadora que já criou, não precisa trocar a parte do sistema: basta colocar essas configurações no <head> e manter os arquivos PNG na mesma pasta.

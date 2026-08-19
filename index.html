@@ -2,24 +2,16 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Calcula Fácil HP</title>
 
-<!-- =====================================================
-     ÍCONE DO APLICATIVO
-     ===================================================== -->
-
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="icon" type="image/png" sizes="192x192" href="logo-192.png">
-
-<link rel="apple-touch-icon" sizes="180x180" href="logo-180.png">
-
-<link rel="manifest" href="manifest.json">
+<!-- ÍCONE DO APLICATIVO -->
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="manifest" href="./manifest.json">
 
 <meta name="theme-color" content="#080808">
 <meta name="mobile-web-app-capable" content="yes">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Calcula Fácil HP">
@@ -28,730 +20,64 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-    margin:0;
-    background:#f4f4f4;
-    font-family:Arial,sans-serif;
-    color:#111;
-}
-
-.app{
-    max-width:460px;
-    margin:auto;
-    padding:10px;
-}
-
-.header{
-    background:#080808;
-    color:white;
-    text-align:center;
-    padding:16px 10px;
-    border-radius:20px 20px 0 0;
-    border-bottom:4px solid #d4af37;
-}
-
-.logoPerfil{
-    width:78px;
-    height:78px;
-    border-radius:50%;
-    object-fit:cover;
-    display:block;
-    margin:0 auto 8px;
-    border:3px solid #d4af37;
-    background:#fff;
-}
-
-.logoPadrao{
-    display:flex;
-    width:78px;
-    height:78px;
-    border-radius:50%;
-    margin:0 auto 8px;
-    background:#fff;
-    color:#111;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
-    border:3px solid #d4af37;
-}
-
-.header h1{
-    margin:0;
-    font-size:24px;
-    color:#fff;
-}
-
-.nomeVendedor{
-    margin:6px 0 0;
-    font-size:15px;
-    font-weight:bold;
-    color:#ffd700;
-}
-
-.header p{
-    margin:4px 0 0;
-    color:#ccc;
-    font-size:12px;
-}
-
-.perfil{
-    background:#111;
-    padding:10px 14px;
-}
-
-.btnPerfil{
-    width:100%;
-    height:40px;
-    border:1px solid #d4af37;
-    border-radius:9px;
-    background:#1c1c1c;
-    color:#ffd700;
-    font-weight:bold;
-}
-
-.perfilOpcoes{
-    display:none;
-    margin-top:9px;
-}
-
-.perfilOpcoes input[type="text"]{
-    width:100%;
-    height:42px;
-    border:2px solid #d4af37;
-    border-radius:9px;
-    padding:0 10px;
-    font-size:15px;
-    outline:none;
-}
-
-.btnFoto,
-.btnSalvarPerfil{
-    width:100%;
-    height:42px;
-    margin-top:7px;
-    border:0;
-    border-radius:9px;
-    font-weight:bold;
-}
-
-.btnFoto{
-    background:#ffd000;
-    color:#111;
-}
-
-.btnSalvarPerfil{
-    background:#d4af37;
-    color:#111;
-}
-
-#fotoInput{
-    display:none;
-}
-
-.card{
-    background:white;
-    border-radius:0 0 20px 20px;
-    overflow:hidden;
-}
-
-.promo{
-    background:#e60000;
-    color:white;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    padding:13px;
-}
-
-.area{
-    padding:16px;
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    color:#333;
-    margin-bottom:7px;
-    font-size:13px;
-}
-
-.input{
-    height:56px;
-    border:3px solid #111;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    padding:0 12px;
-    background:#fff;
-}
-
-.input b{
-    font-size:19px;
-    margin-right:7px;
-    color:#d4af37;
-}
-
-input{
-    border:0;
-    outline:0;
-    width:100%;
-    font-size:25px;
-    font-weight:bold;
-}
-
-input[type=number]{
-    -moz-appearance:textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button{
-    -webkit-appearance:none;
-}
-
-.btnCamera,
-.btnAdicionar{
-    width:100%;
-    height:50px;
-    margin-top:9px;
-    border:0;
-    border-radius:11px;
-    font-size:16px;
-    font-weight:bold;
-    box-shadow:0 3px 0 rgba(0,0,0,.2);
-    transition:.15s;
-}
-
-.btnCamera{
-    background:#ffd000;
-    color:#111;
-}
-
-.btnAdicionar{
-    background:#111;
-    color:#ffd700;
-    border:2px solid #d4af37;
-}
-
-.btnCamera:active,
-.btnAdicionar:active,
-button:active{
-    transform:scale(.97);
-}
-
-.lista{
-    margin-top:14px;
-}
-
-.item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#fff8d6;
-    border-left:4px solid #d4af37;
-    padding:8px 10px;
-    border-radius:9px;
-    margin-bottom:6px;
-}
-
-.item span{
-    font-size:17px;
-    font-weight:bold;
-}
-
-.btnExcluir{
-    width:34px;
-    height:34px;
-    border:0;
-    border-radius:8px;
-    background:#e60000;
-    color:white;
-}
-
-.descontos{
-    margin-top:16px;
-}
-
-.botoesDesconto{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:6px;
-}
-
-.btnDesconto{
-    height:40px;
-    border:2px solid #111;
-    background:#fff;
-    border-radius:8px;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.btnDesconto.ativo{
-    background:#e60000;
-    color:white;
-    border-color:#e60000;
-    box-shadow:0 2px 0 #9b0000;
-}
-
-.outro{
-    display:flex;
-    gap:6px;
-    margin-top:7px;
-}
-
-.outro input{
-    height:42px;
-    border:2px solid #d4af37;
-    border-radius:8px;
-    padding:0 8px;
-    font-size:17px;
-}
-
-.btnAplicar{
-    border:0;
-    border-radius:8px;
-    background:#d4af37;
-    color:#111;
-    padding:0 14px;
-    font-weight:bold;
-}
-
-.result{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:20px 10px;
-    border-top:4px solid #d4af37;
-    border-bottom:4px solid #d4af37;
-}
-
-.totalOriginal{
-    font-size:14px;
-    font-weight:bold;
-    color:#fff;
-}
-
-.descontoValor{
-    font-size:14px;
-    margin-top:5px;
-    color:#ffd000;
-}
-
-.precoTitulo{
-    font-size:12px;
-    font-weight:bold;
-    margin-top:12px;
-    color:#d4af37;
-}
-
-.preco{
-    font-size:42px;
-    font-weight:bold;
-    color:#ffd700;
-    text-shadow:0 2px 8px rgba(212,175,55,.3);
-}
-
-.economia{
-    font-size:13px;
-    margin-top:3px;
-    color:#fff;
-}
-
-.crediario{
-    padding:12px 16px;
-    background:white;
-}
-
-.btnCrediario{
-    width:100%;
-    height:48px;
-    border:0;
-    border-radius:10px;
-    background:#d4af37;
-    color:#111;
-    font-size:16px;
-    font-weight:bold;
-    box-shadow:0 3px 0 #a88920;
-}
-
-.parcelas{
-    display:none;
-    margin-top:10px;
-}
-
-.botoesParcelas{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:5px;
-}
-
-.btnParcela{
-    height:38px;
-    border:2px solid #111;
-    background:white;
-    border-radius:7px;
-    font-size:14px;
-    font-weight:bold;
-}
-
-.btnParcela.ativo{
-    background:#e60000;
-    color:white;
-    border-color:#e60000;
-}
-
-.resultadoParcela{
-    display:none;
-    margin-top:10px;
-    background:#fff8d6;
-    border:2px solid #d4af37;
-    padding:10px;
-    border-radius:9px;
-    text-align:center;
-}
-
-.resultadoParcela small{
-    color:#666;
-    font-size:11px;
-}
-
-.valorParcela{
-    font-size:25px;
-    font-weight:bold;
-    color:#111;
-}
-
-.btnFinalizar{
-    width:calc(100% - 32px);
-    margin:8px 16px 0;
-    height:50px;
-    border:0;
-    border-radius:10px;
-    background:#e60000;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    box-shadow:0 3px 0 #a80000;
-}
-
-.btnNova{
-    width:calc(100% - 32px);
-    margin:8px 16px 16px;
-    height:48px;
-    border:2px solid #111;
-    border-radius:10px;
-    background:#111;
-    color:#ffd700;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.vendasDia{
-    margin-top:10px;
-    background:white;
-    border-radius:15px;
-    overflow:hidden;
-    border:2px solid #d4af37;
-}
-
-.btnVendas{
-    width:100%;
-    height:50px;
-    border:0;
-    background:#111;
-    color:#ffd700;
-    font-size:16px;
-    font-weight:bold;
-}
-
-.painelVendas{
-    display:none;
-    padding:12px;
-}
-
-.resumo{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-}
-
-.resumoBox{
-    background:#fff8d6;
-    border:1px solid #d4af37;
-    border-radius:9px;
-    padding:10px;
-    text-align:center;
-}
-
-.resumoBox small{
-    display:block;
-    color:#555;
-    font-size:11px;
-}
-
-.resumoBox strong{
-    display:block;
-    margin-top:3px;
-    font-size:18px;
-}
-
-.listaVendas{
-    margin-top:10px;
-}
-
-.venda{
-    background:#fafafa;
-    border-left:4px solid #e60000;
-    border-radius:9px;
-    padding:9px;
-    margin-bottom:6px;
-}
-
-.vendaTopo{
-    display:flex;
-    justify-content:space-between;
-    font-weight:bold;
-}
-
-.vendaDetalhe{
-    color:#666;
-    font-size:12px;
-    margin-top:4px;
-}
-
-.btnLimparVendas{
-    width:100%;
-    height:42px;
-    border:0;
-    border-radius:9px;
-    background:#e60000;
-    color:white;
-    font-weight:bold;
-    margin-top:5px;
-}
-
-.cameraModal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.9);
-    z-index:9999;
-    padding:10px;
-    overflow:auto;
-}
-
-.cameraBox{
-    max-width:460px;
-    margin:auto;
-    background:white;
-    border-radius:16px;
-    overflow:hidden;
-}
-
-.cameraTitulo{
-    background:#111;
-    color:#ffd700;
-    text-align:center;
-    padding:15px;
-    border-bottom:3px solid #d4af37;
-}
-
-.cameraTitulo h2{
-    margin:0;
-    font-size:20px;
-}
-
-.cameraTitulo p{
-    margin:4px 0 0;
-    font-size:12px;
-    color:white;
-}
-
-video{
-    width:100%;
-    display:block;
-    background:#000;
-    max-height:55vh;
-    object-fit:cover;
-}
-
-.cameraArea{
-    padding:12px;
-}
-
-.btnCapturar,
-.btnFechar,
-.btnUsar,
-.btnTentar{
-    width:100%;
-    height:46px;
-    border:0;
-    border-radius:9px;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.btnCapturar{
-    background:#ffd000;
-    color:#111;
-}
-
-.btnFechar{
-    margin-top:7px;
-    background:#111;
-    color:#ffd700;
-}
-
-.btnUsar{
-    background:#16a34a;
-    color:white;
-}
-
-.btnTentar{
-    margin-top:6px;
-    background:#e60000;
-    color:white;
-}
-
-.status{
-    text-align:center;
-    padding:10px 0;
-    color:#555;
-    font-size:13px;
-}
-
-.resultadoLeitura{
-    display:none;
-    background:#fff8d6;
-    border:2px solid #d4af37;
-    padding:12px;
-    border-radius:10px;
-    text-align:center;
-}
-
-.resultadoLeitura strong{
-    font-size:12px;
-    color:#555;
-}
-
-.precoDetectado{
-    font-size:30px;
-    font-weight:bold;
-    color:#111;
-    margin:5px;
-}
-
-canvas{
-    display:none;
-}
-
-@media(max-width:360px){
-
-    .botoesDesconto{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .preco{
-        font-size:36px;
-    }
-}
+body{margin:0;background:#f4f4f4;font-family:Arial,sans-serif;color:#111}
+.app{max-width:460px;margin:auto;padding:10px}
+.header{background:#080808;color:white;text-align:center;padding:16px 10px;border-radius:20px 20px 0 0;border-bottom:4px solid #d4af37}
+.logoPerfil{width:78px;height:78px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 8px;border:3px solid #d4af37;background:#fff}
+.logoPadrao{display:flex;width:78px;height:78px;border-radius:50%;margin:0 auto 8px;background:#fff;color:#111;align-items:center;justify-content:center;font-size:34px;border:3px solid #d4af37}
+.header h1{margin:0;font-size:24px;color:#fff}.nomeVendedor{margin:6px 0 0;font-size:15px;font-weight:bold;color:#ffd700}.header p{margin:4px 0 0;color:#ccc;font-size:12px}
+.perfil{background:#111;padding:10px 14px}.btnPerfil{width:100%;height:40px;border:1px solid #d4af37;border-radius:9px;background:#1c1c1c;color:#ffd700;font-weight:bold}
+.perfilOpcoes{display:none;margin-top:9px}.perfilOpcoes input[type="text"]{width:100%;height:42px;border:2px solid #d4af37;border-radius:9px;padding:0 10px;font-size:15px;outline:none}
+.btnFoto,.btnSalvarPerfil{width:100%;height:42px;margin-top:7px;border:0;border-radius:9px;font-weight:bold}.btnFoto{background:#ffd000;color:#111}.btnSalvarPerfil{background:#d4af37;color:#111}#fotoInput{display:none}
+.card{background:white;border-radius:0 0 20px 20px;overflow:hidden}.promo{background:#e60000;color:white;text-align:center;font-size:18px;font-weight:bold;padding:13px}.area{padding:16px}
+label{display:block;font-weight:bold;color:#333;margin-bottom:7px;font-size:13px}
+.input{height:56px;border:3px solid #111;border-radius:12px;display:flex;align-items:center;padding:0 12px;background:#fff}.input b{font-size:19px;margin-right:7px;color:#d4af37}
+input{border:0;outline:0;width:100%;font-size:25px;font-weight:bold}input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+.btnCamera,.btnAdicionar{width:100%;height:50px;margin-top:9px;border:0;border-radius:11px;font-size:16px;font-weight:bold;box-shadow:0 3px 0 rgba(0,0,0,.2);transition:.15s}
+.btnCamera{background:#ffd000;color:#111}.btnAdicionar{background:#111;color:#ffd700;border:2px solid #d4af37}
+.btnCamera:active,.btnAdicionar:active,button:active{transform:scale(.97)}
+.lista{margin-top:14px}.item{display:flex;justify-content:space-between;align-items:center;background:#fff8d6;border-left:4px solid #d4af37;padding:8px 10px;border-radius:9px;margin-bottom:6px}.item span{font-size:17px;font-weight:bold}.btnExcluir{width:34px;height:34px;border:0;border-radius:8px;background:#e60000;color:white}
+.descontos{margin-top:16px}.botoesDesconto{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.btnDesconto{height:40px;border:2px solid #111;background:#fff;border-radius:8px;font-weight:bold;font-size:14px}.btnDesconto.ativo{background:#e60000;color:white;border-color:#e60000;box-shadow:0 2px 0 #9b0000}
+.outro{display:flex;gap:6px;margin-top:7px}.outro input{height:42px;border:2px solid #d4af37;border-radius:8px;padding:0 8px;font-size:17px}.btnAplicar{border:0;border-radius:8px;background:#d4af37;color:#111;padding:0 14px;font-weight:bold}
+.result{background:#111;color:white;text-align:center;padding:20px 10px;border-top:4px solid #d4af37;border-bottom:4px solid #d4af37}.totalOriginal{font-size:14px;font-weight:bold;color:#fff}.descontoValor{font-size:14px;margin-top:5px;color:#ffd000}.precoTitulo{font-size:12px;font-weight:bold;margin-top:12px;color:#d4af37}.preco{font-size:42px;font-weight:bold;color:#ffd700;text-shadow:0 2px 8px rgba(212,175,55,.3)}.economia{font-size:13px;margin-top:3px;color:#fff}
+.crediario{padding:12px 16px;background:white}.btnCrediario{width:100%;height:48px;border:0;border-radius:10px;background:#d4af37;color:#111;font-size:16px;font-weight:bold;box-shadow:0 3px 0 #a88920}.parcelas{display:none;margin-top:10px}.botoesParcelas{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.btnParcela{height:38px;border:2px solid #111;background:white;border-radius:7px;font-size:14px;font-weight:bold}.btnParcela.ativo{background:#e60000;color:white;border-color:#e60000}.resultadoParcela{display:none;margin-top:10px;background:#fff8d6;border:2px solid #d4af37;padding:10px;border-radius:9px;text-align:center}.resultadoParcela small{color:#666;font-size:11px}.valorParcela{font-size:25px;font-weight:bold;color:#111}
+.btnFinalizar{width:calc(100% - 32px);margin:8px 16px 0;height:50px;border:0;border-radius:10px;background:#e60000;color:white;font-size:16px;font-weight:bold;box-shadow:0 3px 0 #a80000}.btnNova{width:calc(100% - 32px);margin:8px 16px 16px;height:48px;border:2px solid #111;border-radius:10px;background:#111;color:#ffd700;font-weight:bold;font-size:15px}
+.vendasDia{margin-top:10px;background:white;border-radius:15px;overflow:hidden;border:2px solid #d4af37}.btnVendas{width:100%;height:50px;border:0;background:#111;color:#ffd700;font-size:16px;font-weight:bold}.painelVendas{display:none;padding:12px}.resumo{display:grid;grid-template-columns:1fr 1fr;gap:7px}.resumoBox{background:#fff8d6;border:1px solid #d4af37;border-radius:9px;padding:10px;text-align:center}.resumoBox small{display:block;color:#555;font-size:11px}.resumoBox strong{display:block;margin-top:3px;font-size:18px}.listaVendas{margin-top:10px}.venda{background:#fafafa;border-left:4px solid #e60000;border-radius:9px;padding:9px;margin-bottom:6px}.vendaTopo{display:flex;justify-content:space-between;font-weight:bold}.vendaDetalhe{color:#666;font-size:12px;margin-top:4px}.btnLimparVendas{width:100%;height:42px;border:0;border-radius:9px;background:#e60000;color:white;font-weight:bold;margin-top:5px}
+.cameraModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;padding:10px;overflow:auto}.cameraBox{max-width:460px;margin:auto;background:white;border-radius:16px;overflow:hidden}.cameraTitulo{background:#111;color:#ffd700;text-align:center;padding:15px;border-bottom:3px solid #d4af37}.cameraTitulo h2{margin:0;font-size:20px}.cameraTitulo p{margin:4px 0 0;font-size:12px;color:white}video{width:100%;display:block;background:#000;max-height:55vh;object-fit:cover}.cameraArea{padding:12px}.btnCapturar,.btnFechar,.btnUsar,.btnTentar{width:100%;height:46px;border:0;border-radius:9px;font-weight:bold;font-size:15px}.btnCapturar{background:#ffd000;color:#111}.btnFechar{margin-top:7px;background:#111;color:#ffd700}.btnUsar{background:#16a34a;color:white}.btnTentar{margin-top:6px;background:#e60000;color:white}.status{text-align:center;padding:10px 0;color:#555;font-size:13px}.resultadoLeitura{display:none;background:#fff8d6;border:2px solid #d4af37;padding:12px;border-radius:10px;text-align:center}.resultadoLeitura strong{font-size:12px;color:#555}.precoDetectado{font-size:30px;font-weight:bold;color:#111;margin:5px}canvas{display:none}
+@media(max-width:360px){.botoesDesconto{grid-template-columns:repeat(3,1fr)}.preco{font-size:36px}}
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
 <div class="header">
-
-    <div id="fotoArea">
-        <div class="logoPadrao">🧮</div>
-    </div>
-
-    <h1>Calcula Fácil HP</h1>
-
-    <div class="nomeVendedor" id="nomeVendedor">
-        Vendedor
-    </div>
-
-    <p>Calculadora de vendas</p>
-
+<div id="fotoArea"><div class="logoPadrao">HP</div></div>
+<h1>Calcula Fácil HP</h1>
+<div class="nomeVendedor" id="nomeVendedor">Vendedor</div>
+<p>Calculadora de vendas</p>
 </div>
 
 <div class="perfil">
-
-<button class="btnPerfil" onclick="abrirPerfil()">
-    👤 PERSONALIZAR PERFIL
-</button>
-
+<button class="btnPerfil" onclick="abrirPerfil()">👤 PERSONALIZAR PERFIL</button>
 <div class="perfilOpcoes" id="perfilOpcoes">
-
-<input
-    type="text"
-    id="nomeInput"
-    placeholder="Nome do vendedor">
-
-<button class="btnFoto"
-onclick="document.getElementById('fotoInput').click()">
-    📷 ESCOLHER FOTO / LOGO
-</button>
-
-<input
-    type="file"
-    id="fotoInput"
-    accept="image/*"
-    onchange="carregarFoto(event)">
-
-<button class="btnSalvarPerfil" onclick="salvarPerfil()">
-    💾 SALVAR PERFIL
-</button>
-
+<input type="text" id="nomeInput" placeholder="Nome do vendedor">
+<button class="btnFoto" onclick="document.getElementById('fotoInput').click()">📷 ESCOLHER FOTO / LOGO</button>
+<input type="file" id="fotoInput" accept="image/*" onchange="carregarFoto(event)">
+<button class="btnSalvarPerfil" onclick="salvarPerfil()">💾 SALVAR PERFIL</button>
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="promo" id="tituloDesconto">
-    🛍️ VENDA
-</div>
-
+<div class="promo" id="tituloDesconto">🛍️ VENDA</div>
 <div class="area">
-
 <label>VALOR</label>
-
-<div class="input">
-
-<b>R$</b>
-
-<input
-id="valor"
-type="number"
-inputmode="decimal"
-step="0.01"
-placeholder="0,00">
-
-</div>
-
-<button class="btnCamera" onclick="abrirCamera()">
-    📷 LER ETIQUETA
-</button>
-
-<button class="btnAdicionar" onclick="adicionarValor()">
-    + ADICIONAR
-</button>
-
-<div class="lista" id="lista">
-<div class="vazio">Nenhum valor</div>
-</div>
+<div class="input"><b>R$</b><input id="valor" type="number" inputmode="decimal" step="0.01" placeholder="0,00"></div>
+<button class="btnCamera" onclick="abrirCamera()">📷 LER ETIQUETA</button>
+<button class="btnAdicionar" onclick="adicionarValor()">+ ADICIONAR</button>
+<div class="lista" id="lista"><div class="vazio">Nenhum valor</div></div>
 
 <div class="descontos">
-
 <label>DESCONTO</label>
-
 <div class="botoesDesconto">
-
 <button class="btnDesconto" onclick="selecionarDesconto(0,this)">0%</button>
 <button class="btnDesconto" onclick="selecionarDesconto(5,this)">5%</button>
 <button class="btnDesconto" onclick="selecionarDesconto(10,this)">10%</button>
@@ -761,815 +87,101 @@ placeholder="0,00">
 <button class="btnDesconto" onclick="selecionarDesconto(40,this)">40%</button>
 <button class="btnDesconto" onclick="selecionarDesconto(50,this)">50%</button>
 <button class="btnDesconto" onclick="mostrarOutro()">OUTRO</button>
-
 </div>
-
-<div class="outro" id="campoOutro" style="display:none">
-
-<input
-id="outroDesconto"
-type="number"
-min="0"
-max="100"
-placeholder="%">
-
-<button class="btnAplicar" onclick="aplicarOutro()">
-OK
-</button>
-
+<div class="outro" id="campoOutro" style="display:none"><input id="outroDesconto" type="number" min="0" max="100" placeholder="%"><button class="btnAplicar" onclick="aplicarOutro()">OK</button></div>
 </div>
-
-</div>
-
 </div>
 
 <div class="result">
-
-<div class="totalOriginal" id="totalOriginal">
-TOTAL: R$ 0,00
-</div>
-
-<div class="descontoValor" id="descontoValor">
-0% — R$ 0,00
-</div>
-
-<div class="precoTitulo">
-TOTAL A PAGAR
-</div>
-
-<div class="preco" id="preco">
-R$ 0,00
-</div>
-
-<div class="economia" id="economia">
-Economia R$ 0,00
-</div>
-
+<div class="totalOriginal" id="totalOriginal">TOTAL: R$ 0,00</div>
+<div class="descontoValor" id="descontoValor">0% — R$ 0,00</div>
+<div class="precoTitulo">TOTAL A PAGAR</div>
+<div class="preco" id="preco">R$ 0,00</div>
+<div class="economia" id="economia">Economia R$ 0,00</div>
 </div>
 
 <div class="crediario">
-
-<button class="btnCrediario" onclick="abrirCrediario()">
-    💳 CREDIÁRIO
-</button>
-
+<button class="btnCrediario" onclick="abrirCrediario()">💳 CREDIÁRIO</button>
 <div class="parcelas" id="parcelas">
-
 <div class="botoesParcelas">
-
-<button class="btnParcela" onclick="calcularParcela(1,this)">1x</button>
-<button class="btnParcela" onclick="calcularParcela(2,this)">2x</button>
-<button class="btnParcela" onclick="calcularParcela(3,this)">3x</button>
-<button class="btnParcela" onclick="calcularParcela(4,this)">4x</button>
-<button class="btnParcela" onclick="calcularParcela(5,this)">5x</button>
-<button class="btnParcela" onclick="calcularParcela(6,this)">6x</button>
-<button class="btnParcela" onclick="calcularParcela(7,this)">7x</button>
-<button class="btnParcela" onclick="calcularParcela(8,this)">8x</button>
-<button class="btnParcela" onclick="calcularParcela(9,this)">9x</button>
-<button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
-
+<button class="btnParcela" onclick="calcularParcela(1,this)">1x</button><button class="btnParcela" onclick="calcularParcela(2,this)">2x</button><button class="btnParcela" onclick="calcularParcela(3,this)">3x</button><button class="btnParcela" onclick="calcularParcela(4,this)">4x</button><button class="btnParcela" onclick="calcularParcela(5,this)">5x</button><button class="btnParcela" onclick="calcularParcela(6,this)">6x</button><button class="btnParcela" onclick="calcularParcela(7,this)">7x</button><button class="btnParcela" onclick="calcularParcela(8,this)">8x</button><button class="btnParcela" onclick="calcularParcela(9,this)">9x</button><button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
+</div>
+<div class="resultadoParcela" id="resultadoParcela"><small>PARCELAMENTO</small><div class="valorParcela" id="valorParcela">10x de R$ 0,00</div></div>
+</div>
 </div>
 
-<div class="resultadoParcela" id="resultadoParcela">
-
-<small>PARCELAMENTO</small>
-
-<div class="valorParcela" id="valorParcela">
-10x de R$ 0,00
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<button class="btnFinalizar" onclick="finalizarVenda()">
-    ✅ FINALIZAR VENDA
-</button>
-
-<button class="btnNova" onclick="novaVenda()">
-    🔄 NOVA VENDA
-</button>
-
+<button class="btnFinalizar" onclick="finalizarVenda()">✅ FINALIZAR VENDA</button>
+<button class="btnNova" onclick="novaVenda()">🔄 NOVA VENDA</button>
 </div>
 
 <div class="vendasDia">
-
-<button class="btnVendas" onclick="abrirVendas()">
-    📊 VENDAS DO DIA
-</button>
-
+<button class="btnVendas" onclick="abrirVendas()">📊 VENDAS DO DIA</button>
 <div class="painelVendas" id="painelVendas">
-
 <div class="resumo">
-
-<div class="resumoBox">
-<small>VENDAS</small>
-<strong id="qtdVendas">0</strong>
+<div class="resumoBox"><small>VENDAS</small><strong id="qtdVendas">0</strong></div>
+<div class="resumoBox"><small>TOTAL VENDIDO</small><strong id="totalVendido">R$ 0,00</strong></div>
+<div class="resumoBox"><small>DESCONTOS</small><strong id="totalDescontos">R$ 0,00</strong></div>
+<div class="resumoBox"><small>MÉDIA</small><strong id="mediaVenda">R$ 0,00</strong></div>
 </div>
-
-<div class="resumoBox">
-<small>TOTAL VENDIDO</small>
-<strong id="totalVendido">R$ 0,00</strong>
-</div>
-
-<div class="resumoBox">
-<small>DESCONTOS</small>
-<strong id="totalDescontos">R$ 0,00</strong>
-</div>
-
-<div class="resumoBox">
-<small>MÉDIA</small>
-<strong id="mediaVenda">R$ 0,00</strong>
-</div>
-
-</div>
-
-<div class="listaVendas" id="listaVendas">
-<div class="vazio">Nenhuma venda registrada hoje.</div>
-</div>
-
-<button class="btnLimparVendas" onclick="limparVendas()">
-🗑️ LIMPAR VENDAS DO DIA
-</button>
-
+<div class="listaVendas" id="listaVendas"><div class="vazio">Nenhuma venda registrada hoje.</div></div>
+<button class="btnLimparVendas" onclick="limparVendas()">🗑️ LIMPAR VENDAS DO DIA</button>
 </div>
 </div>
-
 </div>
 
 <div class="cameraModal" id="cameraModal">
-
 <div class="cameraBox">
-
-<div class="cameraTitulo">
-<h2>📷 Ler etiqueta</h2>
-<p>Aponte para o preço</p>
-</div>
-
-<video id="video" autoplay playsinline></video>
-
-<canvas id="canvas"></canvas>
-
+<div class="cameraTitulo"><h2>📷 Ler etiqueta</h2><p>Aponte para o preço</p></div>
+<video id="video" autoplay playsinline></video><canvas id="canvas"></canvas>
 <div class="cameraArea">
-
-<button class="btnCapturar" onclick="capturarEtiqueta()">
-📸 CAPTURAR
-</button>
-
-<div class="status" id="status">
-Posicione o preço no centro.
-</div>
-
+<button class="btnCapturar" onclick="capturarEtiqueta()">📸 CAPTURAR</button>
+<div class="status" id="status">Posicione o preço no centro.</div>
 <div class="resultadoLeitura" id="resultadoLeitura">
-
-<strong>PREÇO ENCONTRADO</strong>
-
-<div class="precoDetectado" id="precoDetectado">
-R$ 0,00
+<strong>PREÇO ENCONTRADO</strong><div class="precoDetectado" id="precoDetectado">R$ 0,00</div>
+<button class="btnUsar" onclick="usarPrecoDetectado()">✓ ADICIONAR</button>
+<button class="btnTentar" onclick="tentarNovamente()">TENTAR NOVAMENTE</button>
 </div>
-
-<button class="btnUsar" onclick="usarPrecoDetectado()">
-✓ ADICIONAR
-</button>
-
-<button class="btnTentar" onclick="tentarNovamente()">
-TENTAR NOVAMENTE
-</button>
-
+<button class="btnFechar" onclick="fecharCamera()">FECHAR</button>
 </div>
-
-<button class="btnFechar" onclick="fecharCamera()">
-FECHAR
-</button>
-
-</div>
-
 </div>
 </div>
 
 <script>
+let valores=[],percentual=0,streamCamera=null,precoLido=0,fotoSelecionada="",numeroParcelas=0;
+function dinheiro(valor){return valor.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});}
+function abrirPerfil(){let a=document.getElementById("perfilOpcoes");a.style.display=a.style.display==="block"?"none":"block";}
+function carregarFoto(event){let arquivo=event.target.files[0];if(!arquivo)return;let leitor=new FileReader();leitor.onload=e=>{fotoSelecionada=e.target.result;mostrarFoto(fotoSelecionada)};leitor.readAsDataURL(arquivo);}
+function mostrarFoto(src){document.getElementById("fotoArea").innerHTML=`<img src="${src}" class="logoPerfil" alt="Foto do vendedor">`;}
+function salvarPerfil(){let nome=document.getElementById("nomeInput").value.trim();if(nome){document.getElementById("nomeVendedor").innerText=nome;localStorage.setItem("nomeVendedor",nome)}if(fotoSelecionada)localStorage.setItem("fotoVendedor",fotoSelecionada);document.getElementById("perfilOpcoes").style.display="none";}
+function adicionarValor(){let c=document.getElementById("valor"),v=Number(String(c.value).replace(",","."));if(!v||v<=0){c.focus();return}valores.push(v);c.value="";atualizarLista();calcular();c.focus();}
+function atualizarLista(){let l=document.getElementById("lista");l.innerHTML="";if(!valores.length){l.innerHTML='<div class="vazio">Nenhum valor</div>';return}valores.forEach((v,i)=>{let x=document.createElement("div");x.className="item";x.innerHTML=`<span>${dinheiro(v)}</span><button class="btnExcluir" onclick="excluirValor(${i})">🗑️</button>`;l.appendChild(x)})}
+function excluirValor(i){valores.splice(i,1);atualizarLista();calcular();}
+function selecionarDesconto(v,b){percentual=v;document.querySelectorAll(".btnDesconto").forEach(x=>x.classList.remove("ativo"));b.classList.add("ativo");document.getElementById("campoOutro").style.display="none";calcular();}
+function mostrarOutro(){document.getElementById("campoOutro").style.display="flex";document.getElementById("outroDesconto").focus();document.querySelectorAll(".btnDesconto").forEach(x=>x.classList.remove("ativo"));}
+function aplicarOutro(){let v=Number(document.getElementById("outroDesconto").value);if(v<0||v>100){alert("Digite um desconto entre 0% e 100%.");return}percentual=v;calcular();}
+function calcular(){let t=valores.reduce((a,v)=>a+v,0),d=t*(percentual/100),f=t-d;document.getElementById("totalOriginal").innerText="TOTAL: "+dinheiro(t);document.getElementById("descontoValor").innerText=percentual+"% — "+dinheiro(d);document.getElementById("preco").innerText=dinheiro(f);document.getElementById("economia").innerText="Economia "+dinheiro(d);document.getElementById("tituloDesconto").innerText=percentual>0?"🔥 "+percentual+"% DE DESCONTO":"🛍️ VENDA";}
+function abrirCrediario(){let p=document.getElementById("parcelas");p.style.display=p.style.display==="block"?"none":"block";}
+function calcularParcela(n,b){let t=valores.reduce((a,v)=>a+v,0),d=t*(percentual/100),f=t-d;if(f<=0){alert("Adicione pelo menos um produto.");return}numeroParcelas=n;document.querySelectorAll(".btnParcela").forEach(x=>x.classList.remove("ativo"));b.classList.add("ativo");document.getElementById("valorParcela").innerText=n+"x de "+dinheiro(f/n);document.getElementById("resultadoParcela").style.display="block";}
+function finalizarVenda(){if(!valores.length){alert("Adicione pelo menos um produto.");return}let t=valores.reduce((a,v)=>a+v,0),d=t*(percentual/100),f=t-d,hora=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),v={hora,total:t,desconto:d,final:f,percentual,parcelas:numeroParcelas},vs=JSON.parse(localStorage.getItem("vendasDoDia")||"[]");vs.push(v);localStorage.setItem("vendasDoDia",JSON.stringify(vs));atualizarVendas();alert("✅ Venda salva com sucesso!");}
+function abrirVendas(){let p=document.getElementById("painelVendas");p.style.display=p.style.display==="block"?"none":"block";atualizarVendas();}
+function atualizarVendas(){let vs=JSON.parse(localStorage.getItem("vendasDoDia")||"[]"),tv=0,td=0;vs.forEach(v=>{tv+=v.final;td+=v.desconto});let m=vs.length?tv/vs.length:0;document.getElementById("qtdVendas").innerText=vs.length;document.getElementById("totalVendido").innerText=dinheiro(tv);document.getElementById("totalDescontos").innerText=dinheiro(td);document.getElementById("mediaVenda").innerText=dinheiro(m);let l=document.getElementById("listaVendas");l.innerHTML="";if(!vs.length){l.innerHTML='<div class="vazio">Nenhuma venda registrada hoje.</div>';return}vs.slice().reverse().forEach(v=>{let x=document.createElement("div");x.className="venda";let p=v.parcelas>0?" • "+v.parcelas+"x":" • À vista";x.innerHTML=`<div class="vendaTopo"><span>Venda ${v.hora}</span><strong>${dinheiro(v.final)}</strong></div><div class="vendaDetalhe">Total: ${dinheiro(v.total)}<br>Desconto: ${v.percentual}% — ${dinheiro(v.desconto)}${p}</div>`;l.appendChild(x)})}
+function limparVendas(){let v=JSON.parse(localStorage.getItem("vendasDoDia")||"[]");if(!v.length)return;if(!confirm("Tem certeza que deseja apagar todas as vendas do dia?"))return;localStorage.removeItem("vendasDoDia");atualizarVendas();}
+function novaVenda(){valores=[];percentual=0;precoLido=0;numeroParcelas=0;document.getElementById("valor").value="";document.getElementById("outroDesconto").value="";document.getElementById("campoOutro").style.display="none";document.getElementById("parcelas").style.display="none";document.getElementById("resultadoParcela").style.display="none";document.querySelectorAll(".btnDesconto").forEach(x=>x.classList.remove("ativo"));document.querySelectorAll(".btnParcela").forEach(x=>x.classList.remove("ativo"));atualizarLista();calcular();document.getElementById("valor").focus();}
+async function abrirCamera(){let m=document.getElementById("cameraModal"),v=document.getElementById("video"),s=document.getElementById("status");document.getElementById("resultadoLeitura").style.display="none";m.style.display="block";try{streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});v.srcObject=streamCamera}catch(e){s.innerText="Não foi possível abrir a câmera.";alert("Permita o acesso à câmera.");}}
+async function capturarEtiqueta(){let v=document.getElementById("video"),c=document.getElementById("canvas"),s=document.getElementById("status");if(!v.videoWidth){s.innerText="A câmera ainda não está pronta.";return}s.innerText="🔎 Lendo preço...";c.width=v.videoWidth;c.height=v.videoHeight;c.getContext("2d").drawImage(v,0,0,c.width,c.height);try{const{data}=await Tesseract.recognize(c,"por",{logger:i=>{if(i.status==="recognizing text")s.innerText="🔎 Lendo... "+Math.round(i.progress*100)+"%"}});let p=encontrarPreco(data.text);if(p){precoLido=p;document.getElementById("precoDetectado").innerText=dinheiro(p);document.getElementById("resultadoLeitura").style.display="block";s.innerText="Preço encontrado."}else s.innerText="Não encontrei o preço. Tente novamente."}catch(e){console.error(e);s.innerText="Erro ao ler. Tente novamente.";}}
+function encontrarPreco(t){let a=[],r,pa=/R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;while((r=pa.exec(t))!==null){let n=Number(r[1].replace(/\s/g,"").replace(/\./g,"").replace(",","."));if(n>0&&n<100000)a.push(n)}if(!a.length){let l=t.match(/\b\d{1,5}[,.]\d{2}\b/g);if(l)l.forEach(x=>{let n=Number(x.replace(",","."));if(n>0&&n<100000)a.push(n)})}return a.length?a[0]:null;}
+function usarPrecoDetectado(){if(!precoLido)return;valores.push(precoLido);atualizarLista();calcular();precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").innerText="✅ Adicionado. Pode ler outra etiqueta.";}
+function tentarNovamente(){document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").innerText="Posicione o preço no centro.";}
+function fecharCamera(){if(streamCamera){streamCamera.getTracks().forEach(t=>t.stop());streamCamera=null}document.getElementById("video").srcObject=null;document.getElementById("cameraModal").style.display="none";}
+function carregarPerfil(){let n=localStorage.getItem("nomeVendedor"),f=localStorage.getItem("fotoVendedor");if(n){document.getElementById("nomeVendedor").innerText=n;document.getElementById("nomeInput").value=n}if(f){mostrarFoto(f);fotoSelecionada=f}}
+document.getElementById("valor").addEventListener("keydown",e=>{if(e.key==="Enter")adicionarValor()});
+document.getElementById("outroDesconto").addEventListener("keydown",e=>{if(e.key==="Enter")aplicarOutro()});
+carregarPerfil();atualizarVendas();calcular();
 
-let valores=[];
-let percentual=0;
-let streamCamera=null;
-let precoLido=0;
-let fotoSelecionada="";
-let numeroParcelas=0;
-
-function dinheiro(valor){
-return valor.toLocaleString("pt-BR",{
-style:"currency",
-currency:"BRL"
-});
+/* Registra o Service Worker quando o site estiver publicado em HTTPS */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 }
-
-function abrirPerfil(){
-let area=document.getElementById("perfilOpcoes");
-area.style.display=area.style.display==="block"?"none":"block";
-}
-
-function carregarFoto(event){
-let arquivo=event.target.files[0];
-
-if(!arquivo)return;
-
-let leitor=new FileReader();
-
-leitor.onload=function(e){
-fotoSelecionada=e.target.result;
-mostrarFoto(fotoSelecionada);
-};
-
-leitor.readAsDataURL(arquivo);
-}
-
-function mostrarFoto(src){
-document.getElementById("fotoArea").innerHTML=
-`<img src="${src}" class="logoPerfil" alt="Foto do vendedor">`;
-}
-
-function salvarPerfil(){
-
-let nome=document.getElementById("nomeInput").value.trim();
-
-if(nome){
-document.getElementById("nomeVendedor").innerText=nome;
-localStorage.setItem("nomeVendedor",nome);
-}
-
-if(fotoSelecionada){
-localStorage.setItem("fotoVendedor",fotoSelecionada);
-}
-
-document.getElementById("perfilOpcoes").style.display="none";
-}
-
-function adicionarValor(){
-
-let campo=document.getElementById("valor");
-
-let valor=Number(
-String(campo.value).replace(",",".")
-);
-
-if(!valor || valor<=0){
-campo.focus();
-return;
-}
-
-valores.push(valor);
-
-campo.value="";
-
-atualizarLista();
-calcular();
-
-campo.focus();
-}
-
-function atualizarLista(){
-
-let lista=document.getElementById("lista");
-
-lista.innerHTML="";
-
-if(valores.length===0){
-lista.innerHTML='<div class="vazio">Nenhum valor</div>';
-return;
-}
-
-valores.forEach(function(valor,index){
-
-let item=document.createElement("div");
-
-item.className="item";
-
-item.innerHTML=`
-<span>${dinheiro(valor)}</span>
-<button class="btnExcluir" onclick="excluirValor(${index})">🗑️</button>
-`;
-
-lista.appendChild(item);
-
-});
-}
-
-function excluirValor(index){
-valores.splice(index,1);
-atualizarLista();
-calcular();
-}
-
-function selecionarDesconto(valor,botao){
-
-percentual=valor;
-
-document.querySelectorAll(".btnDesconto").forEach(function(btn){
-btn.classList.remove("ativo");
-});
-
-botao.classList.add("ativo");
-
-document.getElementById("campoOutro").style.display="none";
-
-calcular();
-}
-
-function mostrarOutro(){
-document.getElementById("campoOutro").style.display="flex";
-document.getElementById("outroDesconto").focus();
-
-document.querySelectorAll(".btnDesconto").forEach(function(btn){
-btn.classList.remove("ativo");
-});
-}
-
-function aplicarOutro(){
-
-let valor=Number(
-document.getElementById("outroDesconto").value
-);
-
-if(valor<0 || valor>100){
-alert("Digite um desconto entre 0% e 100%.");
-return;
-}
-
-percentual=valor;
-
-calcular();
-}
-
-function calcular(){
-
-let total=valores.reduce(function(soma,valor){
-return soma+valor;
-},0);
-
-let desconto=total*(percentual/100);
-
-let final=total-desconto;
-
-document.getElementById("totalOriginal").innerText=
-"TOTAL: "+dinheiro(total);
-
-document.getElementById("descontoValor").innerText=
-percentual+"% — "+dinheiro(desconto);
-
-document.getElementById("preco").innerText=
-dinheiro(final);
-
-document.getElementById("economia").innerText=
-"Economia "+dinheiro(desconto);
-
-document.getElementById("tituloDesconto").innerText=
-percentual>0
-?"🔥 "+percentual+"% DE DESCONTO"
-:"🛍️ VENDA";
-}
-
-function abrirCrediario(){
-
-let parcelas=document.getElementById("parcelas");
-
-parcelas.style.display=
-parcelas.style.display==="block"
-?"none"
-:"block";
-}
-
-function calcularParcela(numero,botao){
-
-let total=valores.reduce(function(soma,valor){
-return soma+valor;
-},0);
-
-let desconto=total*(percentual/100);
-let final=total-desconto;
-
-if(final<=0){
-alert("Adicione pelo menos um produto.");
-return;
-}
-
-numeroParcelas=numero;
-
-document.querySelectorAll(".btnParcela").forEach(function(btn){
-btn.classList.remove("ativo");
-});
-
-botao.classList.add("ativo");
-
-let parcela=final/numero;
-
-document.getElementById("valorParcela").innerText=
-numero+"x de "+dinheiro(parcela);
-
-document.getElementById("resultadoParcela").style.display="block";
-}
-
-function finalizarVenda(){
-
-if(valores.length===0){
-alert("Adicione pelo menos um produto.");
-return;
-}
-
-let total=valores.reduce(function(soma,valor){
-return soma+valor;
-},0);
-
-let desconto=total*(percentual/100);
-let final=total-desconto;
-
-let hora=new Date().toLocaleTimeString("pt-BR",{
-hour:"2-digit",
-minute:"2-digit"
-});
-
-let venda={
-hora:hora,
-total:total,
-desconto:desconto,
-final:final,
-percentual:percentual,
-parcelas:numeroParcelas
-};
-
-let vendas=JSON.parse(
-localStorage.getItem("vendasDoDia")||"[]"
-);
-
-vendas.push(venda);
-
-localStorage.setItem(
-"vendasDoDia",
-JSON.stringify(vendas)
-);
-
-atualizarVendas();
-
-alert("✅ Venda salva com sucesso!");
-}
-
-function abrirVendas(){
-
-let painel=document.getElementById("painelVendas");
-
-painel.style.display=
-painel.style.display==="block"
-?"none"
-:"block";
-
-atualizarVendas();
-}
-
-function atualizarVendas(){
-
-let vendas=JSON.parse(
-localStorage.getItem("vendasDoDia")||"[]"
-);
-
-let totalVendido=0;
-let totalDescontos=0;
-
-vendas.forEach(function(venda){
-totalVendido+=venda.final;
-totalDescontos+=venda.desconto;
-});
-
-let media=vendas.length
-?totalVendido/vendas.length
-:0;
-
-document.getElementById("qtdVendas").innerText=vendas.length;
-document.getElementById("totalVendido").innerText=dinheiro(totalVendido);
-document.getElementById("totalDescontos").innerText=dinheiro(totalDescontos);
-document.getElementById("mediaVenda").innerText=dinheiro(media);
-
-let lista=document.getElementById("listaVendas");
-
-lista.innerHTML="";
-
-if(vendas.length===0){
-lista.innerHTML='<div class="vazio">Nenhuma venda registrada hoje.</div>';
-return;
-}
-
-vendas.slice().reverse().forEach(function(venda){
-
-let item=document.createElement("div");
-
-item.className="venda";
-
-let parcelamento=venda.parcelas>0
-?" • "+venda.parcelas+"x"
-:" • À vista";
-
-item.innerHTML=`
-<div class="vendaTopo">
-<span>Venda ${venda.hora}</span>
-<strong>${dinheiro(venda.final)}</strong>
-</div>
-
-<div class="vendaDetalhe">
-Total: ${dinheiro(venda.total)}
-<br>
-Desconto: ${venda.percentual}% — ${dinheiro(venda.desconto)}
-${parcelamento}
-</div>
-`;
-
-lista.appendChild(item);
-});
-}
-
-function limparVendas(){
-
-let vendas=JSON.parse(
-localStorage.getItem("vendasDoDia")||"[]"
-);
-
-if(vendas.length===0)return;
-
-let confirmar=confirm(
-"Tem certeza que deseja apagar todas as vendas do dia?"
-);
-
-if(!confirmar)return;
-
-localStorage.removeItem("vendasDoDia");
-
-atualizarVendas();
-}
-
-function novaVenda(){
-
-valores=[];
-percentual=0;
-precoLido=0;
-numeroParcelas=0;
-
-document.getElementById("valor").value="";
-document.getElementById("outroDesconto").value="";
-
-document.getElementById("campoOutro").style.display="none";
-document.getElementById("parcelas").style.display="none";
-document.getElementById("resultadoParcela").style.display="none";
-
-document.querySelectorAll(".btnDesconto").forEach(function(btn){
-btn.classList.remove("ativo");
-});
-
-document.querySelectorAll(".btnParcela").forEach(function(btn){
-btn.classList.remove("ativo");
-});
-
-atualizarLista();
-calcular();
-
-document.getElementById("valor").focus();
-}
-
-async function abrirCamera(){
-
-let modal=document.getElementById("cameraModal");
-let video=document.getElementById("video");
-let status=document.getElementById("status");
-
-document.getElementById("resultadoLeitura").style.display="none";
-
-modal.style.display="block";
-
-try{
-
-streamCamera=await navigator.mediaDevices.getUserMedia({
-video:{
-facingMode:{ideal:"environment"}
-},
-audio:false
-});
-
-video.srcObject=streamCamera;
-
-}catch(error){
-
-status.innerText="Não foi possível abrir a câmera.";
-
-alert("Permita o acesso à câmera.");
-}
-}
-
-async function capturarEtiqueta(){
-
-let video=document.getElementById("video");
-let canvas=document.getElementById("canvas");
-let status=document.getElementById("status");
-
-if(!video.videoWidth){
-
-status.innerText="A câmera ainda não está pronta.";
-return;
-}
-
-status.innerText="🔎 Lendo preço...";
-
-canvas.width=video.videoWidth;
-canvas.height=video.videoHeight;
-
-let contexto=canvas.getContext("2d");
-
-contexto.drawImage(
-video,
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-try{
-
-const {data}=await Tesseract.recognize(
-canvas,
-"por",
-{
-logger:function(info){
-
-if(info.status==="recognizing text"){
-
-status.innerText=
-"🔎 Lendo... "+
-Math.round(info.progress*100)+
-"%";
-}
-}
-}
-);
-
-let preco=encontrarPreco(data.text);
-
-if(preco){
-
-precoLido=preco;
-
-document.getElementById("precoDetectado").innerText=
-dinheiro(preco);
-
-document.getElementById("resultadoLeitura").style.display="block";
-
-status.innerText="Preço encontrado.";
-
-}else{
-
-status.innerText=
-"Não encontrei o preço. Tente novamente.";
-}
-
-}catch(error){
-
-console.error(error);
-
-status.innerText=
-"Erro ao ler. Tente novamente.";
-}
-}
-
-function encontrarPreco(texto){
-
-let encontrados=[];
-
-let padrao=
-/R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
-
-let resultado;
-
-while((resultado=padrao.exec(texto))!==null){
-
-let numero=resultado[1]
-.replace(/\s/g,"")
-.replace(/\./g,"")
-.replace(",", ".");
-
-let valor=Number(numero);
-
-if(valor>0 && valor<100000){
-encontrados.push(valor);
-}
-}
-
-if(encontrados.length===0){
-
-let lista=texto.match(
-/\b\d{1,5}[,.]\d{2}\b/g
-);
-
-if(lista){
-
-lista.forEach(function(item){
-
-let valor=Number(
-item.replace(",",".")
-);
-
-if(valor>0 && valor<100000){
-encontrados.push(valor);
-}
-
-});
-}
-}
-
-return encontrados.length
-?encontrados[0]
-:null;
-}
-
-function usarPrecoDetectado(){
-
-if(!precoLido)return;
-
-valores.push(precoLido);
-
-atualizarLista();
-calcular();
-
-precoLido=0;
-
-document.getElementById("resultadoLeitura").style.display="none";
-
-document.getElementById("status").innerText=
-"✅ Adicionado. Pode ler outra etiqueta.";
-}
-
-function tentarNovamente(){
-
-document.getElementById("resultadoLeitura").style.display="none";
-
-document.getElementById("status").innerText=
-"Posicione o preço no centro.";
-}
-
-function fecharCamera(){
-
-if(streamCamera){
-
-streamCamera.getTracks().forEach(function(track){
-track.stop();
-});
-
-streamCamera=null;
-}
-
-document.getElementById("video").srcObject=null;
-
-document.getElementById("cameraModal").style.display="none";
-}
-
-function carregarPerfil(){
-
-let nome=localStorage.getItem("nomeVendedor");
-let foto=localStorage.getItem("fotoVendedor");
-
-if(nome){
-
-document.getElementById("nomeVendedor").innerText=nome;
-document.getElementById("nomeInput").value=nome;
-}
-
-if(foto){
-
-mostrarFoto(foto);
-fotoSelecionada=foto;
-}
-}
-
-document.getElementById("valor").addEventListener(
-"keydown",
-function(event){
-
-if(event.key==="Enter"){
-adicionarValor();
-}
-
-});
-
-document.getElementById("outroDesconto").addEventListener(
-"keydown",
-function(event){
-
-if(event.key==="Enter"){
-aplicarOutro();
-}
-
-});
-
-carregarPerfil();
-atualizarVendas();
-calcular();
-
 </script>
-
 </body>
 </html>
