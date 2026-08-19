@@ -1,1 +1,2716 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Calcula Fácil HP</title>
+
+<!-- ÍCONE DO APLICATIVO -->
+<link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+<link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#101923">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calcula Fácil HP">
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#091019;
+    --bg2:#111c28;
+    --panel:#182534;
+    --panel2:#202f40;
+    --panel3:#26384b;
+    --line:#354b60;
+    --line2:#405a70;
+
+    --gold:#d6a83a;
+    --gold2:#f4cf68;
+    --gold3:#8d691b;
+
+    --blue:#4f7da7;
+    --blue2:#6f9bc2;
+
+    --white:#f5f8fb;
+    --text:#e8eef4;
+    --muted:#8fa1b2;
+
+    --green:#28b56b;
+    --red:#d94a52;
+
+    --shadow:
+        10px 10px 22px rgba(0,0,0,.48),
+        -6px -6px 14px rgba(255,255,255,.035);
+
+    --shadowSmall:
+        5px 5px 12px rgba(0,0,0,.45),
+        -3px -3px 8px rgba(255,255,255,.035);
+
+    --inner:
+        inset 2px 2px 4px rgba(255,255,255,.04),
+        inset -3px -3px 7px rgba(0,0,0,.35);
+}
+
+html{
+    background:var(--bg);
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,rgba(78,125,167,.20),transparent 35%),
+        linear-gradient(180deg,#080e15 0%,#0c141d 45%,#091019 100%);
+    color:var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    max-width:480px;
+    margin:auto;
+    padding:12px;
+}
+
+/* =========================
+   CABEÇALHO PREMIUM
+========================= */
+
+.header{
+    position:relative;
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 50% 0%,rgba(214,168,58,.12),transparent 42%),
+        linear-gradient(145deg,#111c27,#0a1119);
+
+    border:1px solid var(--line);
+    border-radius:24px 24px 10px 10px;
+
+    padding:22px 14px 18px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+}
+
+.header:before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 20%,
+            rgba(255,255,255,.035) 45%,
+            transparent 65%
+        );
+
+    pointer-events:none;
+}
+
+.header:after{
+    content:"";
+    position:absolute;
+    left:10%;
+    right:10%;
+    bottom:0;
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--gold),
+        var(--gold2),
+        var(--gold),
+        transparent
+    );
+
+    box-shadow:0 0 12px rgba(214,168,58,.55);
+}
+
+.logoPerfil{
+    width:82px;
+    height:82px;
+
+    border-radius:22px;
+
+    object-fit:cover;
+
+    display:block;
+    margin:0 auto 10px;
+
+    border:2px solid var(--gold);
+
+    background:#05080c;
+
+    box-shadow:
+        0 0 0 5px rgba(214,168,58,.06),
+        0 8px 20px rgba(0,0,0,.5);
+}
+
+.logoPadrao{
+    display:flex;
+
+    width:82px;
+    height:82px;
+
+    margin:0 auto 10px;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(145deg,#26394d,#111b27);
+
+    color:var(--gold2);
+
+    font-size:36px;
+
+    border:1px solid var(--line2);
+
+    box-shadow:
+        var(--shadowSmall),
+        var(--inner);
+}
+
+.header h1{
+    position:relative;
+    margin:0;
+
+    color:#f3f6fa;
+
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.3px;
+}
+
+.nomeVendedor{
+    margin:7px 0 0;
+
+    color:var(--gold2);
+
+    font-size:14px;
+    font-weight:700;
+}
+
+.header p{
+    margin:5px 0 0;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+/* =========================
+   PERFIL
+========================= */
+
+.perfil{
+    margin-top:8px;
+    padding:10px;
+
+    background:
+        linear-gradient(145deg,#172433,#101923);
+
+    border:1px solid var(--line);
+
+    border-radius:12px;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.btnPerfil{
+    width:100%;
+    height:43px;
+
+    border:1px solid #46617a;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#293d52,#172534);
+
+    color:#dce7f0;
+
+    font-weight:700;
+
+    box-shadow:
+        5px 5px 10px rgba(0,0,0,.4),
+        -3px -3px 7px rgba(255,255,255,.035),
+        inset 1px 1px 2px rgba(255,255,255,.05);
+
+    transition:.15s;
+}
+
+.btnPerfil:active{
+    transform:translateY(2px);
+    box-shadow:inset 3px 3px 7px rgba(0,0,0,.4);
+}
+
+.perfilOpcoes{
+    display:none;
+    margin-top:9px;
+}
+
+.perfilOpcoes input[type="text"]{
+    width:100%;
+    height:43px;
+
+    border:1px solid var(--line2);
+    border-radius:10px;
+
+    background:#0e1822;
+    color:white;
+
+    padding:0 12px;
+
+    font-size:15px;
+    outline:none;
+}
+
+.perfilOpcoes input[type="text"]:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(214,168,58,.08);
+}
+
+.btnFoto,
+.btnSalvarPerfil{
+    width:100%;
+    height:43px;
+
+    margin-top:7px;
+
+    border-radius:10px;
+
+    font-weight:700;
+}
+
+.btnFoto{
+    background:
+        linear-gradient(145deg,#38536d,#24394d);
+
+    border:1px solid #4c6982;
+
+    color:white;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.btnSalvarPerfil{
+    background:
+        linear-gradient(145deg,#e4b94d,#a87819);
+
+    border:1px solid #f0ca63;
+
+    color:#111;
+
+    box-shadow:
+        5px 5px 10px rgba(0,0,0,.4),
+        inset 1px 1px 2px rgba(255,255,255,.3);
+}
+
+#fotoInput{
+    display:none;
+}
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
+
+.card{
+    margin-top:8px;
+
+    background:
+        linear-gradient(145deg,#1b2a39,#111c27);
+
+    border:1px solid var(--line);
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.promo{
+    background:
+        linear-gradient(
+            135deg,
+            #263c51,
+            #172636
+        );
+
+    color:#f1f5f8;
+
+    text-align:center;
+
+    font-size:17px;
+    font-weight:800;
+
+    letter-spacing:.4px;
+
+    padding:14px;
+
+    border-bottom:1px solid var(--line2);
+
+    box-shadow:
+        inset 0 -2px 5px rgba(0,0,0,.25),
+        0 2px 8px rgba(0,0,0,.2);
+}
+
+.area{
+    padding:16px;
+}
+
+label{
+    display:block;
+
+    color:#aebdcc;
+
+    margin-bottom:7px;
+
+    font-size:12px;
+    font-weight:800;
+
+    letter-spacing:.7px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input{
+    height:57px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 13px;
+
+    background:
+        linear-gradient(145deg,#0c151e,#172331);
+
+    border:1px solid #41586d;
+
+    border-radius:13px;
+
+    box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,.42),
+        inset -2px -2px 5px rgba(255,255,255,.025);
+
+    transition:.2s;
+}
+
+.input:focus-within{
+    border-color:var(--gold);
+
+    box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,.42),
+        0 0 0 3px rgba(214,168,58,.07);
+}
+
+.input b{
+    font-size:18px;
+    margin-right:8px;
+
+    color:var(--gold2);
+}
+
+.input input{
+    border:0;
+    outline:0;
+
+    width:100%;
+
+    background:transparent;
+    color:#f4f7fa;
+
+    font-size:25px;
+    font-weight:800;
+}
+
+.input input::placeholder{
+    color:#627487;
+}
+
+input[type=number]{
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+}
+
+/* =========================
+   BOTÕES PREMIUM
+========================= */
+
+.btnCamera,
+.btnAdicionar{
+    width:100%;
+    height:50px;
+
+    margin-top:10px;
+
+    border-radius:12px;
+
+    font-size:15px;
+    font-weight:800;
+
+    transition:.13s;
+}
+
+.btnCamera{
+    background:
+        linear-gradient(145deg,#395772,#22384d);
+
+    border:1px solid #52718d;
+
+    color:#f2f6f9;
+
+    box-shadow:
+        7px 7px 13px rgba(0,0,0,.42),
+        -3px -3px 8px rgba(255,255,255,.035),
+        inset 1px 1px 2px rgba(255,255,255,.08);
+}
+
+.btnAdicionar{
+    background:
+        linear-gradient(145deg,#dcb24d,#966b1a);
+
+    border:1px solid #f1cc66;
+
+    color:#111;
+
+    box-shadow:
+        7px 7px 13px rgba(0,0,0,.42),
+        inset 1px 1px 3px rgba(255,255,255,.3);
+}
+
+.btnCamera:active,
+.btnAdicionar:active,
+button:active{
+    transform:translateY(2px) scale(.985);
+    box-shadow:
+        inset 3px 3px 7px rgba(0,0,0,.38);
+}
+
+/* =========================
+   LISTA
+========================= */
+
+.lista{
+    margin-top:14px;
+}
+
+.item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:10px 11px;
+    margin-bottom:7px;
+
+    background:
+        linear-gradient(145deg,#243648,#192938);
+
+    border:1px solid #3b5267;
+
+    border-radius:11px;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.item span{
+    color:#e8eef4;
+    font-size:17px;
+    font-weight:800;
+}
+
+.btnExcluir{
+    width:35px;
+    height:35px;
+
+    border:1px solid #91343a;
+    border-radius:9px;
+
+    background:
+        linear-gradient(145deg,#df5961,#9f3037);
+
+    color:white;
+
+    box-shadow:3px 3px 7px rgba(0,0,0,.4);
+}
+
+/* =========================
+   DESCONTO
+========================= */
+
+.descontos{
+    margin-top:18px;
+}
+
+.botoesDesconto{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+}
+
+.btnDesconto{
+    height:40px;
+
+    border:1px solid #435a70;
+
+    background:
+        linear-gradient(145deg,#293c4e,#1b2b3b);
+
+    color:#dbe4eb;
+
+    border-radius:9px;
+
+    font-weight:800;
+    font-size:13px;
+
+    box-shadow:
+        4px 4px 8px rgba(0,0,0,.35),
+        inset 1px 1px 2px rgba(255,255,255,.04);
+}
+
+.btnDesconto.ativo{
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
+
+    border-color:#ed6970;
+
+    color:white;
+
+    box-shadow:
+        4px 4px 8px rgba(0,0,0,.4),
+        inset 1px 1px 2px rgba(255,255,255,.12);
+}
+
+.outro{
+    display:flex;
+    gap:7px;
+    margin-top:8px;
+}
+
+.outro input{
+    height:42px;
+    flex:1;
+
+    border:1px solid var(--line2);
+    border-radius:9px;
+
+    padding:0 9px;
+
+    background:#0d1721;
+    color:white;
+
+    font-size:17px;
+}
+
+.btnAplicar{
+    border:1px solid #e3bd59;
+    border-radius:9px;
+
+    background:
+        linear-gradient(145deg,#e3bd59,#a5761d);
+
+    color:#111;
+
+    padding:0 15px;
+
+    font-weight:800;
+
+    box-shadow:var(--shadowSmall);
+}
+
+/* =========================
+   RESULTADO
+========================= */
+
+.result{
+    background:
+        radial-gradient(circle at 50% 0%,rgba(214,168,58,.10),transparent 45%),
+        linear-gradient(145deg,#0b131c,#172331);
+
+    color:white;
+
+    text-align:center;
+
+    padding:21px 10px;
+
+    border-top:1px solid var(--gold3);
+    border-bottom:1px solid var(--gold3);
+
+    box-shadow:
+        inset 0 4px 15px rgba(0,0,0,.25);
+}
+
+.totalOriginal{
+    font-size:14px;
+    font-weight:700;
+    color:#d5dfe8;
+}
+
+.descontoValor{
+    font-size:14px;
+    margin-top:5px;
+    color:var(--gold2);
+}
+
+.precoTitulo{
+    font-size:11px;
+    font-weight:800;
+    margin-top:13px;
+    color:#9fb0c0;
+    letter-spacing:1px;
+}
+
+.preco{
+    font-size:43px;
+    font-weight:900;
+
+    color:#f0c955;
+
+    text-shadow:
+        0 0 16px rgba(214,168,58,.18),
+        0 3px 5px rgba(0,0,0,.6);
+}
+
+.economia{
+    font-size:13px;
+    margin-top:3px;
+    color:#c8d2dc;
+}
+
+/* =========================
+   CREDIÁRIO
+========================= */
+
+.crediario{
+    padding:12px 16px;
+
+    background:#172432;
+}
+
+.btnCrediario{
+    width:100%;
+    height:48px;
+
+    border:1px solid #52718d;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#38546e,#203649);
+
+    color:#eef4f8;
+
+    font-size:15px;
+    font-weight:800;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.parcelas{
+    display:none;
+    margin-top:10px;
+}
+
+.botoesParcelas{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+}
+
+.btnParcela{
+    height:38px;
+
+    border:1px solid #40576c;
+    border-radius:8px;
+
+    background:
+        linear-gradient(145deg,#283b4d,#1a2b3b);
+
+    color:#dbe4ec;
+
+    font-size:13px;
+    font-weight:800;
+
+    box-shadow:3px 3px 7px rgba(0,0,0,.3);
+}
+
+.btnParcela.ativo{
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
+
+    border-color:#ed6970;
+    color:white;
+}
+
+.resultadoParcela{
+    display:none;
+
+    margin-top:10px;
+
+    background:
+        linear-gradient(145deg,#24384a,#192a3a);
+
+    border:1px solid var(--gold3);
+
+    padding:11px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.resultadoParcela small{
+    color:#94a6b7;
+    font-size:10px;
+}
+
+.valorParcela{
+    font-size:25px;
+    font-weight:900;
+    color:var(--gold2);
+}
+
+/* =========================
+   FINALIZAR
+========================= */
+
+.btnFinalizar{
+    width:calc(100% - 32px);
+    margin:8px 16px 0;
+
+    height:50px;
+
+    border:1px solid #ed6970;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#df5961,#a83239);
+
+    color:white;
+
+    font-size:15px;
+    font-weight:900;
+
+    box-shadow:
+        7px 7px 13px rgba(0,0,0,.42),
+        inset 1px 1px 2px rgba(255,255,255,.12);
+}
+
+.btnNova{
+    width:calc(100% - 32px);
+    margin:8px 16px 16px;
+
+    height:48px;
+
+    border:1px solid #4a657d;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#2b4054,#192b3b);
+
+    color:#e1eaf1;
+
+    font-weight:800;
+    font-size:14px;
+
+    box-shadow:var(--shadowSmall);
+}
+
+/* =========================
+   VENDAS DO DIA
+========================= */
+
+.vendasDia{
+    margin-top:10px;
+
+    background:
+        linear-gradient(145deg,#192938,#101b26);
+
+    border:1px solid var(--line2);
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.btnVendas{
+    width:100%;
+    height:50px;
+
+    border:0;
+    border-bottom:1px solid var(--line);
+
+    background:
+        linear-gradient(145deg,#263b4f,#172737);
+
+    color:#e4ecf3;
+
+    font-size:15px;
+    font-weight:900;
+}
+
+.painelVendas{
+    display:none;
+    padding:12px;
+}
+
+.resumo{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+.resumoBox{
+    background:
+        linear-gradient(145deg,#263a4c,#1a2b3b);
+
+    border:1px solid #40586e;
+
+    border-radius:10px;
+
+    padding:10px;
+
+    text-align:center;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.resumoBox small{
+    display:block;
+
+    color:#8fa2b4;
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.resumoBox strong{
+    display:block;
+
+    margin-top:4px;
+
+    color:#eef3f7;
+
+    font-size:17px;
+}
+
+.listaVendas{
+    margin-top:10px;
+}
+
+.venda{
+    background:
+        linear-gradient(145deg,#253849,#192a3a);
+
+    border-left:4px solid var(--gold);
+
+    border-radius:9px;
+
+    padding:10px;
+
+    margin-bottom:7px;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.vendaTopo{
+    display:flex;
+    justify-content:space-between;
+
+    font-weight:800;
+}
+
+.vendaTopo strong{
+    color:var(--gold2);
+}
+
+.vendaDetalhe{
+    color:#92a5b6;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.btnLimparVendas{
+    width:100%;
+    height:42px;
+
+    border:1px solid #ed6970;
+    border-radius:9px;
+
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
+
+    color:white;
+
+    font-weight:800;
+
+    margin-top:6px;
+
+    box-shadow:var(--shadowSmall);
+}
+
+/* =========================
+   CÂMERA
+========================= */
+
+.cameraModal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(2,6,10,.94);
+
+    z-index:9999;
+
+    padding:10px;
+
+    overflow:auto;
+
+    backdrop-filter:blur(8px);
+}
+
+.cameraBox{
+    max-width:460px;
+    margin:auto;
+
+    background:
+        linear-gradient(145deg,#1b2b3a,#0f1a24);
+
+    border:1px solid var(--line2);
+
+    border-radius:17px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.7);
+}
+
+.cameraTitulo{
+    background:
+        linear-gradient(145deg,#263c51,#152535);
+
+    color:var(--gold2);
+
+    text-align:center;
+
+    padding:15px;
+
+    border-bottom:1px solid var(--gold3);
+}
+
+.cameraTitulo h2{
+    margin:0;
+    font-size:19px;
+}
+
+.cameraTitulo p{
+    margin:4px 0 0;
+    font-size:12px;
+    color:#aebdcc;
+}
+
+video{
+    width:100%;
+    display:block;
+
+    background:#000;
+
+    max-height:55vh;
+
+    object-fit:cover;
+}
+
+.cameraArea{
+    padding:12px;
+}
+
+.btnCapturar,
+.btnFechar,
+.btnUsar,
+.btnTentar{
+    width:100%;
+    height:46px;
+
+    border-radius:10px;
+
+    font-weight:800;
+    font-size:14px;
+}
+
+.btnCapturar{
+    background:
+        linear-gradient(145deg,#dfb94f,#a7771b);
+
+    border:1px solid #f1ce69;
+
+    color:#111;
+}
+
+.btnFechar{
+    margin-top:7px;
+
+    background:
+        linear-gradient(145deg,#2d4357,#1b2c3d);
+
+    border:1px solid #49647b;
+
+    color:white;
+}
+
+.btnUsar{
+    background:
+        linear-gradient(145deg,#2fc879,#16854c);
+
+    border:1px solid #55dd91;
+
+    color:white;
+}
+
+.btnTentar{
+    margin-top:6px;
+
+    background:
+        linear-gradient(145deg,#df5961,#9f3037);
+
+    border:1px solid #ed6970;
+
+    color:white;
+}
+
+.status{
+    text-align:center;
+
+    padding:10px 0;
+
+    color:#a7b7c6;
+
+    font-size:12px;
+}
+
+.resultadoLeitura{
+    display:none;
+
+    background:
+        linear-gradient(145deg,#25394b,#192b3b);
+
+    border:1px solid var(--gold3);
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    box-shadow:var(--shadowSmall);
+}
+
+.resultadoLeitura strong{
+    font-size:11px;
+    color:#9eb0c0;
+}
+
+.precoDetectado{
+    font-size:30px;
+    font-weight:900;
+
+    color:var(--gold2);
+
+    margin:5px;
+}
+
+canvas{
+    display:none;
+}
+
+.vazio{
+    color:#74889a;
+    text-align:center;
+    padding:12px;
+    font-size:13px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:360px){
+
+    .app{
+        padding:8px;
+    }
+
+    .botoesDesconto{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .preco{
+        font-size:36px;
+    }
+
+    .header h1{
+        font-size:21px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <div id="fotoArea">
+        <div class="logoPadrao">HP</div>
+    </div>
+
+    <h1>Calcula Fácil HP</h1>
+
+    <div class="nomeVendedor" id="nomeVendedor">
+        Vendedor
+    </div>
+
+    <p>Calculadora profissional de vendas</p>
+
+</div>
+
+<!-- ================= PERFIL ================= -->
+
+<div class="perfil">
+
+<button class="btnPerfil" onclick="abrirPerfil()">
+    👤 PERSONALIZAR PERFIL
+</button>
+
+<div class="perfilOpcoes" id="perfilOpcoes">
+
+<input
+    type="text"
+    id="nomeInput"
+    placeholder="Nome do vendedor">
+
+<button
+    class="btnFoto"
+    onclick="document.getElementById('fotoInput').click()">
+    📷 ESCOLHER FOTO / LOGO
+</button>
+
+<input
+    type="file"
+    id="fotoInput"
+    accept="image/*"
+    onchange="carregarFoto(event)">
+
+<button
+    class="btnSalvarPerfil"
+    onclick="salvarPerfil()">
+    💾 SALVAR PERFIL
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= CARD ================= -->
+
+<div class="card">
+
+<div class="promo" id="tituloDesconto">
+    🛍️ VENDA
+</div>
+
+<div class="area">
+
+<label>VALOR</label>
+
+<div class="input">
+
+<b>R$</b>
+
+<input
+id="valor"
+type="number"
+inputmode="decimal"
+step="0.01"
+placeholder="0,00">
+
+</div>
+
+<button
+class="btnCamera"
+onclick="abrirCamera()">
+    📷 LER ETIQUETA
+</button>
+
+<button
+class="btnAdicionar"
+onclick="adicionarValor()">
+    ＋ ADICIONAR
+</button>
+
+<div class="lista" id="lista">
+<div class="vazio">Nenhum valor</div>
+</div>
+
+<!-- DESCONTO -->
+
+<div class="descontos">
+
+<label>DESCONTO</label>
+
+<div class="botoesDesconto">
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(0,this)">
+0%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(5,this)">
+5%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(10,this)">
+10%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(15,this)">
+15%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(20,this)">
+20%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(30,this)">
+30%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(40,this)">
+40%
+</button>
+
+<button class="btnDesconto"
+onclick="selecionarDesconto(50,this)">
+50%
+</button>
+
+<button class="btnDesconto"
+onclick="mostrarOutro()">
+OUTRO
+</button>
+
+</div>
+
+<div
+class="outro"
+id="campoOutro"
+style="display:none">
+
+<input
+id="outroDesconto"
+type="number"
+min="0"
+max="100"
+placeholder="%">
+
+<button
+class="btnAplicar"
+onclick="aplicarOutro()">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= RESULTADO ================= -->
+
+<div class="result">
+
+<div
+class="totalOriginal"
+id="totalOriginal">
+TOTAL: R$ 0,00
+</div>
+
+<div
+class="descontoValor"
+id="descontoValor">
+0% — R$ 0,00
+</div>
+
+<div class="precoTitulo">
+TOTAL A PAGAR
+</div>
+
+<div
+class="preco"
+id="preco">
+R$ 0,00
+</div>
+
+<div
+class="economia"
+id="economia">
+Economia R$ 0,00
+</div>
+
+</div>
+
+<!-- ================= CREDIÁRIO ================= -->
+
+<div class="crediario">
+
+<button
+class="btnCrediario"
+onclick="abrirCrediario()">
+    💳 CREDIÁRIO
+</button>
+
+<div
+class="parcelas"
+id="parcelas">
+
+<div class="botoesParcelas">
+
+<button class="btnParcela"
+onclick="calcularParcela(1,this)">
+1x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(2,this)">
+2x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(3,this)">
+3x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(4,this)">
+4x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(5,this)">
+5x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(6,this)">
+6x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(7,this)">
+7x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(8,this)">
+8x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(9,this)">
+9x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(10,this)">
+10x
+</button>
+
+</div>
+
+<div
+class="resultadoParcela"
+id="resultadoParcela">
+
+<small>PARCELAMENTO</small>
+
+<div
+class="valorParcela"
+id="valorParcela">
+10x de R$ 0,00
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="btnFinalizar"
+onclick="finalizarVenda()">
+    ✓ FINALIZAR VENDA
+</button>
+
+<button
+class="btnNova"
+onclick="novaVenda()">
+    ↻ NOVA VENDA
+</button>
+
+</div>
+
+<!-- ================= VENDAS ================= -->
+
+<div class="vendasDia">
+
+<button
+class="btnVendas"
+onclick="abrirVendas()">
+    📊 VENDAS DO DIA
+</button>
+
+<div
+class="painelVendas"
+id="painelVendas">
+
+<div class="resumo">
+
+<div class="resumoBox">
+<small>VENDAS</small>
+<strong id="qtdVendas">0</strong>
+</div>
+
+<div class="resumoBox">
+<small>TOTAL VENDIDO</small>
+<strong id="totalVendido">R$ 0,00</strong>
+</div>
+
+<div class="resumoBox">
+<small>DESCONTOS</small>
+<strong id="totalDescontos">R$ 0,00</strong>
+</div>
+
+<div class="resumoBox">
+<small>MÉDIA</small>
+<strong id="mediaVenda">R$ 0,00</strong>
+</div>
+
+</div>
+
+<div
+class="listaVendas"
+id="listaVendas">
+<div class="vazio">
+Nenhuma venda registrada hoje.
+</div>
+</div>
+
+<button
+class="btnLimparVendas"
+onclick="limparVendas()">
+🗑️ LIMPAR VENDAS DO DIA
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= CAMERA ================= -->
+
+<div
+class="cameraModal"
+id="cameraModal">
+
+<div class="cameraBox">
+
+<div class="cameraTitulo">
+
+<h2>📷 Ler etiqueta</h2>
+
+<p>Aponte para o preço</p>
+
+</div>
+
+<video
+id="video"
+autoplay
+playsinline>
+</video>
+
+<canvas id="canvas"></canvas>
+
+<div class="cameraArea">
+
+<button
+class="btnCapturar"
+onclick="capturarEtiqueta()">
+📸 CAPTURAR
+</button>
+
+<div
+class="status"
+id="status">
+Posicione o preço no centro.
+</div>
+
+<div
+class="resultadoLeitura"
+id="resultadoLeitura">
+
+<strong>PREÇO ENCONTRADO</strong>
+
+<div
+class="precoDetectado"
+id="precoDetectado">
+R$ 0,00
+</div>
+
+<button
+class="btnUsar"
+onclick="usarPrecoDetectado()">
+✓ ADICIONAR
+</button>
+
+<button
+class="btnTentar"
+onclick="tentarNovamente()">
+TENTAR NOVAMENTE
+</button>
+
+</div>
+
+<button
+class="btnFechar"
+onclick="fecharCamera()">
+FECHAR
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+let valores=[];
+let percentual=0;
+let streamCamera=null;
+let precoLido=0;
+let fotoSelecionada="";
+let numeroParcelas=0;
+
+/* =========================
+   DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+return valor.toLocaleString("pt-BR",{
+    style:"currency",
+    currency:"BRL"
+});
+
+}
+
+/* =========================
+   PERFIL
+========================= */
+
+function abrirPerfil(){
+
+let area=document.getElementById("perfilOpcoes");
+
+area.style.display=
+area.style.display==="block"
+?"none"
+:"block";
+
+}
+
+function carregarFoto(event){
+
+let arquivo=event.target.files[0];
+
+if(!arquivo)return;
+
+let leitor=new FileReader();
+
+leitor.onload=function(e){
+
+fotoSelecionada=e.target.result;
+
+mostrarFoto(fotoSelecionada);
+
+};
+
+leitor.readAsDataURL(arquivo);
+
+}
+
+function mostrarFoto(src){
+
+document.getElementById("fotoArea").innerHTML=
+`
+<img
+src="${src}"
+class="logoPerfil"
+alt="Logo do vendedor">
+`;
+
+}
+
+function salvarPerfil(){
+
+let nome=
+document
+.getElementById("nomeInput")
+.value
+.trim();
+
+if(nome){
+
+document
+.getElementById("nomeVendedor")
+.innerText=nome;
+
+localStorage.setItem(
+"nomeVendedor",
+nome
+);
+
+}
+
+if(fotoSelecionada){
+
+localStorage.setItem(
+"fotoVendedor",
+fotoSelecionada
+);
+
+}
+
+document.getElementById(
+"perfilOpcoes"
+).style.display="none";
+
+}
+
+/* =========================
+   VALORES
+========================= */
+
+function adicionarValor(){
+
+let campo=
+document.getElementById("valor");
+
+let valor=Number(
+String(campo.value)
+.replace(",",".")
+);
+
+if(!valor || valor<=0){
+
+campo.focus();
+
+return;
+
+}
+
+valores.push(valor);
+
+campo.value="";
+
+atualizarLista();
+
+calcular();
+
+campo.focus();
+
+}
+
+function atualizarLista(){
+
+let lista=
+document.getElementById("lista");
+
+lista.innerHTML="";
+
+if(valores.length===0){
+
+lista.innerHTML=
+'<div class="vazio">Nenhum valor</div>';
+
+return;
+
+}
+
+valores.forEach(function(valor,index){
+
+let item=
+document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+<span>${dinheiro(valor)}</span>
+
+<button
+class="btnExcluir"
+onclick="excluirValor(${index})">
+🗑️
+</button>
+`;
+
+lista.appendChild(item);
+
+});
+
+}
+
+function excluirValor(index){
+
+valores.splice(index,1);
+
+atualizarLista();
+
+calcular();
+
+}
+
+/* =========================
+   DESCONTO
+========================= */
+
+function selecionarDesconto(valor,botao){
+
+percentual=valor;
+
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+botao.classList.add("ativo");
+
+document.getElementById(
+"campoOutro"
+).style.display="none";
+
+calcular();
+
+}
+
+function mostrarOutro(){
+
+document.getElementById(
+"campoOutro"
+).style.display="flex";
+
+document
+.getElementById("outroDesconto")
+.focus();
+
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+}
+
+function aplicarOutro(){
+
+let valor=Number(
+document.getElementById(
+"outroDesconto"
+).value
+);
+
+if(valor<0 || valor>100){
+
+alert(
+"Digite um desconto entre 0% e 100%."
+);
+
+return;
+
+}
+
+percentual=valor;
+
+calcular();
+
+}
+
+/* =========================
+   CALCULAR
+========================= */
+
+function calcular(){
+
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
+
+let desconto=
+total*(percentual/100);
+
+let final=
+total-desconto;
+
+document.getElementById(
+"totalOriginal"
+).innerText=
+"TOTAL: "+dinheiro(total);
+
+document.getElementById(
+"descontoValor"
+).innerText=
+percentual+"% — "+dinheiro(desconto);
+
+document.getElementById(
+"preco"
+).innerText=
+dinheiro(final);
+
+document.getElementById(
+"economia"
+).innerText=
+"Economia "+dinheiro(desconto);
+
+document.getElementById(
+"tituloDesconto"
+).innerText=
+percentual>0
+?"🔥 "+percentual+"% DE DESCONTO"
+:"🛍️ VENDA";
+
+}
+
+/* =========================
+   CREDIÁRIO
+========================= */
+
+function abrirCrediario(){
+
+let parcelas=
+document.getElementById("parcelas");
+
+parcelas.style.display=
+parcelas.style.display==="block"
+?"none"
+:"block";
+
+}
+
+function calcularParcela(numero,botao){
+
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
+
+let desconto=
+total*(percentual/100);
+
+let final=
+total-desconto;
+
+if(final<=0){
+
+alert(
+"Adicione pelo menos um produto."
+);
+
+return;
+
+}
+
+numeroParcelas=numero;
+
+document
+.querySelectorAll(".btnParcela")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+botao.classList.add("ativo");
+
+let parcela=
+final/numero;
+
+document.getElementById(
+"valorParcela"
+).innerText=
+numero+"x de "+dinheiro(parcela);
+
+document.getElementById(
+"resultadoParcela"
+).style.display="block";
+
+}
+
+/* =========================
+   FINALIZAR VENDA
+========================= */
+
+function finalizarVenda(){
+
+if(valores.length===0){
+
+alert(
+"Adicione pelo menos um produto."
+);
+
+return;
+
+}
+
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
+
+let desconto=
+total*(percentual/100);
+
+let final=
+total-desconto;
+
+let hora=
+new Date().toLocaleTimeString(
+"pt-BR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+let venda={
+
+hora:hora,
+total:total,
+desconto:desconto,
+final:final,
+percentual:percentual,
+parcelas:numeroParcelas
+
+};
+
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
+
+vendas.push(venda);
+
+localStorage.setItem(
+"vendasDoDia",
+JSON.stringify(vendas)
+);
+
+atualizarVendas();
+
+alert(
+"✅ Venda salva com sucesso!"
+);
+
+}
+
+/* =========================
+   VENDAS DO DIA
+========================= */
+
+function abrirVendas(){
+
+let painel=
+document.getElementById(
+"painelVendas"
+);
+
+painel.style.display=
+painel.style.display==="block"
+?"none"
+:"block";
+
+atualizarVendas();
+
+}
+
+function atualizarVendas(){
+
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
+
+let totalVendido=0;
+let totalDescontos=0;
+
+vendas.forEach(
+function(venda){
+
+totalVendido+=venda.final;
+
+totalDescontos+=
+venda.desconto;
+
+});
+
+let media=
+vendas.length
+?totalVendido/vendas.length
+:0;
+
+document.getElementById(
+"qtdVendas"
+).innerText=vendas.length;
+
+document.getElementById(
+"totalVendido"
+).innerText=
+dinheiro(totalVendido);
+
+document.getElementById(
+"totalDescontos"
+).innerText=
+dinheiro(totalDescontos);
+
+document.getElementById(
+"mediaVenda"
+).innerText=
+dinheiro(media);
+
+let lista=
+document.getElementById(
+"listaVendas"
+);
+
+lista.innerHTML="";
+
+if(vendas.length===0){
+
+lista.innerHTML=
+'<div class="vazio">Nenhuma venda registrada hoje.</div>';
+
+return;
+
+}
+
+vendas
+.slice()
+.reverse()
+.forEach(function(venda){
+
+let item=
+document.createElement("div");
+
+item.className="venda";
+
+let parcelamento=
+venda.parcelas>0
+?" • "+venda.parcelas+"x"
+:" • À vista";
+
+item.innerHTML=`
+
+<div class="vendaTopo">
+
+<span>
+Venda ${venda.hora}
+</span>
+
+<strong>
+${dinheiro(venda.final)}
+</strong>
+
+</div>
+
+<div class="vendaDetalhe">
+
+Total:
+${dinheiro(venda.total)}
+
+<br>
+
+Desconto:
+${venda.percentual}%
+—
+${dinheiro(venda.desconto)}
+
+${parcelamento}
+
+</div>
+
+`;
+
+lista.appendChild(item);
+
+});
+
+}
+
+function limparVendas(){
+
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
+
+if(vendas.length===0)return;
+
+let confirmar=
+confirm(
+"Tem certeza que deseja apagar todas as vendas do dia?"
+);
+
+if(!confirmar)return;
+
+localStorage.removeItem(
+"vendasDoDia"
+);
+
+atualizarVendas();
+
+}
+
+/* =========================
+   NOVA VENDA
+========================= */
+
+function novaVenda(){
+
+valores=[];
+percentual=0;
+precoLido=0;
+numeroParcelas=0;
+
+document.getElementById(
+"valor"
+).value="";
+
+document.getElementById(
+"outroDesconto"
+).value="";
+
+document.getElementById(
+"campoOutro"
+).style.display="none";
+
+document.getElementById(
+"parcelas"
+).style.display="none";
+
+document.getElementById(
+"resultadoParcela"
+).style.display="none";
+
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+document
+.querySelectorAll(".btnParcela")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+atualizarLista();
+
+calcular();
+
+document.getElementById(
+"valor"
+).focus();
+
+}
+
+/* =========================
+   CÂMERA
+========================= */
+
+async function abrirCamera(){
+
+let modal=
+document.getElementById(
+"cameraModal"
+);
+
+let video=
+document.getElementById(
+"video"
+);
+
+let status=
+document.getElementById(
+"status"
+);
+
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
+
+modal.style.display="block";
+
+try{
+
+streamCamera=
+await navigator.mediaDevices.getUserMedia({
+
+video:{
+facingMode:{
+ideal:"environment"
+}
+},
+
+audio:false
+
+});
+
+video.srcObject=
+streamCamera;
+
+}catch(error){
+
+status.innerText=
+"Não foi possível abrir a câmera.";
+
+alert(
+"Permita o acesso à câmera."
+);
+
+}
+
+}
+
+async function capturarEtiqueta(){
+
+let video=
+document.getElementById(
+"video"
+);
+
+let canvas=
+document.getElementById(
+"canvas"
+);
+
+let status=
+document.getElementById(
+"status"
+);
+
+if(!video.videoWidth){
+
+status.innerText=
+"A câmera ainda não está pronta.";
+
+return;
+
+}
+
+status.innerText=
+"🔎 Lendo preço...";
+
+canvas.width=
+video.videoWidth;
+
+canvas.height=
+video.videoHeight;
+
+let contexto=
+canvas.getContext("2d");
+
+contexto.drawImage(
+video,
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+try{
+
+const {data}=
+await Tesseract.recognize(
+canvas,
+"por",
+{
+
+logger:function(info){
+
+if(
+info.status===
+"recognizing text"
+){
+
+status.innerText=
+"🔎 Lendo... "+
+Math.round(
+info.progress*100
+)+
+"%";
+
+}
+
+}
+
+}
+);
+
+let preco=
+encontrarPreco(
+data.text
+);
+
+if(preco){
+
+precoLido=preco;
+
+document.getElementById(
+"precoDetectado"
+).innerText=
+dinheiro(preco);
+
+document.getElementById(
+"resultadoLeitura"
+).style.display=
+"block";
+
+status.innerText=
+"Preço encontrado.";
+
+}else{
+
+status.innerText=
+"Não encontrei o preço. Tente novamente.";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+status.innerText=
+"Erro ao ler. Tente novamente.";
+
+}
+
+}
+
+function encontrarPreco(texto){
+
+let encontrados=[];
+
+let padrao=
+/R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
+
+let resultado;
+
+while(
+(resultado=padrao.exec(texto))!==null
+){
+
+let numero=
+resultado[1]
+.replace(/\s/g,"")
+.replace(/\./g,"")
+.replace(",", ".");
+
+let valor=
+Number(numero);
+
+if(
+valor>0 &&
+valor<100000
+){
+
+encontrados.push(valor);
+
+}
+
+}
+
+if(
+encontrados.length===0
+){
+
+let lista=
+texto.match(
+/\b\d{1,5}[,.]\d{2}\b/g
+);
+
+if(lista){
+
+lista.forEach(function(item){
+
+let valor=
+Number(
+item.replace(",",".")
+);
+
+if(
+valor>0 &&
+valor<100000
+){
+
+encontrados.push(valor);
+
+}
+
+});
+
+}
+
+}
+
+return encontrados.length
+?encontrados[0]
+:null;
+
+}
+
+function usarPrecoDetectado(){
+
+if(!precoLido)return;
+
+valores.push(
+precoLido
+);
+
+atualizarLista();
+
+calcular();
+
+precoLido=0;
+
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
+
+document.getElementById(
+"status"
+).innerText=
+"✅ Adicionado. Pode ler outra etiqueta.";
+
+}
+
+function tentarNovamente(){
+
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
+
+document.getElementById(
+"status"
+).innerText=
+"Posicione o preço no centro.";
+
+}
+
+function fecharCamera(){
+
+if(streamCamera){
+
+streamCamera
+.getTracks()
+.forEach(function(track){
+
+track.stop();
+
+});
+
+streamCamera=null;
+
+}
+
+document.getElementById(
+"video"
+).srcObject=null;
+
+document.getElementById(
+"cameraModal"
+).style.display="none";
+
+}
+
+/* =========================
+   CARREGAR PERFIL
+========================= */
+
+function carregarPerfil(){
+
+let nome=
+localStorage.getItem(
+"nomeVendedor"
+);
+
+let foto=
+localStorage.getItem(
+"fotoVendedor"
+);
+
+if(nome){
+
+document.getElementById(
+"nomeVendedor"
+).innerText=
+nome;
+
+document.getElementById(
+"nomeInput"
+).value=
+nome;
+
+}
+
+if(foto){
+
+mostrarFoto(foto);
+
+fotoSelecionada=foto;
+
+}
+
+}
+
+/* =========================
+   ENTER
+========================= */
+
+document.getElementById(
+"valor"
+).addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Enter"){
+
+adicionarValor();
+
+}
+
+}
+);
+
+document.getElementById(
+"outroDesconto"
+).addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Enter"){
+
+aplicarOutro();
+
+}
+
+}
+);
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+carregarPerfil();
+
+atualizarVendas();
+
+atualizarLista();
+
+calcular();
+
+</script>
+
+</body>
+</html>
