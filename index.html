@@ -3,16 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcula Fácil Health</title>
 
-<title>Preço Fácil</title>
-
-<!-- Biblioteca OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -22,189 +18,168 @@ body{
 }
 
 .app{
-    max-width:480px;
+    max-width:460px;
     margin:auto;
-    padding:14px;
+    padding:10px;
 }
 
 .header{
     background:#111827;
     color:white;
     text-align:center;
-    padding:24px 15px;
-    border-radius:20px 20px 0 0;
+    padding:18px 10px;
+    border-radius:18px 18px 0 0;
 }
 
 .header h1{
     margin:0;
-    font-size:30px;
+    font-size:25px;
 }
 
 .header p{
-    margin:6px 0 0;
+    margin:4px 0 0;
     color:#d1d5db;
-    font-size:15px;
+    font-size:13px;
 }
 
 .card{
     background:white;
-    border-radius:0 0 20px 20px;
+    border-radius:0 0 18px 18px;
     overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .promo{
     background:#ed1111;
     color:white;
     text-align:center;
-    font-size:20px;
+    font-size:17px;
     font-weight:bold;
-    padding:15px;
+    padding:12px;
 }
 
 .area{
-    padding:22px;
+    padding:16px;
 }
 
 label{
     display:block;
     font-weight:bold;
     color:#555;
-    margin-bottom:10px;
-    font-size:14px;
+    margin-bottom:7px;
+    font-size:13px;
 }
 
 /* CAMPO */
 
 .input{
-    height:62px;
-    border:3px solid #111827;
-    border-radius:14px;
+    height:56px;
+    border:2px solid #111827;
+    border-radius:12px;
     display:flex;
     align-items:center;
-    padding:0 14px;
-    background:white;
+    padding:0 12px;
 }
 
 .input b{
-    font-size:21px;
-    margin-right:8px;
+    font-size:19px;
+    margin-right:7px;
 }
 
 input{
     border:0;
     outline:0;
     width:100%;
-    font-size:27px;
+    font-size:25px;
     font-weight:bold;
-    color:#111827;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
     -webkit-appearance:none;
-    margin:0;
 }
 
-input[type=number]{
-    -moz-appearance:textfield;
-}
+/* BOTÕES */
 
-/* BOTÃO LEITOR */
-
-.btnCamera{
-    width:100%;
-    height:60px;
-    margin-top:12px;
-    background:#168ce5;
-    color:white;
-    border:0;
-    border-radius:13px;
-    font-size:18px;
-    font-weight:bold;
+button{
     cursor:pointer;
-    box-shadow:0 3px 8px rgba(0,0,0,.12);
 }
 
-.btnCamera:active{
-    transform:scale(.98);
-}
-
-/* BOTÃO ADICIONAR */
-
+.btnCamera,
 .btnAdicionar{
     width:100%;
-    height:55px;
-    margin-top:10px;
+    height:50px;
+    margin-top:9px;
+    border:0;
+    border-radius:11px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.btnCamera{
+    background:#168ce5;
+    color:white;
+}
+
+.btnAdicionar{
     background:#111827;
     color:white;
-    border:0;
-    border-radius:13px;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
 }
 
 /* LISTA */
 
 .lista{
-    margin-top:22px;
+    margin-top:14px;
 }
 
 .item{
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     background:#f3f4f6;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:8px;
+    padding:8px 10px;
+    border-radius:9px;
+    margin-bottom:6px;
 }
 
 .item span{
-    font-size:19px;
+    font-size:17px;
     font-weight:bold;
 }
 
 .btnExcluir{
+    width:34px;
+    height:34px;
     border:0;
+    border-radius:8px;
     background:#fee2e2;
     color:#dc2626;
-    width:38px;
-    height:38px;
-    border-radius:10px;
-    font-size:18px;
-    cursor:pointer;
 }
 
 .vazio{
     text-align:center;
-    color:#777;
-    padding:10px;
-    font-size:14px;
+    color:#888;
+    font-size:13px;
+    padding:6px;
 }
 
-/* DESCONTOS */
+/* DESCONTO */
 
 .descontos{
-    margin-top:25px;
+    margin-top:16px;
 }
 
 .botoesDesconto{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
 }
 
 .btnDesconto{
-    height:46px;
-    border:2px solid #111827;
+    height:40px;
+    border:1px solid #111827;
     background:white;
-    color:#111827;
-    border-radius:10px;
-    font-size:16px;
+    border-radius:8px;
     font-weight:bold;
-    cursor:pointer;
 }
 
 .btnDesconto.ativo{
@@ -215,25 +190,24 @@ input[type=number]{
 
 .outro{
     display:flex;
-    gap:8px;
-    margin-top:10px;
+    gap:6px;
+    margin-top:7px;
 }
 
 .outro input{
-    height:48px;
-    border:2px solid #111827;
-    border-radius:10px;
-    padding:0 12px;
-    font-size:18px;
+    height:42px;
+    border:1px solid #111827;
+    border-radius:8px;
+    padding:0 8px;
+    font-size:17px;
 }
 
 .btnAplicar{
-    height:48px;
-    padding:0 15px;
     border:0;
-    border-radius:10px;
+    border-radius:8px;
     background:#111827;
     color:white;
+    padding:0 12px;
     font-weight:bold;
 }
 
@@ -243,52 +217,109 @@ input[type=number]{
     background:#168ce5;
     color:white;
     text-align:center;
-    padding:25px 15px;
-    margin-top:5px;
+    padding:18px 10px;
 }
 
 .totalOriginal{
-    font-size:15px;
-    font-weight:bold;
+    font-size:14px;
 }
 
 .descontoValor{
-    margin-top:8px;
-    font-size:17px;
+    font-size:14px;
+    margin-top:5px;
 }
 
 .precoTitulo{
-    margin-top:18px;
-    font-size:14px;
+    font-size:12px;
     font-weight:bold;
+    margin-top:12px;
 }
 
 .preco{
-    font-size:44px;
+    font-size:39px;
     font-weight:bold;
-    margin-top:4px;
 }
 
 .economia{
-    margin-top:7px;
-    font-size:15px;
-    font-weight:bold;
+    font-size:13px;
 }
 
-.btnNova{
-    margin:20px;
-    width:calc(100% - 40px);
-    height:55px;
+/* CREDIÁRIO */
+
+.crediario{
+    padding:12px 16px;
+    border-top:1px solid #eee;
+}
+
+.btnCrediario{
+    width:100%;
+    height:46px;
+    border:0;
+    border-radius:10px;
     background:#111827;
     color:white;
-    border:0;
-    border-radius:13px;
-    font-size:17px;
+    font-size:16px;
     font-weight:bold;
-    cursor:pointer;
 }
 
-/* MODAL DA CÂMERA */
+.parcelas{
+    display:none;
+    margin-top:10px;
+}
+
+.botoesParcelas{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
+}
+
+.btnParcela{
+    height:38px;
+    border:1px solid #111827;
+    background:white;
+    border-radius:7px;
+    font-weight:bold;
+}
+
+.btnParcela.ativo{
+    background:#168ce5;
+    color:white;
+}
+
+.resultadoParcela{
+    display:none;
+    text-align:center;
+    margin-top:10px;
+    background:#f3f4f6;
+    padding:10px;
+    border-radius:9px;
+}
+
+.resultadoParcela small{
+    color:#666;
+}
+
+.valorParcela{
+    font-size:25px;
+    font-weight:bold;
+    margin-top:3px;
+}
+
+/* NOVA VENDA */
+
+.btnNova{
+    width:calc(100% - 32px);
+    margin:12px 16px 16px;
+    height:48px;
+    border:0;
+    border-radius:10px;
+    background:#111827;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+}
+
+/* MODAL */
 
 .cameraModal{
     display:none;
@@ -296,34 +327,33 @@ input[type=number]{
     inset:0;
     background:rgba(0,0,0,.85);
     z-index:9999;
-    padding:15px;
+    padding:10px;
     overflow:auto;
 }
 
 .cameraBox{
-    max-width:480px;
+    max-width:460px;
     margin:auto;
     background:white;
-    border-radius:20px;
+    border-radius:16px;
     overflow:hidden;
 }
 
 .cameraTitulo{
     background:#111827;
     color:white;
-    padding:18px;
     text-align:center;
+    padding:15px;
 }
 
 .cameraTitulo h2{
     margin:0;
-    font-size:21px;
+    font-size:20px;
 }
 
 .cameraTitulo p{
-    margin:6px 0 0;
-    font-size:13px;
-    color:#d1d5db;
+    margin:4px 0 0;
+    font-size:12px;
 }
 
 video{
@@ -331,98 +361,73 @@ video{
     display:block;
     background:#000;
     max-height:55vh;
-    object-fit:cover;
 }
 
 .cameraArea{
-    padding:15px;
+    padding:12px;
+}
+
+.btnCapturar,
+.btnFechar,
+.btnUsar,
+.btnTentar{
+    width:100%;
+    height:46px;
+    border:0;
+    border-radius:9px;
+    font-weight:bold;
+    font-size:15px;
 }
 
 .btnCapturar{
-    width:100%;
-    height:55px;
     background:#168ce5;
     color:white;
-    border:0;
-    border-radius:12px;
-    font-size:17px;
-    font-weight:bold;
 }
 
 .btnFechar{
-    width:100%;
-    height:50px;
-    margin-top:10px;
+    margin-top:7px;
     background:#e5e7eb;
-    color:#111827;
-    border:0;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:bold;
+}
+
+.btnUsar{
+    background:#16a34a;
+    color:white;
+}
+
+.btnTentar{
+    margin-top:6px;
+    background:#111827;
+    color:white;
 }
 
 .status{
     text-align:center;
-    font-weight:bold;
-    margin:12px 0;
+    padding:10px 0;
     color:#555;
+    font-size:13px;
 }
 
 .resultadoLeitura{
     display:none;
     background:#f3f4f6;
-    padding:15px;
-    border-radius:12px;
+    padding:12px;
+    border-radius:10px;
     text-align:center;
 }
 
-.resultadoLeitura strong{
-    display:block;
-    font-size:13px;
-    color:#666;
-}
-
 .precoDetectado{
-    font-size:32px;
+    font-size:30px;
     font-weight:bold;
-    margin:5px 0 12px;
-}
-
-.btnUsar{
-    width:100%;
-    height:50px;
-    background:#16a34a;
-    color:white;
-    border:0;
-    border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
-}
-
-.btnTentar{
-    width:100%;
-    height:45px;
-    margin-top:8px;
-    background:#111827;
-    color:white;
-    border:0;
-    border-radius:10px;
-    font-size:15px;
-    font-weight:bold;
+    margin:5px;
 }
 
 canvas{
     display:none;
 }
 
-@media(max-width:380px){
-
+@media(max-width:360px){
     .botoesDesconto{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .preco{
-        font-size:38px;
+        grid-template-columns:repeat(3,1fr);
     }
 }
 </style>
@@ -432,789 +437,718 @@ canvas{
 
 <div class="app">
 
-    <div class="header">
-        <h1>Preço Fácil</h1>
-        <p>Calculadora de vendas</p>
-    </div>
+<div class="header">
+    <h1>Calcula Fácil Health</h1>
+    <p>Calculadora de vendas</p>
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <div class="promo" id="tituloDesconto">
-            🧮 CALCULADORA DE VENDA
-        </div>
+<div class="promo" id="tituloDesconto">
+    🧮 VENDA
+</div>
 
-        <div class="area">
+<div class="area">
 
-            <label>VALOR DO PRODUTO</label>
+<label>VALOR</label>
 
-            <div class="input">
-                <b>R$</b>
+<div class="input">
+    <b>R$</b>
+    <input
+        id="valor"
+        type="number"
+        inputmode="decimal"
+        step="0.01"
+        placeholder="0,00">
+</div>
 
-                <input
-                    id="valor"
-                    type="number"
-                    inputmode="decimal"
-                    step="0.01"
-                    placeholder="0,00"
-                >
-            </div>
+<button class="btnCamera" onclick="abrirCamera()">
+    📷 LER ETIQUETA
+</button>
 
-            <!-- NOVO BOTÃO -->
+<button class="btnAdicionar" onclick="adicionarValor()">
+    + ADICIONAR
+</button>
 
-            <button class="btnCamera" onclick="abrirCamera()">
-                📷 LER ETIQUETA
-            </button>
+<div class="lista" id="lista">
+    <div class="vazio">Nenhum valor</div>
+</div>
 
-            <button class="btnAdicionar" onclick="adicionarValor()">
-                + ADICIONAR VALOR
-            </button>
+<div class="descontos">
 
+<label>DESCONTO</label>
 
-            <!-- LISTA -->
+<div class="botoesDesconto">
 
-            <div class="lista" id="lista">
+<button class="btnDesconto" onclick="selecionarDesconto(0,this)">0%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(5,this)">5%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(10,this)">10%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(15,this)">15%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(20,this)">20%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(30,this)">30%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(40,this)">40%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(50,this)">50%</button>
+<button class="btnDesconto" onclick="mostrarOutro()">OUTRO</button>
 
-                <div class="vazio">
-                    Nenhum produto adicionado
-                </div>
+</div>
 
-            </div>
+<div class="outro" id="campoOutro" style="display:none">
 
+<input
+    id="outroDesconto"
+    type="number"
+    min="0"
+    max="100"
+    placeholder="%">
 
-            <!-- DESCONTOS -->
+<button class="btnAplicar" onclick="aplicarOutro()">
+OK
+</button>
 
-            <div class="descontos">
+</div>
 
-                <label>ESCOLHA O DESCONTO</label>
+</div>
 
-                <div class="botoesDesconto">
+</div>
 
-                    <button class="btnDesconto" onclick="selecionarDesconto(0,this)">0%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(5,this)">5%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(10,this)">10%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(15,this)">15%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(20,this)">20%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(30,this)">30%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(40,this)">40%</button>
-                    <button class="btnDesconto" onclick="selecionarDesconto(50,this)">50%</button>
-                    <button class="btnDesconto" onclick="mostrarOutro()">OUTRO</button>
+<div class="result">
 
-                </div>
+<div class="totalOriginal" id="totalOriginal">
+TOTAL: R$ 0,00
+</div>
 
-                <div class="outro" id="campoOutro" style="display:none">
+<div class="descontoValor" id="descontoValor">
+0% — R$ 0,00
+</div>
 
-                    <input
-                        id="outroDesconto"
-                        type="number"
-                        min="0"
-                        max="100"
-                        placeholder="Ex: 12"
-                    >
+<div class="precoTitulo">
+TOTAL A PAGAR
+</div>
 
-                    <button class="btnAplicar" onclick="aplicarOutro()">
-                        APLICAR
-                    </button>
+<div class="preco" id="preco">
+R$ 0,00
+</div>
 
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- RESULTADO -->
-
-        <div class="result">
-
-            <div class="totalOriginal" id="totalOriginal">
-                TOTAL: R$ 0,00
-            </div>
-
-            <div class="descontoValor" id="descontoValor">
-                Desconto: 0% — R$ 0,00
-            </div>
-
-            <div class="precoTitulo">
-                TOTAL A PAGAR
-            </div>
-
-            <div class="preco" id="preco">
-                R$ 0,00
-            </div>
-
-            <div class="economia" id="economia">
-                Você economiza R$ 0,00
-            </div>
-
-        </div>
-
-        <button class="btnNova" onclick="novaVenda()">
-            🔄 NOVA VENDA
-        </button>
-
-    </div>
+<div class="economia" id="economia">
+Economia R$ 0,00
+</div>
 
 </div>
 
 
-<!-- ==========================
-     JANELA DA CÂMERA
-========================== -->
+<!-- CREDIÁRIO -->
+
+<div class="crediario">
+
+<button class="btnCrediario" onclick="abrirCrediario()">
+    💳 CREDIÁRIO
+</button>
+
+<div class="parcelas" id="parcelas">
+
+<div class="botoesParcelas">
+
+<button class="btnParcela" onclick="calcularParcela(1,this)">1x</button>
+<button class="btnParcela" onclick="calcularParcela(2,this)">2x</button>
+<button class="btnParcela" onclick="calcularParcela(3,this)">3x</button>
+<button class="btnParcela" onclick="calcularParcela(4,this)">4x</button>
+<button class="btnParcela" onclick="calcularParcela(5,this)">5x</button>
+<button class="btnParcela" onclick="calcularParcela(6,this)">6x</button>
+<button class="btnParcela" onclick="calcularParcela(7,this)">7x</button>
+<button class="btnParcela" onclick="calcularParcela(8,this)">8x</button>
+<button class="btnParcela" onclick="calcularParcela(9,this)">9x</button>
+<button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
+
+</div>
+
+<div class="resultadoParcela" id="resultadoParcela">
+
+<small>PARCELAMENTO</small>
+
+<div class="valorParcela" id="valorParcela">
+10x de R$ 0,00
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button class="btnNova" onclick="novaVenda()">
+🔄 NOVA VENDA
+</button>
+
+</div>
+</div>
+
+
+<!-- CÂMERA -->
 
 <div class="cameraModal" id="cameraModal">
 
-    <div class="cameraBox">
+<div class="cameraBox">
 
-        <div class="cameraTitulo">
-            <h2>📷 Ler etiqueta</h2>
-            <p>Aponte a câmera para o preço da etiqueta</p>
-        </div>
+<div class="cameraTitulo">
+<h2>📷 Ler etiqueta</h2>
+<p>Aponte para o preço</p>
+</div>
 
-        <video id="video" autoplay playsinline></video>
+<video id="video" autoplay playsinline></video>
 
-        <canvas id="canvas"></canvas>
+<canvas id="canvas"></canvas>
 
-        <div class="cameraArea">
+<div class="cameraArea">
 
-            <button class="btnCapturar" onclick="capturarEtiqueta()">
-                📸 CAPTURAR PREÇO
-            </button>
+<button class="btnCapturar" onclick="capturarEtiqueta()">
+📸 CAPTURAR
+</button>
 
-            <div class="status" id="status">
-                Posicione o preço no centro da câmera.
-            </div>
+<div class="status" id="status">
+Posicione o preço no centro.
+</div>
 
-            <div class="resultadoLeitura" id="resultadoLeitura">
+<div class="resultadoLeitura" id="resultadoLeitura">
 
-                <strong>PREÇO IDENTIFICADO</strong>
+<strong>PREÇO ENCONTRADO</strong>
 
-                <div class="precoDetectado" id="precoDetectado">
-                    R$ 0,00
-                </div>
+<div class="precoDetectado" id="precoDetectado">
+R$ 0,00
+</div>
 
-                <button class="btnUsar" onclick="usarPrecoDetectado()">
-                    ✓ USAR ESTE VALOR
-                </button>
+<button class="btnUsar" onclick="usarPrecoDetectado()">
+✓ ADICIONAR
+</button>
 
-                <button class="btnTentar" onclick="tentarNovamente()">
-                    🔄 TENTAR NOVAMENTE
-                </button>
+<button class="btnTentar" onclick="tentarNovamente()">
+TENTAR NOVAMENTE
+</button>
 
-            </div>
+</div>
 
-            <button class="btnFechar" onclick="fecharCamera()">
-                FECHAR
-            </button>
+<button class="btnFechar" onclick="fecharCamera()">
+FECHAR
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* ==========================
-   VARIÁVEIS
-========================== */
-
-let valores = [];
-
-let percentual = 0;
-
-let streamCamera = null;
-
-let precoLido = 0;
-
-
-/* ==========================
-   DINHEIRO
-========================== */
+let valores=[];
+let percentual=0;
+let streamCamera=null;
+let precoLido=0;
 
 function dinheiro(valor){
-
-    return valor.toLocaleString("pt-BR", {
-        style:"currency",
-        currency:"BRL"
-    });
-
+return valor.toLocaleString("pt-BR",{
+style:"currency",
+currency:"BRL"
+});
 }
 
 
-/* ==========================
-   ADICIONAR VALOR
-========================== */
+/* ADICIONAR */
 
 function adicionarValor(){
 
-    let campo = document.getElementById("valor");
+let campo=document.getElementById("valor");
 
-    let valor = Number(
-        String(campo.value).replace(",",".")
-    );
+let valor=Number(
+String(campo.value).replace(",",".")
+);
 
-    if(!valor || valor <= 0){
+if(!valor || valor<=0){
+campo.focus();
+return;
+}
 
-        campo.focus();
+valores.push(valor);
 
-        return;
-    }
+campo.value="";
 
-    valores.push(valor);
+atualizarLista();
+calcular();
 
-    campo.value = "";
-
-    atualizarLista();
-
-    calcular();
-
-    campo.focus();
+campo.focus();
 }
 
 
-/* ==========================
-   LISTA
-========================== */
+/* LISTA */
 
 function atualizarLista(){
 
-    let lista = document.getElementById("lista");
+let lista=document.getElementById("lista");
 
-    lista.innerHTML = "";
+lista.innerHTML="";
 
-    if(valores.length === 0){
+if(valores.length===0){
 
-        lista.innerHTML =
-        '<div class="vazio">Nenhum produto adicionado</div>';
+lista.innerHTML='<div class="vazio">Nenhum valor</div>';
 
-        return;
-    }
-
-    valores.forEach(function(valor,index){
-
-        let item = document.createElement("div");
-
-        item.className = "item";
-
-        item.innerHTML = `
-
-            <span>${dinheiro(valor)}</span>
-
-            <button
-                class="btnExcluir"
-                onclick="excluirValor(${index})">
-                🗑️
-            </button>
-
-        `;
-
-        lista.appendChild(item);
-
-    });
+return;
 }
 
+valores.forEach(function(valor,index){
 
-/* ==========================
-   EXCLUIR
-========================== */
+let item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<span>${dinheiro(valor)}</span>
+
+<button class="btnExcluir"
+onclick="excluirValor(${index})">🗑️</button>
+
+`;
+
+lista.appendChild(item);
+
+});
+}
+
 
 function excluirValor(index){
 
-    valores.splice(index,1);
+valores.splice(index,1);
 
-    atualizarLista();
-
-    calcular();
+atualizarLista();
+calcular();
 }
 
 
-/* ==========================
-   DESCONTO
-========================== */
+/* DESCONTO */
 
 function selecionarDesconto(valor,botao){
 
-    percentual = valor;
+percentual=valor;
 
-    document.querySelectorAll(".btnDesconto").forEach(function(btn){
-        btn.classList.remove("ativo");
-    });
+document.querySelectorAll(".btnDesconto")
+.forEach(btn=>btn.classList.remove("ativo"));
 
-    botao.classList.add("ativo");
+botao.classList.add("ativo");
 
-    document.getElementById("campoOutro").style.display = "none";
+document.getElementById("campoOutro")
+.style.display="none";
 
-    calcular();
+calcular();
 }
 
 
 function mostrarOutro(){
 
-    document.getElementById("campoOutro").style.display = "flex";
+document.getElementById("campoOutro")
+.style.display="flex";
 
-    document.getElementById("outroDesconto").focus();
+document.getElementById("outroDesconto").focus();
 
-    document.querySelectorAll(".btnDesconto").forEach(function(btn){
-        btn.classList.remove("ativo");
-    });
+document.querySelectorAll(".btnDesconto")
+.forEach(btn=>btn.classList.remove("ativo"));
 }
 
 
 function aplicarOutro(){
 
-    let valor = Number(
-        document.getElementById("outroDesconto").value
-    );
+let valor=Number(
+document.getElementById("outroDesconto").value
+);
 
-    if(valor < 0 || valor > 100){
+if(valor<0 || valor>100){
 
-        alert("Digite um desconto entre 0% e 100%.");
+alert("Digite um desconto entre 0% e 100%.");
 
-        return;
-    }
+return;
+}
 
-    percentual = valor;
+percentual=valor;
 
-    calcular();
+calcular();
 }
 
 
-/* ==========================
-   CALCULAR
-========================== */
+/* CALCULAR */
 
 function calcular(){
 
-    let total = valores.reduce(function(soma,valor){
+let total=valores.reduce(
+(soma,valor)=>soma+valor,0
+);
 
-        return soma + valor;
+let desconto=total*(percentual/100);
 
-    },0);
+let final=total-desconto;
 
-    let desconto = total * (percentual / 100);
+document.getElementById("totalOriginal").innerText=
+"TOTAL: "+dinheiro(total);
 
-    let final = total - desconto;
+document.getElementById("descontoValor").innerText=
+percentual+"% — "+dinheiro(desconto);
 
-    document.getElementById("totalOriginal").innerText =
-        "TOTAL: " + dinheiro(total);
+document.getElementById("preco").innerText=
+dinheiro(final);
 
-    document.getElementById("descontoValor").innerText =
-        "Desconto: " + percentual + "% — " + dinheiro(desconto);
+document.getElementById("economia").innerText=
+"Economia "+dinheiro(desconto);
 
-    document.getElementById("preco").innerText =
-        dinheiro(final);
+document.getElementById("tituloDesconto").innerText=
+percentual>0
+?"🔥 "+percentual+"% DE DESCONTO"
+:"🧮 VENDA";
 
-    document.getElementById("economia").innerText =
-        "Você economiza " + dinheiro(desconto);
-
-    document.getElementById("tituloDesconto").innerText =
-        percentual > 0
-        ? "🔥 " + percentual + "% DE DESCONTO"
-        : "🧮 CALCULADORA DE VENDA";
 }
 
 
-/* ==========================
-   NOVA VENDA
-========================== */
+/* CREDIÁRIO */
+
+function abrirCrediario(){
+
+let area=document.getElementById("parcelas");
+
+if(area.style.display==="block"){
+
+area.style.display="none";
+
+}else{
+
+area.style.display="block";
+
+}
+
+}
+
+
+function calcularParcela(numero,botao){
+
+let total=valores.reduce(
+(soma,valor)=>soma+valor,0
+);
+
+let desconto=total*(percentual/100);
+
+let final=total-desconto;
+
+if(final<=0){
+
+alert("Adicione um produto primeiro.");
+
+return;
+}
+
+document.querySelectorAll(".btnParcela")
+.forEach(btn=>btn.classList.remove("ativo"));
+
+botao.classList.add("ativo");
+
+let parcela=final/numero;
+
+document.getElementById("valorParcela").innerText=
+numero+"x de "+dinheiro(parcela);
+
+document.getElementById("resultadoParcela")
+.style.display="block";
+
+}
+
+
+/* NOVA VENDA */
 
 function novaVenda(){
 
-    valores = [];
+valores=[];
+percentual=0;
 
-    percentual = 0;
+document.getElementById("valor").value="";
+document.getElementById("outroDesconto").value="";
 
-    document.getElementById("valor").value = "";
+document.getElementById("campoOutro")
+.style.display="none";
 
-    document.getElementById("outroDesconto").value = "";
+document.getElementById("parcelas")
+.style.display="none";
 
-    document.getElementById("campoOutro").style.display = "none";
+document.getElementById("resultadoParcela")
+.style.display="none";
 
-    document.querySelectorAll(".btnDesconto").forEach(function(btn){
-        btn.classList.remove("ativo");
-    });
+document.querySelectorAll(".btnDesconto")
+.forEach(btn=>btn.classList.remove("ativo"));
 
-    atualizarLista();
+document.querySelectorAll(".btnParcela")
+.forEach(btn=>btn.classList.remove("ativo"));
 
-    calcular();
+atualizarLista();
+calcular();
 
-    document.getElementById("valor").focus();
+document.getElementById("valor").focus();
 }
 
 
-/* ==================================================
-   LEITOR DE ETIQUETA
-================================================== */
-
-
-/* ABRIR CÂMERA */
+/* ==========================
+LEITOR DE ETIQUETA
+========================== */
 
 async function abrirCamera(){
 
-    let modal = document.getElementById("cameraModal");
+let modal=document.getElementById("cameraModal");
 
-    let video = document.getElementById("video");
+let video=document.getElementById("video");
 
-    let status = document.getElementById("status");
+let status=document.getElementById("status");
 
-    let resultado = document.getElementById("resultadoLeitura");
+document.getElementById("resultadoLeitura")
+.style.display="none";
 
-    resultado.style.display = "none";
+modal.style.display="block";
 
-    status.innerText =
-        "Posicione o preço no centro da câmera.";
+try{
 
-    modal.style.display = "block";
+streamCamera=await navigator.mediaDevices.getUserMedia({
 
+video:{
+facingMode:{ideal:"environment"}
+},
 
-    try{
+audio:false
 
-        streamCamera = await navigator.mediaDevices.getUserMedia({
+});
 
-            video:{
-                facingMode:{
-                    ideal:"environment"
-                }
-            },
+video.srcObject=streamCamera;
 
-            audio:false
+}catch(e){
 
-        });
+status.innerText=
+"Não foi possível abrir a câmera.";
 
-        video.srcObject = streamCamera;
+alert(
+"Permita o acesso à câmera para usar esta função."
+);
 
-    }catch(erro){
-
-        status.innerText =
-            "Não foi possível abrir a câmera.";
-
-        alert(
-            "Permita o acesso à câmera para usar o leitor de etiqueta."
-        );
-    }
 }
 
+}
 
-/* CAPTURAR FOTO */
 
 async function capturarEtiqueta(){
 
-    let video = document.getElementById("video");
+let video=document.getElementById("video");
 
-    let canvas = document.getElementById("canvas");
+let canvas=document.getElementById("canvas");
 
-    let status = document.getElementById("status");
+let status=document.getElementById("status");
 
-    let resultado = document.getElementById("resultadoLeitura");
+if(!video.videoWidth){
 
+status.innerText="A câmera ainda não está pronta.";
 
-    if(!video.videoWidth){
+return;
+}
 
-        status.innerText =
-            "A câmera ainda não está pronta.";
+status.innerText="🔎 Lendo...";
 
-        return;
-    }
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
 
+let contexto=canvas.getContext("2d");
 
-    status.innerText =
-        "🔎 Lendo o preço da etiqueta...";
+contexto.drawImage(
+video,
+0,
+0,
+canvas.width,
+canvas.height
+);
 
+try{
 
-    resultado.style.display = "none";
+const {data}=await Tesseract.recognize(
+canvas,
+"por",
+{
+logger:function(info){
 
+if(info.status==="recognizing text"){
 
-    canvas.width = video.videoWidth;
+status.innerText=
+"🔎 Lendo... "+
+Math.round(info.progress*100)+"%";
 
-    canvas.height = video.videoHeight;
+}
 
+}
+}
+);
 
-    let contexto = canvas.getContext("2d");
+let preco=encontrarPreco(data.text);
 
-    contexto.drawImage(
-        video,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+if(preco){
 
+precoLido=preco;
 
-    try{
+document.getElementById("precoDetectado")
+.innerText=dinheiro(preco);
 
-        const { data } = await Tesseract.recognize(
+document.getElementById("resultadoLeitura")
+.style.display="block";
 
-            canvas,
+status.innerText="Preço encontrado.";
 
-            "por",
+}else{
 
-            {
+status.innerText=
+"Não encontrei o preço. Tente aproximar a etiqueta.";
 
-                logger: function(info){
+}
 
-                    if(info.status === "recognizing text"){
+}catch(e){
 
-                        let porcentagem =
-                            Math.round(info.progress * 100);
+console.error(e);
 
-                        status.innerText =
-                            "🔎 Lendo etiqueta... " +
-                            porcentagem +
-                            "%";
-                    }
+status.innerText=
+"Erro ao ler. Tente novamente.";
 
-                }
+}
 
-            }
-
-        );
-
-
-        let texto = data.text;
-
-        let preco = encontrarPreco(texto);
-
-
-        if(preco){
-
-            precoLido = preco;
-
-
-            document.getElementById(
-                "precoDetectado"
-            ).innerText = dinheiro(preco);
-
-
-            resultado.style.display = "block";
-
-
-            status.innerText =
-                "Preço encontrado. Confira antes de adicionar.";
-
-        }else{
-
-            status.innerText =
-                "❌ Não consegui identificar o preço. Tente aproximar a etiqueta e melhorar a iluminação.";
-
-        }
-
-
-    }catch(erro){
-
-        console.error(erro);
-
-        status.innerText =
-            "Erro ao ler a etiqueta. Tente novamente.";
-
-    }
 }
 
 
-/* ==========================
-   ENCONTRAR PREÇO NO TEXTO
-========================== */
+/* ENCONTRAR PREÇO */
 
 function encontrarPreco(texto){
 
-    if(!texto){
-        return null;
-    }
+let encontrados=[];
 
+let padrao=/R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
 
-    /*
-       Procura primeiro formatos como:
+let resultado;
 
-       R$ 129,90
-       R$129,90
-       R$ 1.299,90
-    */
+while((resultado=padrao.exec(texto))!==null){
 
-    let padraoReal = /R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
+let numero=resultado[1]
+.replace(/\s/g,"")
+.replace(/\./g,"")
+.replace(",", ".");
 
-    let encontrados = [];
+let valor=Number(numero);
 
-    let resultado;
+if(valor>0 && valor<100000){
+encontrados.push(valor);
+}
 
+}
 
-    while((resultado = padraoReal.exec(texto)) !== null){
+if(encontrados.length===0){
 
-        let numero = resultado[1];
+let lista=texto.match(/\b\d{1,5}[,.]\d{2}\b/g);
 
-        numero = numero
-            .replace(/\s/g,"")
-            .replace(/\./g,"")
-            .replace(",", ".");
+if(lista){
 
-        let valor = Number(numero);
+lista.forEach(item=>{
 
-        if(valor > 0 && valor < 100000){
+let valor=Number(
+item.replace(",",".")
+);
 
-            encontrados.push(valor);
-        }
-    }
+if(valor>0 && valor<100000){
+encontrados.push(valor);
+}
 
+});
 
-    /*
-       Caso não encontre com R$,
-       procura números com duas casas decimais.
-    */
+}
 
-    if(encontrados.length === 0){
+}
 
-        let padraoDecimal =
-            /\b\d{1,5}[,.]\d{2}\b/g;
+return encontrados.length
+? encontrados[0]
+: null;
 
-        let lista = texto.match(padraoDecimal);
-
-
-        if(lista){
-
-            lista.forEach(function(item){
-
-                let numero =
-                    item.replace(",", ".");
-
-                let valor = Number(numero);
-
-                if(valor > 0 && valor < 100000){
-
-                    encontrados.push(valor);
-                }
-
-            });
-
-        }
-
-    }
-
-
-    /*
-       Retorna o primeiro preço encontrado.
-    */
-
-    if(encontrados.length > 0){
-
-        return encontrados[0];
-
-    }
-
-    return null;
 }
 
 
-/* ==========================
-   USAR PREÇO
-========================== */
+/* USAR PREÇO */
 
 function usarPrecoDetectado(){
 
-    if(!precoLido){
+if(!precoLido)return;
 
-        return;
-    }
+valores.push(precoLido);
 
+atualizarLista();
+calcular();
 
-    valores.push(precoLido);
+precoLido=0;
 
+document.getElementById("resultadoLeitura")
+.style.display="none";
 
-    atualizarLista();
+document.getElementById("status").innerText=
+"✅ Adicionado. Pode ler outra etiqueta.";
 
-    calcular();
-
-
-    document.getElementById(
-        "resultadoLeitura"
-    ).style.display = "none";
-
-
-    document.getElementById("status").innerText =
-        "✅ Preço adicionado! Você pode ler outra etiqueta.";
-
-
-    precoLido = 0;
 }
 
 
-/* ==========================
-   TENTAR NOVAMENTE
-========================== */
+/* TENTAR NOVAMENTE */
 
 function tentarNovamente(){
 
-    document.getElementById(
-        "resultadoLeitura"
-    ).style.display = "none";
+document.getElementById("resultadoLeitura")
+.style.display="none";
 
+document.getElementById("status").innerText=
+"Posicione o preço no centro.";
 
-    document.getElementById("status").innerText =
-        "Posicione o preço no centro da câmera e tente novamente.";
 }
 
 
-/* ==========================
-   FECHAR CÂMERA
-========================== */
+/* FECHAR */
 
 function fecharCamera(){
 
-    let modal =
-        document.getElementById("cameraModal");
+if(streamCamera){
 
+streamCamera.getTracks().forEach(
+track=>track.stop()
+);
 
-    if(streamCamera){
+streamCamera=null;
 
-        streamCamera.getTracks().forEach(function(track){
+}
 
-            track.stop();
+document.getElementById("video")
+.srcObject=null;
 
-        });
+document.getElementById("cameraModal")
+.style.display="none";
 
-        streamCamera = null;
-    }
-
-
-    document.getElementById("video").srcObject = null;
-
-    modal.style.display = "none";
 }
 
 
-/* ==========================
-   ENTER
-========================== */
+/* ENTER */
 
-document.getElementById("valor").addEventListener(
-    "keydown",
-    function(event){
+document.getElementById("valor")
+.addEventListener("keydown",function(e){
 
-        if(event.key === "Enter"){
+if(e.key==="Enter"){
+adicionarValor();
+}
 
-            adicionarValor();
+});
 
-        }
+document.getElementById("outroDesconto")
+.addEventListener("keydown",function(e){
 
-    }
-);
+if(e.key==="Enter"){
+aplicarOutro();
+}
 
+});
 
-document.getElementById("outroDesconto").addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Enter"){
-
-            aplicarOutro();
-
-        }
-
-    }
-);
-
-
-/* ==========================
-   INICIALIZA
-========================== */
 
 calcular();
 
