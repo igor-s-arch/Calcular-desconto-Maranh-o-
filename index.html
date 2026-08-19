@@ -3,21 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<h1>Calcula Fácil HELPÍGOS</h1>
+<title>Calcula Fácil HELPÍGOS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
-    background:#f2f4f7;
+    background:#f4f4f4;
     font-family:Arial,sans-serif;
-    color:#111827;
+    color:#111;
 }
 
 .app{
@@ -26,38 +23,132 @@ body{
     padding:10px;
 }
 
+/* CABEÇALHO */
+
 .header{
-    background:#111827;
+    background:#080808;
     color:white;
     text-align:center;
-    padding:18px 10px;
-    border-radius:18px 18px 0 0;
+    padding:16px 10px;
+    border-radius:20px 20px 0 0;
+    border-bottom:4px solid #d4af37;
+}
+
+.logoPerfil{
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    margin:0 auto 8px;
+    border:3px solid #d4af37;
+    background:#fff;
+}
+
+.logoPadrao{
+    display:flex;
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    margin:0 auto 8px;
+    background:#fff;
+    color:#111;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    border:3px solid #d4af37;
 }
 
 .header h1{
     margin:0;
-    font-size:25px;
+    font-size:24px;
+    color:#fff;
+}
+
+.nomeVendedor{
+    margin:6px 0 0;
+    font-size:15px;
+    font-weight:bold;
+    color:#ffd700;
 }
 
 .header p{
     margin:4px 0 0;
-    color:#d1d5db;
-    font-size:13px;
+    color:#ccc;
+    font-size:12px;
 }
+
+/* PERFIL */
+
+.perfil{
+    background:#111;
+    padding:10px 14px;
+}
+
+.btnPerfil{
+    width:100%;
+    height:40px;
+    border:1px solid #d4af37;
+    border-radius:9px;
+    background:#1c1c1c;
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.perfilOpcoes{
+    display:none;
+    margin-top:9px;
+}
+
+.perfilOpcoes input[type="text"]{
+    width:100%;
+    height:42px;
+    border:2px solid #d4af37;
+    border-radius:9px;
+    padding:0 10px;
+    font-size:15px;
+    outline:none;
+}
+
+.btnFoto,
+.btnSalvarPerfil{
+    width:100%;
+    height:42px;
+    margin-top:7px;
+    border:0;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.btnFoto{
+    background:#ffd000;
+    color:#111;
+}
+
+.btnSalvarPerfil{
+    background:#d4af37;
+    color:#111;
+}
+
+#fotoInput{
+    display:none;
+}
+
+/* CARD */
 
 .card{
     background:white;
-    border-radius:0 0 18px 18px;
+    border-radius:0 0 20px 20px;
     overflow:hidden;
 }
 
 .promo{
-    background:#ed1111;
+    background:#e60000;
     color:white;
     text-align:center;
-    font-size:17px;
+    font-size:18px;
     font-weight:bold;
-    padding:12px;
+    padding:13px;
 }
 
 .area{
@@ -67,25 +158,27 @@ body{
 label{
     display:block;
     font-weight:bold;
-    color:#555;
+    color:#333;
     margin-bottom:7px;
     font-size:13px;
 }
 
-/* VALOR */
+/* INPUT */
 
 .input{
     height:56px;
-    border:2px solid #111827;
+    border:3px solid #111;
     border-radius:12px;
     display:flex;
     align-items:center;
     padding:0 12px;
+    background:#fff;
 }
 
 .input b{
     font-size:19px;
     margin-right:7px;
+    color:#d4af37;
 }
 
 input{
@@ -96,14 +189,13 @@ input{
     font-weight:bold;
 }
 
+input[type=number]{
+    -moz-appearance:textfield;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
     -webkit-appearance:none;
-    margin:0;
-}
-
-input[type=number]{
-    -moz-appearance:textfield;
 }
 
 /* BOTÕES */
@@ -117,16 +209,25 @@ input[type=number]{
     border-radius:11px;
     font-size:16px;
     font-weight:bold;
+    box-shadow:0 3px 0 rgba(0,0,0,.2);
+    transition:.15s;
 }
 
 .btnCamera{
-    background:#168ce5;
-    color:white;
+    background:#ffd000;
+    color:#111;
 }
 
 .btnAdicionar{
-    background:#111827;
-    color:white;
+    background:#111;
+    color:#ffd700;
+    border:2px solid #d4af37;
+}
+
+.btnCamera:active,
+.btnAdicionar:active,
+button:active{
+    transform:scale(.97);
 }
 
 /* LISTA */
@@ -139,7 +240,8 @@ input[type=number]{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:#f3f4f6;
+    background:#fff8d6;
+    border-left:4px solid #d4af37;
     padding:8px 10px;
     border-radius:9px;
     margin-bottom:6px;
@@ -155,16 +257,8 @@ input[type=number]{
     height:34px;
     border:0;
     border-radius:8px;
-    background:#fee2e2;
-    color:#dc2626;
-    font-size:16px;
-}
-
-.vazio{
-    text-align:center;
-    color:#888;
-    font-size:13px;
-    padding:6px;
+    background:#e60000;
+    color:white;
 }
 
 /* DESCONTO */
@@ -181,17 +275,18 @@ input[type=number]{
 
 .btnDesconto{
     height:40px;
-    border:1px solid #111827;
-    background:white;
+    border:2px solid #111;
+    background:#fff;
     border-radius:8px;
     font-weight:bold;
     font-size:14px;
 }
 
 .btnDesconto.ativo{
-    background:#ed1111;
+    background:#e60000;
     color:white;
-    border-color:#ed1111;
+    border-color:#e60000;
+    box-shadow:0 2px 0 #9b0000;
 }
 
 .outro{
@@ -202,7 +297,7 @@ input[type=number]{
 
 .outro input{
     height:42px;
-    border:1px solid #111827;
+    border:2px solid #d4af37;
     border-radius:8px;
     padding:0 8px;
     font-size:17px;
@@ -211,54 +306,60 @@ input[type=number]{
 .btnAplicar{
     border:0;
     border-radius:8px;
-    background:#111827;
-    color:white;
-    padding:0 12px;
+    background:#d4af37;
+    color:#111;
+    padding:0 14px;
     font-weight:bold;
 }
 
 /* RESULTADO */
 
 .result{
-    background:#168ce5;
+    background:#111;
     color:white;
     text-align:center;
-    padding:18px 10px;
+    padding:20px 10px;
+    border-top:4px solid #d4af37;
+    border-bottom:4px solid #d4af37;
 }
 
 .totalOriginal{
     font-size:14px;
     font-weight:bold;
+    color:#fff;
 }
 
 .descontoValor{
     font-size:14px;
     margin-top:5px;
+    color:#ffd000;
 }
 
 .precoTitulo{
     font-size:12px;
     font-weight:bold;
     margin-top:12px;
+    color:#d4af37;
 }
 
 .preco{
-    font-size:39px;
+    font-size:42px;
     font-weight:bold;
+    color:#ffd700;
+    text-shadow:0 2px 8px rgba(212,175,55,.3);
 }
 
 .economia{
     font-size:13px;
     margin-top:3px;
+    color:#fff;
 }
 
 /* CREDIÁRIO */
 
 .crediario{
-    display:block;
     padding:12px 16px;
     background:white;
-    border-top:1px solid #e5e7eb;
 }
 
 .btnCrediario{
@@ -266,10 +367,11 @@ input[type=number]{
     height:48px;
     border:0;
     border-radius:10px;
-    background:#111827;
-    color:white;
+    background:#d4af37;
+    color:#111;
     font-size:16px;
     font-weight:bold;
+    box-shadow:0 3px 0 #a88920;
 }
 
 .parcelas{
@@ -285,24 +387,24 @@ input[type=number]{
 
 .btnParcela{
     height:38px;
-    border:1px solid #111827;
+    border:2px solid #111;
     background:white;
-    color:#111827;
     border-radius:7px;
     font-size:14px;
     font-weight:bold;
 }
 
 .btnParcela.ativo{
-    background:#168ce5;
+    background:#e60000;
     color:white;
-    border-color:#168ce5;
+    border-color:#e60000;
 }
 
 .resultadoParcela{
     display:none;
     margin-top:10px;
-    background:#f3f4f6;
+    background:#fff8d6;
+    border:2px solid #d4af37;
     padding:10px;
     border-radius:9px;
     text-align:center;
@@ -316,21 +418,122 @@ input[type=number]{
 .valorParcela{
     font-size:25px;
     font-weight:bold;
-    margin-top:3px;
+    color:#111;
+}
+
+/* FINALIZAR */
+
+.btnFinalizar{
+    width:calc(100% - 32px);
+    margin:8px 16px 0;
+    height:50px;
+    border:0;
+    border-radius:10px;
+    background:#e60000;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    box-shadow:0 3px 0 #a80000;
 }
 
 /* NOVA VENDA */
 
 .btnNova{
     width:calc(100% - 32px);
-    margin:12px 16px 16px;
+    margin:8px 16px 16px;
     height:48px;
-    border:0;
+    border:2px solid #111;
     border-radius:10px;
-    background:#111827;
-    color:white;
+    background:#111;
+    color:#ffd700;
     font-weight:bold;
     font-size:15px;
+}
+
+/* VENDAS DO DIA */
+
+.vendasDia{
+    margin-top:10px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    border:2px solid #d4af37;
+}
+
+.btnVendas{
+    width:100%;
+    height:50px;
+    border:0;
+    background:#111;
+    color:#ffd700;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.painelVendas{
+    display:none;
+    padding:12px;
+}
+
+.resumo{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+.resumoBox{
+    background:#fff8d6;
+    border:1px solid #d4af37;
+    border-radius:9px;
+    padding:10px;
+    text-align:center;
+}
+
+.resumoBox small{
+    display:block;
+    color:#555;
+    font-size:11px;
+}
+
+.resumoBox strong{
+    display:block;
+    margin-top:3px;
+    font-size:18px;
+}
+
+.listaVendas{
+    margin-top:10px;
+}
+
+.venda{
+    background:#fafafa;
+    border-left:4px solid #e60000;
+    border-radius:9px;
+    padding:9px;
+    margin-bottom:6px;
+}
+
+.vendaTopo{
+    display:flex;
+    justify-content:space-between;
+    font-weight:bold;
+}
+
+.vendaDetalhe{
+    color:#666;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.btnLimparVendas{
+    width:100%;
+    height:42px;
+    border:0;
+    border-radius:9px;
+    background:#e60000;
+    color:white;
+    font-weight:bold;
+    margin-top:5px;
 }
 
 /* CÂMERA */
@@ -339,7 +542,7 @@ input[type=number]{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.85);
+    background:rgba(0,0,0,.9);
     z-index:9999;
     padding:10px;
     overflow:auto;
@@ -354,10 +557,11 @@ input[type=number]{
 }
 
 .cameraTitulo{
-    background:#111827;
-    color:white;
+    background:#111;
+    color:#ffd700;
     text-align:center;
     padding:15px;
+    border-bottom:3px solid #d4af37;
 }
 
 .cameraTitulo h2{
@@ -368,6 +572,7 @@ input[type=number]{
 .cameraTitulo p{
     margin:4px 0 0;
     font-size:12px;
+    color:white;
 }
 
 video{
@@ -395,14 +600,14 @@ video{
 }
 
 .btnCapturar{
-    background:#168ce5;
-    color:white;
+    background:#ffd000;
+    color:#111;
 }
 
 .btnFechar{
     margin-top:7px;
-    background:#e5e7eb;
-    color:#111827;
+    background:#111;
+    color:#ffd700;
 }
 
 .btnUsar{
@@ -412,7 +617,7 @@ video{
 
 .btnTentar{
     margin-top:6px;
-    background:#111827;
+    background:#e60000;
     color:white;
 }
 
@@ -425,7 +630,8 @@ video{
 
 .resultadoLeitura{
     display:none;
-    background:#f3f4f6;
+    background:#fff8d6;
+    border:2px solid #d4af37;
     padding:12px;
     border-radius:10px;
     text-align:center;
@@ -439,6 +645,7 @@ video{
 .precoDetectado{
     font-size:30px;
     font-weight:bold;
+    color:#111;
     margin:5px;
 }
 
@@ -465,20 +672,57 @@ canvas{
 
 <div class="header">
 
-    <h1>Calcula Fácil Health</h1>
+    <div id="fotoArea">
+        <div class="logoPadrao">🧮</div>
+    </div>
+
+    <h1>Calcula Fácil HELPÍGOS</h1>
+
+    <div class="nomeVendedor" id="nomeVendedor">
+        Vendedor
+    </div>
 
     <p>Calculadora de vendas</p>
 
 </div>
 
+<div class="perfil">
+
+<button class="btnPerfil" onclick="abrirPerfil()">
+    👤 PERSONALIZAR PERFIL
+</button>
+
+<div class="perfilOpcoes" id="perfilOpcoes">
+
+<input
+    type="text"
+    id="nomeInput"
+    placeholder="Nome do vendedor">
+
+<button class="btnFoto"
+onclick="document.getElementById('fotoInput').click()">
+    📷 ESCOLHER FOTO / LOGO
+</button>
+
+<input
+    type="file"
+    id="fotoInput"
+    accept="image/*"
+    onchange="carregarFoto(event)">
+
+<button class="btnSalvarPerfil" onclick="salvarPerfil()">
+    💾 SALVAR PERFIL
+</button>
+
+</div>
+
+</div>
 
 <div class="card">
 
-
 <div class="promo" id="tituloDesconto">
-    🧮 VENDA
+    🛍️ VENDA
 </div>
-
 
 <div class="area">
 
@@ -486,36 +730,28 @@ canvas{
 
 <div class="input">
 
-    <b>R$</b>
+<b>R$</b>
 
-    <input
-        id="valor"
-        type="number"
-        inputmode="decimal"
-        step="0.01"
-        placeholder="0,00">
+<input
+id="valor"
+type="number"
+inputmode="decimal"
+step="0.01"
+placeholder="0,00">
 
 </div>
-
 
 <button class="btnCamera" onclick="abrirCamera()">
     📷 LER ETIQUETA
 </button>
 
-
 <button class="btnAdicionar" onclick="adicionarValor()">
     + ADICIONAR
 </button>
 
-
 <div class="lista" id="lista">
-
-    <div class="vazio">
-        Nenhum valor
-    </div>
-
+<div class="vazio">Nenhum valor</div>
 </div>
-
 
 <div class="descontos">
 
@@ -523,38 +759,46 @@ canvas{
 
 <div class="botoesDesconto">
 
-<button class="btnDesconto" onclick="selecionarDesconto(0,this)">0%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(0,this)">0%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(5,this)">5%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(5,this)">5%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(10,this)">10%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(10,this)">10%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(15,this)">15%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(15,this)">15%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(20,this)">20%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(20,this)">20%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(30,this)">30%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(30,this)">30%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(40,this)">40%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(40,this)">40%</button>
 
-<button class="btnDesconto" onclick="selecionarDesconto(50,this)">50%</button>
+<button class="btnDesconto"
+onclick="selecionarDesconto(50,this)">50%</button>
 
-<button class="btnDesconto" onclick="mostrarOutro()">OUTRO</button>
+<button class="btnDesconto"
+onclick="mostrarOutro()">OUTRO</button>
 
 </div>
-
 
 <div class="outro" id="campoOutro" style="display:none">
 
 <input
-    id="outroDesconto"
-    type="number"
-    min="0"
-    max="100"
-    placeholder="%">
+id="outroDesconto"
+type="number"
+min="0"
+max="100"
+placeholder="%">
 
 <button class="btnAplicar" onclick="aplicarOutro()">
-    OK
+OK
 </button>
 
 </div>
@@ -562,9 +806,6 @@ canvas{
 </div>
 
 </div>
-
-
-<!-- RESULTADO -->
 
 <div class="result">
 
@@ -590,68 +831,32 @@ Economia R$ 0,00
 
 </div>
 
-
-<!-- CREDIÁRIO VISÍVEL -->
-
 <div class="crediario">
 
 <button class="btnCrediario" onclick="abrirCrediario()">
     💳 CREDIÁRIO
 </button>
 
-
 <div class="parcelas" id="parcelas">
 
 <div class="botoesParcelas">
 
-<button class="btnParcela" onclick="calcularParcela(1,this)">
-1x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(2,this)">
-2x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(3,this)">
-3x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(4,this)">
-4x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(5,this)">
-5x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(6,this)">
-6x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(7,this)">
-7x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(8,this)">
-8x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(9,this)">
-9x
-</button>
-
-<button class="btnParcela" onclick="calcularParcela(10,this)">
-10x
-</button>
+<button class="btnParcela" onclick="calcularParcela(1,this)">1x</button>
+<button class="btnParcela" onclick="calcularParcela(2,this)">2x</button>
+<button class="btnParcela" onclick="calcularParcela(3,this)">3x</button>
+<button class="btnParcela" onclick="calcularParcela(4,this)">4x</button>
+<button class="btnParcela" onclick="calcularParcela(5,this)">5x</button>
+<button class="btnParcela" onclick="calcularParcela(6,this)">6x</button>
+<button class="btnParcela" onclick="calcularParcela(7,this)">7x</button>
+<button class="btnParcela" onclick="calcularParcela(8,this)">8x</button>
+<button class="btnParcela" onclick="calcularParcela(9,this)">9x</button>
+<button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
 
 </div>
 
-
 <div class="resultadoParcela" id="resultadoParcela">
 
-<small>
-PARCELAMENTO
-</small>
+<small>PARCELAMENTO</small>
 
 <div class="valorParcela" id="valorParcela">
 10x de R$ 0,00
@@ -663,40 +868,73 @@ PARCELAMENTO
 
 </div>
 
+<button class="btnFinalizar" onclick="finalizarVenda()">
+    ✅ FINALIZAR VENDA
+</button>
 
 <button class="btnNova" onclick="novaVenda()">
     🔄 NOVA VENDA
 </button>
 
+</div>
 
+<div class="vendasDia">
+
+<button class="btnVendas" onclick="abrirVendas()">
+    📊 VENDAS DO DIA
+</button>
+
+<div class="painelVendas" id="painelVendas">
+
+<div class="resumo">
+
+<div class="resumoBox">
+<small>VENDAS</small>
+<strong id="qtdVendas">0</strong>
+</div>
+
+<div class="resumoBox">
+<small>TOTAL VENDIDO</small>
+<strong id="totalVendido">R$ 0,00</strong>
+</div>
+
+<div class="resumoBox">
+<small>DESCONTOS</small>
+<strong id="totalDescontos">R$ 0,00</strong>
+</div>
+
+<div class="resumoBox">
+<small>MÉDIA</small>
+<strong id="mediaVenda">R$ 0,00</strong>
 </div>
 
 </div>
 
+<div class="listaVendas" id="listaVendas">
+<div class="vazio">Nenhuma venda registrada hoje.</div>
+</div>
 
-<!-- MODAL DA CÂMERA -->
+<button class="btnLimparVendas" onclick="limparVendas()">
+🗑️ LIMPAR VENDAS DO DIA
+</button>
+
+</div>
+</div>
+
+</div>
 
 <div class="cameraModal" id="cameraModal">
 
 <div class="cameraBox">
 
 <div class="cameraTitulo">
-
-<h2>
-📷 Ler etiqueta
-</h2>
-
-<p>
-Aponte para o preço
-</p>
-
+<h2>📷 Ler etiqueta</h2>
+<p>Aponte para o preço</p>
 </div>
-
 
 <video id="video" autoplay playsinline></video>
 
 <canvas id="canvas"></canvas>
-
 
 <div class="cameraArea">
 
@@ -704,35 +942,27 @@ Aponte para o preço
 📸 CAPTURAR
 </button>
 
-
 <div class="status" id="status">
 Posicione o preço no centro.
 </div>
 
-
 <div class="resultadoLeitura" id="resultadoLeitura">
 
-<strong>
-PREÇO ENCONTRADO
-</strong>
-
+<strong>PREÇO ENCONTRADO</strong>
 
 <div class="precoDetectado" id="precoDetectado">
 R$ 0,00
 </div>
 
-
 <button class="btnUsar" onclick="usarPrecoDetectado()">
 ✓ ADICIONAR
 </button>
-
 
 <button class="btnTentar" onclick="tentarNovamente()">
 TENTAR NOVAMENTE
 </button>
 
 </div>
-
 
 <button class="btnFechar" onclick="fecharCamera()">
 FECHAR
@@ -741,794 +971,628 @@ FECHAR
 </div>
 
 </div>
-
 </div>
-
 
 <script>
 
-/* =========================
-   VARIÁVEIS
-========================= */
-
-let valores = [];
-
-let percentual = 0;
-
-let streamCamera = null;
-
-let precoLido = 0;
-
-
-/* =========================
-   DINHEIRO
-========================= */
+let valores=[];
+let percentual=0;
+let streamCamera=null;
+let precoLido=0;
+let fotoSelecionada="";
+let numeroParcelas=0;
 
 function dinheiro(valor){
-
 return valor.toLocaleString("pt-BR",{
-
 style:"currency",
-
 currency:"BRL"
-
 });
-
 }
 
+function abrirPerfil(){
+let area=document.getElementById("perfilOpcoes");
+area.style.display=area.style.display==="block"?"none":"block";
+}
 
-/* =========================
-   ADICIONAR
-========================= */
+function carregarFoto(event){
+let arquivo=event.target.files[0];
+
+if(!arquivo)return;
+
+let leitor=new FileReader();
+
+leitor.onload=function(e){
+fotoSelecionada=e.target.result;
+mostrarFoto(fotoSelecionada);
+};
+
+leitor.readAsDataURL(arquivo);
+}
+
+function mostrarFoto(src){
+document.getElementById("fotoArea").innerHTML=
+`<img src="${src}" class="logoPerfil" alt="Foto do vendedor">`;
+}
+
+function salvarPerfil(){
+
+let nome=document.getElementById("nomeInput").value.trim();
+
+if(nome){
+document.getElementById("nomeVendedor").innerText=nome;
+localStorage.setItem("nomeVendedor",nome);
+}
+
+if(fotoSelecionada){
+localStorage.setItem("fotoVendedor",fotoSelecionada);
+}
+
+document.getElementById("perfilOpcoes").style.display="none";
+}
 
 function adicionarValor(){
 
-let campo = document.getElementById("valor");
+let campo=document.getElementById("valor");
 
-let valor = Number(
+let valor=Number(
 String(campo.value).replace(",",".")
 );
 
-if(!valor || valor <= 0){
-
+if(!valor || valor<=0){
 campo.focus();
-
 return;
-
 }
 
 valores.push(valor);
 
-campo.value = "";
+campo.value="";
 
 atualizarLista();
-
 calcular();
 
 campo.focus();
-
 }
-
-
-/* =========================
-   LISTA
-========================= */
 
 function atualizarLista(){
 
-let lista = document.getElementById("lista");
+let lista=document.getElementById("lista");
 
-lista.innerHTML = "";
+lista.innerHTML="";
 
-if(valores.length === 0){
-
-lista.innerHTML =
-'<div class="vazio">Nenhum valor</div>';
-
+if(valores.length===0){
+lista.innerHTML='<div class="vazio">Nenhum valor</div>';
 return;
-
 }
-
 
 valores.forEach(function(valor,index){
 
-let item = document.createElement("div");
+let item=document.createElement("div");
 
-item.className = "item";
+item.className="item";
 
-item.innerHTML = `
-
-<span>
-${dinheiro(valor)}
-</span>
-
-<button
-class="btnExcluir"
-onclick="excluirValor(${index})">
-🗑️
-</button>
-
+item.innerHTML=`
+<span>${dinheiro(valor)}</span>
+<button class="btnExcluir" onclick="excluirValor(${index})">🗑️</button>
 `;
 
 lista.appendChild(item);
 
 });
-
 }
-
-
-/* =========================
-   EXCLUIR
-========================= */
 
 function excluirValor(index){
-
 valores.splice(index,1);
-
 atualizarLista();
-
 calcular();
-
 }
-
-
-/* =========================
-   DESCONTO
-========================= */
 
 function selecionarDesconto(valor,botao){
 
-percentual = valor;
+percentual=valor;
 
-document.querySelectorAll(".btnDesconto")
-.forEach(function(btn){
-
+document.querySelectorAll(".btnDesconto").forEach(function(btn){
 btn.classList.remove("ativo");
-
 });
 
 botao.classList.add("ativo");
 
-document.getElementById("campoOutro")
-.style.display = "none";
+document.getElementById("campoOutro").style.display="none";
 
 calcular();
-
 }
-
 
 function mostrarOutro(){
+document.getElementById("campoOutro").style.display="flex";
+document.getElementById("outroDesconto").focus();
 
-document.getElementById("campoOutro")
-.style.display = "flex";
-
-document.getElementById("outroDesconto")
-.focus();
-
-document.querySelectorAll(".btnDesconto")
-.forEach(function(btn){
-
+document.querySelectorAll(".btnDesconto").forEach(function(btn){
 btn.classList.remove("ativo");
-
 });
-
 }
-
 
 function aplicarOutro(){
 
-let valor = Number(
+let valor=Number(
 document.getElementById("outroDesconto").value
 );
 
-if(valor < 0 || valor > 100){
-
-alert(
-"Digite um desconto entre 0% e 100%."
-);
-
+if(valor<0 || valor>100){
+alert("Digite um desconto entre 0% e 100%.");
 return;
-
 }
 
-percentual = valor;
+percentual=valor;
 
 calcular();
-
 }
-
-
-/* =========================
-   CALCULAR
-========================= */
 
 function calcular(){
 
-let total = valores.reduce(
-function(soma,valor){
-
-return soma + valor;
-
+let total=valores.reduce(function(soma,valor){
+return soma+valor;
 },0);
 
+let desconto=total*(percentual/100);
 
-let desconto =
-total * (percentual / 100);
+let final=total-desconto;
 
+document.getElementById("totalOriginal").innerText=
+"TOTAL: "+dinheiro(total);
 
-let final =
-total - desconto;
+document.getElementById("descontoValor").innerText=
+percentual+"% — "+dinheiro(desconto);
 
-
-document.getElementById("totalOriginal")
-.innerText =
-"TOTAL: " + dinheiro(total);
-
-
-document.getElementById("descontoValor")
-.innerText =
-percentual + "% — " +
-dinheiro(desconto);
-
-
-document.getElementById("preco")
-.innerText =
+document.getElementById("preco").innerText=
 dinheiro(final);
 
+document.getElementById("economia").innerText=
+"Economia "+dinheiro(desconto);
 
-document.getElementById("economia")
-.innerText =
-"Economia " + dinheiro(desconto);
-
-
-document.getElementById("tituloDesconto")
-.innerText =
-percentual > 0
-? "🔥 " + percentual + "% DE DESCONTO"
-: "🧮 VENDA";
-
+document.getElementById("tituloDesconto").innerText=
+percentual>0
+?"🔥 "+percentual+"% DE DESCONTO"
+:"🛍️ VENDA";
 }
-
-
-/* =========================
-   CREDIÁRIO
-========================= */
 
 function abrirCrediario(){
 
-let parcelas =
-document.getElementById("parcelas");
+let parcelas=document.getElementById("parcelas");
 
-
-if(parcelas.style.display === "block"){
-
-parcelas.style.display = "none";
-
-}else{
-
-parcelas.style.display = "block";
-
+parcelas.style.display=
+parcelas.style.display==="block"
+?"none"
+:"block";
 }
-
-}
-
-
-/* =========================
-   CALCULAR PARCELA
-========================= */
 
 function calcularParcela(numero,botao){
 
-let total = valores.reduce(
-function(soma,valor){
-
-return soma + valor;
-
+let total=valores.reduce(function(soma,valor){
+return soma+valor;
 },0);
 
+let desconto=total*(percentual/100);
+let final=total-desconto;
 
-let desconto =
-total * (percentual / 100);
-
-
-let final =
-total - desconto;
-
-
-if(final <= 0){
-
-alert(
-"Adicione pelo menos um produto."
-);
-
+if(final<=0){
+alert("Adicione pelo menos um produto.");
 return;
-
 }
 
+numeroParcelas=numero;
 
-document.querySelectorAll(".btnParcela")
-.forEach(function(btn){
-
+document.querySelectorAll(".btnParcela").forEach(function(btn){
 btn.classList.remove("ativo");
-
 });
-
 
 botao.classList.add("ativo");
 
+let parcela=final/numero;
 
-let parcela =
-final / numero;
+document.getElementById("valorParcela").innerText=
+numero+"x de "+dinheiro(parcela);
 
-
-document.getElementById("valorParcela")
-.innerText =
-numero + "x de " +
-dinheiro(parcela);
-
-
-document.getElementById("resultadoParcela")
-.style.display = "block";
-
+document.getElementById("resultadoParcela").style.display="block";
 }
 
+function finalizarVenda(){
 
-/* =========================
-   NOVA VENDA
-========================= */
+if(valores.length===0){
+alert("Adicione pelo menos um produto.");
+return;
+}
+
+let total=valores.reduce(function(soma,valor){
+return soma+valor;
+},0);
+
+let desconto=total*(percentual/100);
+let final=total-desconto;
+
+let hora=new Date().toLocaleTimeString("pt-BR",{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+let venda={
+hora:hora,
+total:total,
+desconto:desconto,
+final:final,
+percentual:percentual,
+parcelas:numeroParcelas
+};
+
+let vendas=JSON.parse(
+localStorage.getItem("vendasDoDia")||"[]"
+);
+
+vendas.push(venda);
+
+localStorage.setItem(
+"vendasDoDia",
+JSON.stringify(vendas)
+);
+
+atualizarVendas();
+
+alert("✅ Venda salva com sucesso!");
+}
+
+function abrirVendas(){
+
+let painel=document.getElementById("painelVendas");
+
+painel.style.display=
+painel.style.display==="block"
+?"none"
+:"block";
+
+atualizarVendas();
+}
+
+function atualizarVendas(){
+
+let vendas=JSON.parse(
+localStorage.getItem("vendasDoDia")||"[]"
+);
+
+let totalVendido=0;
+let totalDescontos=0;
+
+vendas.forEach(function(venda){
+totalVendido+=venda.final;
+totalDescontos+=venda.desconto;
+});
+
+let media=vendas.length
+?totalVendido/vendas.length
+:0;
+
+document.getElementById("qtdVendas").innerText=vendas.length;
+document.getElementById("totalVendido").innerText=dinheiro(totalVendido);
+document.getElementById("totalDescontos").innerText=dinheiro(totalDescontos);
+document.getElementById("mediaVenda").innerText=dinheiro(media);
+
+let lista=document.getElementById("listaVendas");
+
+lista.innerHTML="";
+
+if(vendas.length===0){
+lista.innerHTML='<div class="vazio">Nenhuma venda registrada hoje.</div>';
+return;
+}
+
+vendas.slice().reverse().forEach(function(venda){
+
+let item=document.createElement("div");
+
+item.className="venda";
+
+let parcelamento=venda.parcelas>0
+?" • "+venda.parcelas+"x"
+:" • À vista";
+
+item.innerHTML=`
+<div class="vendaTopo">
+<span>Venda ${venda.hora}</span>
+<strong>${dinheiro(venda.final)}</strong>
+</div>
+
+<div class="vendaDetalhe">
+Total: ${dinheiro(venda.total)}
+<br>
+Desconto: ${venda.percentual}% — ${dinheiro(venda.desconto)}
+${parcelamento}
+</div>
+`;
+
+lista.appendChild(item);
+});
+}
+
+function limparVendas(){
+
+let vendas=JSON.parse(
+localStorage.getItem("vendasDoDia")||"[]"
+);
+
+if(vendas.length===0)return;
+
+let confirmar=confirm(
+"Tem certeza que deseja apagar todas as vendas do dia?"
+);
+
+if(!confirmar)return;
+
+localStorage.removeItem("vendasDoDia");
+
+atualizarVendas();
+}
 
 function novaVenda(){
 
-valores = [];
+valores=[];
+percentual=0;
+precoLido=0;
+numeroParcelas=0;
 
-percentual = 0;
+document.getElementById("valor").value="";
+document.getElementById("outroDesconto").value="";
 
-precoLido = 0;
+document.getElementById("campoOutro").style.display="none";
+document.getElementById("parcelas").style.display="none";
+document.getElementById("resultadoParcela").style.display="none";
 
-
-document.getElementById("valor").value = "";
-
-document.getElementById("outroDesconto").value = "";
-
-
-document.getElementById("campoOutro")
-.style.display = "none";
-
-
-document.getElementById("parcelas")
-.style.display = "none";
-
-
-document.getElementById("resultadoParcela")
-.style.display = "none";
-
-
-document.querySelectorAll(".btnDesconto")
-.forEach(function(btn){
-
+document.querySelectorAll(".btnDesconto").forEach(function(btn){
 btn.classList.remove("ativo");
-
 });
 
-
-document.querySelectorAll(".btnParcela")
-.forEach(function(btn){
-
+document.querySelectorAll(".btnParcela").forEach(function(btn){
 btn.classList.remove("ativo");
-
 });
-
 
 atualizarLista();
-
 calcular();
 
 document.getElementById("valor").focus();
-
 }
 
-
-/* =========================
-   CÂMERA
-========================= */
+/* LEITOR */
 
 async function abrirCamera(){
 
-let modal =
-document.getElementById("cameraModal");
+let modal=document.getElementById("cameraModal");
+let video=document.getElementById("video");
+let status=document.getElementById("status");
 
-let video =
-document.getElementById("video");
+document.getElementById("resultadoLeitura").style.display="none";
 
-let status =
-document.getElementById("status");
-
-
-document.getElementById("resultadoLeitura")
-.style.display = "none";
-
-
-modal.style.display = "block";
-
+modal.style.display="block";
 
 try{
 
-streamCamera =
-await navigator.mediaDevices.getUserMedia({
-
+streamCamera=await navigator.mediaDevices.getUserMedia({
 video:{
-facingMode:{
-ideal:"environment"
-}
+facingMode:{ideal:"environment"}
 },
-
 audio:false
-
 });
 
-
-video.srcObject =
-streamCamera;
-
+video.srcObject=streamCamera;
 
 }catch(error){
 
-status.innerText =
-"Não foi possível abrir a câmera.";
+status.innerText="Não foi possível abrir a câmera.";
 
-alert(
-"Permita o acesso à câmera."
-);
-
+alert("Permita o acesso à câmera.");
 }
-
 }
-
-
-/* =========================
-   CAPTURAR ETIQUETA
-========================= */
 
 async function capturarEtiqueta(){
 
-let video =
-document.getElementById("video");
-
-let canvas =
-document.getElementById("canvas");
-
-let status =
-document.getElementById("status");
-
+let video=document.getElementById("video");
+let canvas=document.getElementById("canvas");
+let status=document.getElementById("status");
 
 if(!video.videoWidth){
 
-status.innerText =
-"A câmera ainda não está pronta.";
-
+status.innerText="A câmera ainda não está pronta.";
 return;
-
 }
 
+status.innerText="🔎 Lendo preço...";
 
-status.innerText =
-"🔎 Lendo preço...";
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
 
-
-canvas.width =
-video.videoWidth;
-
-canvas.height =
-video.videoHeight;
-
-
-let contexto =
-canvas.getContext("2d");
-
+let contexto=canvas.getContext("2d");
 
 contexto.drawImage(
-
 video,
-
 0,
-
 0,
-
 canvas.width,
-
 canvas.height
-
 );
-
 
 try{
 
-const {data} =
-await Tesseract.recognize(
-
+const {data}=await Tesseract.recognize(
 canvas,
-
 "por",
-
 {
-
 logger:function(info){
 
-if(
-info.status ===
-"recognizing text"
-){
+if(info.status==="recognizing text"){
 
-status.innerText =
-"🔎 Lendo... " +
-Math.round(
-info.progress * 100
-) +
+status.innerText=
+"🔎 Lendo... "+
+Math.round(info.progress*100)+
 "%";
-
 }
-
 }
-
 }
-
 );
 
-
-let preco =
-encontrarPreco(data.text);
-
+let preco=encontrarPreco(data.text);
 
 if(preco){
 
-precoLido = preco;
+precoLido=preco;
 
-
-document.getElementById(
-"precoDetectado"
-).innerText =
+document.getElementById("precoDetectado").innerText=
 dinheiro(preco);
 
+document.getElementById("resultadoLeitura").style.display="block";
 
-document.getElementById(
-"resultadoLeitura"
-).style.display =
-"block";
-
-
-status.innerText =
-"Preço encontrado.";
+status.innerText="Preço encontrado.";
 
 }else{
 
-status.innerText =
+status.innerText=
 "Não encontrei o preço. Tente novamente.";
-
 }
-
 
 }catch(error){
 
 console.error(error);
 
-status.innerText =
+status.innerText=
 "Erro ao ler. Tente novamente.";
-
 }
-
 }
-
-
-/* =========================
-   ENCONTRAR PREÇO
-========================= */
 
 function encontrarPreco(texto){
 
-let encontrados = [];
+let encontrados=[];
 
-
-let padrao =
+let padrao=
 /R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
-
 
 let resultado;
 
+while((resultado=padrao.exec(texto))!==null){
 
-while(
-(resultado = padrao.exec(texto))
-!== null
-){
-
-let numero =
-resultado[1]
+let numero=resultado[1]
 .replace(/\s/g,"")
 .replace(/\./g,"")
 .replace(",", ".");
 
+let valor=Number(numero);
 
-let valor =
-Number(numero);
-
-
-if(
-valor > 0 &&
-valor < 100000
-){
-
+if(valor>0 && valor<100000){
 encontrados.push(valor);
-
+}
 }
 
-}
+if(encontrados.length===0){
 
-
-if(encontrados.length === 0){
-
-let lista =
-texto.match(
+let lista=texto.match(
 /\b\d{1,5}[,.]\d{2}\b/g
 );
-
 
 if(lista){
 
 lista.forEach(function(item){
 
-let valor =
-Number(
+let valor=Number(
 item.replace(",",".")
 );
 
-
-if(
-valor > 0 &&
-valor < 100000
-){
-
+if(valor>0 && valor<100000){
 encontrados.push(valor);
-
 }
 
 });
-
 }
-
 }
-
 
 return encontrados.length
-? encontrados[0]
-: null;
-
+?encontrados[0]
+:null;
 }
-
-
-/* =========================
-   USAR PREÇO
-========================= */
 
 function usarPrecoDetectado(){
 
-if(!precoLido){
-
-return;
-
-}
-
+if(!precoLido)return;
 
 valores.push(precoLido);
 
 atualizarLista();
-
 calcular();
 
+precoLido=0;
 
-precoLido = 0;
+document.getElementById("resultadoLeitura").style.display="none";
 
-
-document.getElementById(
-"resultadoLeitura"
-).style.display =
-"none";
-
-
-document.getElementById(
-"status"
-).innerText =
+document.getElementById("status").innerText=
 "✅ Adicionado. Pode ler outra etiqueta.";
-
 }
-
-
-/* =========================
-   TENTAR NOVAMENTE
-========================= */
 
 function tentarNovamente(){
 
-document.getElementById(
-"resultadoLeitura"
-).style.display =
-"none";
+document.getElementById("resultadoLeitura").style.display="none";
 
-
-document.getElementById(
-"status"
-).innerText =
+document.getElementById("status").innerText=
 "Posicione o preço no centro.";
-
 }
-
-
-/* =========================
-   FECHAR CÂMERA
-========================= */
 
 function fecharCamera(){
 
 if(streamCamera){
 
-streamCamera
-.getTracks()
-.forEach(function(track){
-
+streamCamera.getTracks().forEach(function(track){
 track.stop();
-
 });
 
-streamCamera = null;
-
+streamCamera=null;
 }
 
+document.getElementById("video").srcObject=null;
 
-document.getElementById(
-"video"
-).srcObject = null;
-
-
-document.getElementById(
-"cameraModal"
-).style.display =
-"none";
-
+document.getElementById("cameraModal").style.display="none";
 }
 
+function carregarPerfil(){
 
-/* =========================
-   ENTER
-========================= */
+let nome=localStorage.getItem("nomeVendedor");
+let foto=localStorage.getItem("fotoVendedor");
 
-document.getElementById("valor")
-.addEventListener(
+if(nome){
+
+document.getElementById("nomeVendedor").innerText=nome;
+document.getElementById("nomeInput").value=nome;
+}
+
+if(foto){
+
+mostrarFoto(foto);
+fotoSelecionada=foto;
+}
+}
+
+document.getElementById("valor").addEventListener(
 "keydown",
 function(event){
 
-if(event.key === "Enter"){
-
+if(event.key==="Enter"){
 adicionarValor();
-
 }
 
 });
 
-
-document.getElementById("outroDesconto")
-.addEventListener(
+document.getElementById("outroDesconto").addEventListener(
 "keydown",
 function(event){
 
-if(event.key === "Enter"){
-
+if(event.key==="Enter"){
 aplicarOutro();
-
 }
 
 });
 
-
-/* INICIALIZA */
-
+carregarPerfil();
+atualizarVendas();
 calcular();
 
 </script>
