@@ -2,27 +2,17 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Calcula Fácil HP</title>
 
-<!-- ============================= -->
 <!-- ÍCONE DO APLICATIVO -->
-<!-- ============================= -->
-
 <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
 <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
-
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="apple-touch-icon" sizes="192x192" href="logo.png">
-<link rel="apple-touch-icon" sizes="512x512" href="logo.png">
-
 <link rel="manifest" href="manifest.json">
 
-<meta name="theme-color" content="#080f18">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#101923">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Calcula Fácil HP">
@@ -37,32 +27,42 @@
 }
 
 :root{
-    --bg:#05090e;
-    --bg2:#080f18;
-    --panel:#0c1622;
-    --panel2:#111f2d;
-    --panel3:#172738;
+    --bg:#091019;
+    --bg2:#111c28;
+    --panel:#182534;
+    --panel2:#202f40;
+    --panel3:#26384b;
+    --line:#354b60;
+    --line2:#405a70;
 
-    --blue:#168cff;
-    --blue2:#0068c9;
-    --blueGlow:rgba(0,140,255,.35);
+    --gold:#d6a83a;
+    --gold2:#f4cf68;
+    --gold3:#8d691b;
 
-    --gold:#f5bd38;
-    --gold2:#ffda69;
-    --goldGlow:rgba(245,189,56,.35);
+    --blue:#4f7da7;
+    --blue2:#6f9bc2;
 
-    --green:#31e26c;
-    --red:#ff3b3b;
-    --purple:#9b5cff;
+    --white:#f5f8fb;
+    --text:#e8eef4;
+    --muted:#8fa1b2;
 
-    --text:#f2f6fa;
-    --muted:#8d9aaa;
+    --green:#28b56b;
+    --red:#d94a52;
 
-    --border:rgba(100,150,200,.25);
+    --shadow:
+        10px 10px 22px rgba(0,0,0,.48),
+        -6px -6px 14px rgba(255,255,255,.035);
+
+    --shadowSmall:
+        5px 5px 12px rgba(0,0,0,.45),
+        -3px -3px 8px rgba(255,255,255,.035);
+
+    --inner:
+        inset 2px 2px 4px rgba(255,255,255,.04),
+        inset -3px -3px 7px rgba(0,0,0,.35);
 }
 
 html{
-    min-height:100%;
     background:var(--bg);
 }
 
@@ -70,9 +70,8 @@ body{
     margin:0;
     min-height:100vh;
     background:
-        radial-gradient(circle at 50% -10%,rgba(0,110,210,.22),transparent 35%),
-        radial-gradient(circle at 0% 50%,rgba(20,70,120,.12),transparent 35%),
-        linear-gradient(180deg,#05090e,#080d14 55%,#03060a);
+        radial-gradient(circle at 50% -10%,rgba(78,125,167,.20),transparent 35%),
+        linear-gradient(180deg,#080e15 0%,#0c141d 45%,#091019 100%);
     color:var(--text);
     font-family:
         -apple-system,
@@ -92,221 +91,189 @@ button{
     cursor:pointer;
 }
 
-/* =====================================
-   APP
-===================================== */
-
 .app{
     width:100%;
-    max-width:520px;
+    max-width:480px;
     margin:auto;
-    padding:8px;
+    padding:12px;
 }
 
-/* =====================================
-   CABEÇALHO
-===================================== */
+/* =========================
+   CABEÇALHO PREMIUM
+========================= */
 
 .header{
     position:relative;
     overflow:hidden;
 
-    padding:20px 14px 18px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(214,168,58,.12),transparent 42%),
+        linear-gradient(145deg,#111c27,#0a1119);
+
+    border:1px solid var(--line);
+    border-radius:24px 24px 10px 10px;
+
+    padding:22px 14px 18px;
 
     text-align:center;
 
+    box-shadow:var(--shadow);
+}
+
+.header:before{
+    content:"";
+    position:absolute;
+    inset:0;
+
     background:
-        radial-gradient(circle at 50% 20%,rgba(0,120,230,.17),transparent 45%),
-        linear-gradient(145deg,#0a111a,#050a10);
+        linear-gradient(
+            120deg,
+            transparent 20%,
+            rgba(255,255,255,.035) 45%,
+            transparent 65%
+        );
 
-    border:1px solid rgba(92,150,210,.3);
-    border-radius:20px;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.07),
-        inset 0 -15px 35px rgba(0,0,0,.35),
-        0 8px 30px rgba(0,0,0,.45);
+    pointer-events:none;
 }
 
 .header:after{
     content:"";
     position:absolute;
-    left:15%;
-    right:15%;
+    left:10%;
+    right:10%;
     bottom:0;
     height:2px;
 
     background:linear-gradient(
         90deg,
         transparent,
-        var(--blue),
         var(--gold),
-        var(--blue),
+        var(--gold2),
+        var(--gold),
         transparent
     );
 
-    box-shadow:0 0 12px var(--blue);
+    box-shadow:0 0 12px rgba(214,168,58,.55);
 }
 
-.logoTopo{
+.logoPerfil{
     width:82px;
     height:82px;
 
-    display:block;
-    margin:0 auto 9px;
+    border-radius:22px;
 
     object-fit:cover;
 
-    border-radius:20px;
+    display:block;
+    margin:0 auto 10px;
 
     border:2px solid var(--gold);
 
+    background:#05080c;
+
     box-shadow:
-        0 0 0 2px rgba(0,0,0,.5),
-        0 0 20px var(--goldGlow),
-        inset 0 0 20px rgba(255,255,255,.08);
+        0 0 0 5px rgba(214,168,58,.06),
+        0 8px 20px rgba(0,0,0,.5);
+}
+
+.logoPadrao{
+    display:flex;
+
+    width:82px;
+    height:82px;
+
+    margin:0 auto 10px;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(145deg,#26394d,#111b27);
+
+    color:var(--gold2);
+
+    font-size:36px;
+
+    border:1px solid var(--line2);
+
+    box-shadow:
+        var(--shadowSmall),
+        var(--inner);
 }
 
 .header h1{
+    position:relative;
     margin:0;
 
-    font-size:22px;
-    font-weight:700;
-    letter-spacing:.2px;
-}
+    color:#f3f6fa;
 
-.header .subtitulo{
-    margin-top:5px;
-
-    font-size:12px;
-    color:var(--muted);
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.3px;
 }
 
 .nomeVendedor{
-    margin-top:8px;
-
-    font-size:13px;
-    font-weight:700;
+    margin:7px 0 0;
 
     color:var(--gold2);
+
+    font-size:14px;
+    font-weight:700;
 }
 
-/* =====================================
-   BOTÕES TECNOLÓGICOS
-===================================== */
+.header p{
+    margin:5px 0 0;
 
-.btnTech{
-    position:relative;
+    color:var(--muted);
 
-    border:1px solid rgba(100,160,220,.35);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(38,63,87,.95),
-            rgba(14,28,42,.98)
-        );
-
-    color:#eef6ff;
-
-    border-radius:11px;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        inset 0 -4px 8px rgba(0,0,0,.25),
-        0 4px 0 #050b11,
-        0 6px 16px rgba(0,0,0,.35);
-
-    transition:.12s;
+    font-size:12px;
 }
 
-.btnTech:active{
-    transform:translateY(3px);
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 1px 0 #050b11,
-        0 3px 8px rgba(0,0,0,.4);
-}
-
-.btnGold{
-    background:
-        linear-gradient(
-            180deg,
-            #ffd866,
-            #d99b1c
-        );
-
-    color:#111;
-
-    border:1px solid #ffe28a;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.5),
-        inset 0 -5px 9px rgba(110,60,0,.2),
-        0 4px 0 #76520c,
-        0 6px 18px rgba(245,189,56,.2);
-}
-
-.btnBlue{
-    background:
-        linear-gradient(
-            180deg,
-            #168eff,
-            #0757a5
-        );
-
-    border:1px solid #4eafff;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.18),
-        inset 0 -5px 9px rgba(0,0,0,.2),
-        0 4px 0 #043866,
-        0 5px 18px var(--blueGlow);
-}
-
-.btnRed{
-    background:
-        linear-gradient(
-            180deg,
-            #ff5252,
-            #a70000
-        );
-
-    border:1px solid #ff8585;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.15),
-        0 4px 0 #600000,
-        0 5px 15px rgba(255,0,0,.18);
-}
-
-/* =====================================
+/* =========================
    PERFIL
-===================================== */
+========================= */
 
 .perfil{
     margin-top:8px;
-
     padding:10px;
 
     background:
-        linear-gradient(145deg,#111f2d,#09131e);
+        linear-gradient(145deg,#172433,#101923);
 
-    border:1px solid var(--border);
-    border-radius:15px;
+    border:1px solid var(--line);
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.05),
-        0 5px 18px rgba(0,0,0,.35);
+    border-radius:12px;
+
+    box-shadow:var(--shadowSmall);
 }
 
 .btnPerfil{
     width:100%;
-    height:48px;
+    height:43px;
 
-    font-size:14px;
+    border:1px solid #46617a;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#293d52,#172534);
+
+    color:#dce7f0;
+
     font-weight:700;
+
+    box-shadow:
+        5px 5px 10px rgba(0,0,0,.4),
+        -3px -3px 7px rgba(255,255,255,.035),
+        inset 1px 1px 2px rgba(255,255,255,.05);
+
+    transition:.15s;
+}
+
+.btnPerfil:active{
+    transform:translateY(2px);
+    box-shadow:inset 3px 3px 7px rgba(0,0,0,.4);
 }
 
 .perfilOpcoes{
@@ -314,188 +281,256 @@ button{
     margin-top:9px;
 }
 
-.perfilOpcoes input{
+.perfilOpcoes input[type="text"]{
     width:100%;
-    height:44px;
+    height:43px;
+
+    border:1px solid var(--line2);
+    border-radius:10px;
+
+    background:#0e1822;
+    color:white;
 
     padding:0 12px;
 
-    color:white;
-
-    background:#07101a;
-
-    border:1px solid #2c5d88;
-    border-radius:10px;
-
+    font-size:15px;
     outline:none;
+}
+
+.perfilOpcoes input[type="text"]:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(214,168,58,.08);
 }
 
 .btnFoto,
 .btnSalvarPerfil{
     width:100%;
     height:43px;
+
     margin-top:7px;
 
-    border-radius:9px;
+    border-radius:10px;
+
     font-weight:700;
 }
 
 .btnFoto{
-    background:#172a3d;
-    color:#6bbcff;
-    border:1px solid #245d8f;
+    background:
+        linear-gradient(145deg,#38536d,#24394d);
+
+    border:1px solid #4c6982;
+
+    color:white;
+
+    box-shadow:var(--shadowSmall);
 }
 
 .btnSalvarPerfil{
-    background:linear-gradient(180deg,#ffd85b,#bd8010);
+    background:
+        linear-gradient(145deg,#e4b94d,#a87819);
+
+    border:1px solid #f0ca63;
+
     color:#111;
-    border:1px solid #ffe68b;
+
+    box-shadow:
+        5px 5px 10px rgba(0,0,0,.4),
+        inset 1px 1px 2px rgba(255,255,255,.3);
 }
 
 #fotoInput{
     display:none;
 }
 
-/* =====================================
+/* =========================
    CARD PRINCIPAL
-===================================== */
+========================= */
 
 .card{
     margin-top:8px;
 
+    background:
+        linear-gradient(145deg,#1b2a39,#111c27);
+
+    border:1px solid var(--line);
+
+    border-radius:14px;
+
     overflow:hidden;
 
-    background:
-        linear-gradient(145deg,#0b1520,#07101a);
-
-    border:1px solid rgba(88,140,190,.25);
-    border-radius:17px;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.05),
-        0 8px 30px rgba(0,0,0,.35);
+    box-shadow:var(--shadow);
 }
 
-/* =====================================
-   SEÇÕES
-===================================== */
+.promo{
+    background:
+        linear-gradient(
+            135deg,
+            #263c51,
+            #172636
+        );
 
-.secao{
+    color:#f1f5f8;
+
+    text-align:center;
+
+    font-size:17px;
+    font-weight:800;
+
+    letter-spacing:.4px;
+
     padding:14px;
 
-    border-bottom:1px solid rgba(100,150,200,.13);
+    border-bottom:1px solid var(--line2);
+
+    box-shadow:
+        inset 0 -2px 5px rgba(0,0,0,.25),
+        0 2px 8px rgba(0,0,0,.2);
 }
 
-.labelTech{
+.area{
+    padding:16px;
+}
+
+label{
     display:block;
+
+    color:#aebdcc;
 
     margin-bottom:7px;
 
-    color:#75b9f5;
+    font-size:12px;
+    font-weight:800;
 
-    font-size:11px;
-    font-weight:700;
     letter-spacing:.7px;
 }
 
-/* =====================================
-   INPUT VALOR
-===================================== */
+/* =========================
+   INPUT
+========================= */
 
-.inputValor{
+.input{
+    height:57px;
+
     display:flex;
     align-items:center;
-
-    height:58px;
 
     padding:0 13px;
 
     background:
-        linear-gradient(145deg,#182a3b,#0b1723);
+        linear-gradient(145deg,#0c151e,#172331);
 
-    border:1px solid #276ca5;
-    border-radius:12px;
+    border:1px solid #41586d;
+
+    border-radius:13px;
 
     box-shadow:
-        inset 0 2px 8px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.05),
-        0 0 15px rgba(0,130,255,.08);
+        inset 4px 4px 8px rgba(0,0,0,.42),
+        inset -2px -2px 5px rgba(255,255,255,.025);
+
+    transition:.2s;
 }
 
-.simbolo{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.input:focus-within{
+    border-color:var(--gold);
 
-    width:32px;
-    height:32px;
+    box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,.42),
+        0 0 0 3px rgba(214,168,58,.07);
+}
 
+.input b{
+    font-size:18px;
     margin-right:8px;
 
-    border-radius:9px;
-
-    color:var(--gold);
-
-    border:1px solid rgba(245,189,56,.45);
-
-    background:#101b27;
-
-    font-size:13px;
-    font-weight:bold;
+    color:var(--gold2);
 }
 
-.inputValor input{
-    width:100%;
-
+.input input{
     border:0;
     outline:0;
 
-    color:white;
+    width:100%;
+
     background:transparent;
+    color:#f4f7fa;
 
-    font-size:26px;
-    font-weight:700;
+    font-size:25px;
+    font-weight:800;
 }
 
-.inputValor input::placeholder{
-    color:#647386;
+.input input::placeholder{
+    color:#627487;
 }
 
-/* =====================================
-   AÇÕES
-===================================== */
-
-.acoes{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-
-    margin-top:9px;
+input[type=number]{
+    -moz-appearance:textfield;
 }
 
-.btnAcao{
-    height:49px;
-
-    font-size:13px;
-    font-weight:700;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance:none;
 }
 
-/* =====================================
-   LISTA DE ITENS
-===================================== */
+/* =========================
+   BOTÕES PREMIUM
+========================= */
+
+.btnCamera,
+.btnAdicionar{
+    width:100%;
+    height:50px;
+
+    margin-top:10px;
+
+    border-radius:12px;
+
+    font-size:15px;
+    font-weight:800;
+
+    transition:.13s;
+}
+
+.btnCamera{
+    background:
+        linear-gradient(145deg,#395772,#22384d);
+
+    border:1px solid #52718d;
+
+    color:#f2f6f9;
+
+    box-shadow:
+        7px 7px 13px rgba(0,0,0,.42),
+        -3px -3px 8px rgba(255,255,255,.035),
+        inset 1px 1px 2px rgba(255,255,255,.08);
+}
+
+.btnAdicionar{
+    background:
+        linear-gradient(145deg,#dcb24d,#966b1a);
+
+    border:1px solid #f1cc66;
+
+    color:#111;
+
+    box-shadow:
+        7px 7px 13px rgba(0,0,0,.42),
+        inset 1px 1px 3px rgba(255,255,255,.3);
+}
+
+.btnCamera:active,
+.btnAdicionar:active,
+button:active{
+    transform:translateY(2px) scale(.985);
+    box-shadow:
+        inset 3px 3px 7px rgba(0,0,0,.38);
+}
+
+/* =========================
+   LISTA
+========================= */
 
 .lista{
-    margin-top:10px;
-}
-
-.vazio{
-    padding:12px;
-
-    text-align:center;
-
-    color:#667688;
-
-    font-size:12px;
+    margin-top:14px;
 }
 
 .item{
@@ -503,70 +538,47 @@ button{
     align-items:center;
     justify-content:space-between;
 
-    min-height:48px;
-
-    margin-bottom:6px;
-    padding:7px 9px;
+    padding:10px 11px;
+    margin-bottom:7px;
 
     background:
-        linear-gradient(145deg,#172838,#0c1824);
+        linear-gradient(145deg,#243648,#192938);
 
-    border:1px solid rgba(87,137,184,.24);
-    border-radius:9px;
+    border:1px solid #3b5267;
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 3px 7px rgba(0,0,0,.25);
-}
+    border-radius:11px;
 
-.itemInfo{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.itemIcon{
-    width:28px;
-    height:28px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:8px;
-
-    color:#d7c075;
-    background:#111b25;
-    border:1px solid #4b4b43;
+    box-shadow:var(--shadowSmall);
 }
 
 .item span{
-    font-size:14px;
-    font-weight:600;
-}
-
-.itemValor{
-    margin-left:auto;
-    margin-right:8px;
-
-    color:#dce9f5;
-    font-weight:700;
+    color:#e8eef4;
+    font-size:17px;
+    font-weight:800;
 }
 
 .btnExcluir{
-    width:30px;
-    height:30px;
+    width:35px;
+    height:35px;
 
-    border:1px solid rgba(255,80,80,.35);
-    border-radius:7px;
+    border:1px solid #91343a;
+    border-radius:9px;
 
-    background:#2a1115;
-    color:#ff5757;
+    background:
+        linear-gradient(145deg,#df5961,#9f3037);
+
+    color:white;
+
+    box-shadow:3px 3px 7px rgba(0,0,0,.4);
 }
 
-/* =====================================
+/* =========================
    DESCONTO
-===================================== */
+========================= */
+
+.descontos{
+    margin-top:18px;
+}
 
 .botoesDesconto{
     display:grid;
@@ -575,181 +587,165 @@ button{
 }
 
 .btnDesconto{
-    height:43px;
+    height:40px;
 
-    color:#e7eef5;
+    border:1px solid #435a70;
 
     background:
-        linear-gradient(145deg,#1d3042,#0e1a27);
+        linear-gradient(145deg,#293c4e,#1b2b3b);
 
-    border:1px solid #334d67;
+    color:#dbe4eb;
+
     border-radius:9px;
 
+    font-weight:800;
     font-size:13px;
-    font-weight:700;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.06),
-        0 3px 5px rgba(0,0,0,.3);
+        4px 4px 8px rgba(0,0,0,.35),
+        inset 1px 1px 2px rgba(255,255,255,.04);
 }
 
 .btnDesconto.ativo{
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
+
+    border-color:#ed6970;
+
     color:white;
 
-    border-color:#ffd34f;
-
-    background:
-        linear-gradient(145deg,#6d5216,#29200b);
-
     box-shadow:
-        0 0 12px rgba(255,193,45,.25),
-        inset 0 1px 0 rgba(255,255,255,.12);
+        4px 4px 8px rgba(0,0,0,.4),
+        inset 1px 1px 2px rgba(255,255,255,.12);
 }
 
 .outro{
     display:flex;
     gap:7px;
-
     margin-top:8px;
 }
 
 .outro input{
+    height:42px;
     flex:1;
 
-    height:42px;
-
-    padding:0 10px;
-
-    color:white;
-    background:#09131d;
-
-    border:1px solid #31516d;
+    border:1px solid var(--line2);
     border-radius:9px;
 
-    outline:none;
+    padding:0 9px;
+
+    background:#0d1721;
+    color:white;
+
+    font-size:17px;
 }
 
 .btnAplicar{
-    width:90px;
-
+    border:1px solid #e3bd59;
     border-radius:9px;
-    border:1px solid #ffe28a;
-
-    background:linear-gradient(180deg,#ffd95d,#a96e08);
-    color:#111;
-
-    font-weight:800;
-}
-
-/* =====================================
-   RESULTADO
-===================================== */
-
-.result{
-    margin:0 14px 14px;
-    padding:15px;
 
     background:
-        radial-gradient(circle at 50% 100%,rgba(0,120,255,.13),transparent 60%),
-        linear-gradient(145deg,#101f2d,#07111c);
+        linear-gradient(145deg,#e3bd59,#a5761d);
 
-    border:1px solid rgba(61,111,155,.35);
-    border-radius:13px;
+    color:#111;
+
+    padding:0 15px;
+
+    font-weight:800;
+
+    box-shadow:var(--shadowSmall);
+}
+
+/* =========================
+   RESULTADO
+========================= */
+
+.result{
+    background:
+        radial-gradient(circle at 50% 0%,rgba(214,168,58,.10),transparent 45%),
+        linear-gradient(145deg,#0b131c,#172331);
+
+    color:white;
+
+    text-align:center;
+
+    padding:21px 10px;
+
+    border-top:1px solid var(--gold3);
+    border-bottom:1px solid var(--gold3);
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.05),
-        0 5px 15px rgba(0,0,0,.3);
+        inset 0 4px 15px rgba(0,0,0,.25);
 }
 
-.resultLinha{
-    display:flex;
-    justify-content:space-between;
-
-    padding:5px 0;
-
-    font-size:12px;
+.totalOriginal{
+    font-size:14px;
+    font-weight:700;
+    color:#d5dfe8;
 }
 
-.resultLinha span:first-child{
-    color:#8fa4b8;
-}
-
-.resultLinha strong{
-    color:#eaf4ff;
-}
-
-.resultLinha.desconto strong{
-    color:#ff5555;
-}
-
-.linha{
-    height:1px;
-    margin:7px 0;
-
-    background:linear-gradient(
-        90deg,
-        transparent,
-        #37526c,
-        transparent
-    );
+.descontoValor{
+    font-size:14px;
+    margin-top:5px;
+    color:var(--gold2);
 }
 
 .precoTitulo{
-    text-align:center;
-
-    color:#6baee3;
-
     font-size:11px;
-    font-weight:700;
-    letter-spacing:.8px;
+    font-weight:800;
+    margin-top:13px;
+    color:#9fb0c0;
+    letter-spacing:1px;
 }
 
 .preco{
-    margin-top:2px;
+    font-size:43px;
+    font-weight:900;
 
-    text-align:center;
-
-    color:#d9ecff;
-
-    font-size:39px;
-    font-weight:800;
+    color:#f0c955;
 
     text-shadow:
-        0 0 15px rgba(76,174,255,.55);
+        0 0 16px rgba(214,168,58,.18),
+        0 3px 5px rgba(0,0,0,.6);
 }
 
 .economia{
+    font-size:13px;
     margin-top:3px;
-
-    text-align:center;
-
-    color:var(--green);
-
-    font-size:12px;
-    font-weight:600;
+    color:#c8d2dc;
 }
 
-/* =====================================
+/* =========================
    CREDIÁRIO
-===================================== */
+========================= */
 
 .crediario{
-    padding:14px;
+    padding:12px 16px;
 
-    border-top:1px solid rgba(100,150,200,.12);
+    background:#172432;
 }
 
 .btnCrediario{
     width:100%;
     height:48px;
 
-    font-size:14px;
-    font-weight:700;
+    border:1px solid #52718d;
+    border-radius:11px;
+
+    background:
+        linear-gradient(145deg,#38546e,#203649);
+
+    color:#eef4f8;
+
+    font-size:15px;
+    font-weight:800;
+
+    box-shadow:var(--shadowSmall);
 }
 
 .parcelas{
     display:none;
-    margin-top:9px;
+    margin-top:10px;
 }
 
 .botoesParcelas{
@@ -759,134 +755,139 @@ button{
 }
 
 .btnParcela{
-    height:40px;
+    height:38px;
 
-    color:#e7eef5;
-
-    background:linear-gradient(145deg,#1a2b3b,#0d1824);
-
-    border:1px solid #354d63;
+    border:1px solid #40576c;
     border-radius:8px;
 
-    font-weight:700;
+    background:
+        linear-gradient(145deg,#283b4d,#1a2b3b);
+
+    color:#dbe4ec;
+
+    font-size:13px;
+    font-weight:800;
+
+    box-shadow:3px 3px 7px rgba(0,0,0,.3);
 }
 
 .btnParcela.ativo{
-    color:#111;
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
 
-    background:linear-gradient(180deg,#ffe06d,#d19a21);
-
-    border-color:#ffe992;
-
-    box-shadow:0 0 12px rgba(255,200,50,.2);
+    border-color:#ed6970;
+    color:white;
 }
 
 .resultadoParcela{
     display:none;
 
-    margin-top:9px;
-    padding:12px;
+    margin-top:10px;
+
+    background:
+        linear-gradient(145deg,#24384a,#192a3a);
+
+    border:1px solid var(--gold3);
+
+    padding:11px;
+
+    border-radius:10px;
 
     text-align:center;
 
-    background:#0b1723;
-
-    border:1px solid #385b78;
-    border-radius:10px;
+    box-shadow:var(--shadowSmall);
 }
 
 .resultadoParcela small{
-    color:#7890a6;
+    color:#94a6b7;
     font-size:10px;
 }
 
 .valorParcela{
-    margin-top:4px;
-
+    font-size:25px;
+    font-weight:900;
     color:var(--gold2);
-
-    font-size:24px;
-    font-weight:800;
 }
 
-/* =====================================
-   BOTÕES FINAIS
-===================================== */
-
-.btnFinalizar,
-.btnNova{
-    width:calc(100% - 28px);
-
-    margin:0 14px 8px;
-
-    height:51px;
-
-    border-radius:10px;
-
-    font-size:14px;
-    font-weight:800;
-}
+/* =========================
+   FINALIZAR
+========================= */
 
 .btnFinalizar{
-    color:#111;
+    width:calc(100% - 32px);
+    margin:8px 16px 0;
+
+    height:50px;
+
+    border:1px solid #ed6970;
+    border-radius:11px;
 
     background:
-        linear-gradient(180deg,#ffe16d,#c78912);
+        linear-gradient(145deg,#df5961,#a83239);
 
-    border:1px solid #ffe999;
+    color:white;
+
+    font-size:15px;
+    font-weight:900;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.55),
-        0 4px 0 #74520b,
-        0 7px 18px rgba(240,180,40,.18);
+        7px 7px 13px rgba(0,0,0,.42),
+        inset 1px 1px 2px rgba(255,255,255,.12);
 }
 
 .btnNova{
-    color:#d9e6f2;
+    width:calc(100% - 32px);
+    margin:8px 16px 16px;
+
+    height:48px;
+
+    border:1px solid #4a657d;
+    border-radius:11px;
 
     background:
-        linear-gradient(145deg,#203448,#0e1b28);
+        linear-gradient(145deg,#2b4054,#192b3b);
 
-    border:1px solid #3a5871;
+    color:#e1eaf1;
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.06),
-        0 4px 0 #050b11;
+    font-weight:800;
+    font-size:14px;
+
+    box-shadow:var(--shadowSmall);
 }
 
-/* =====================================
+/* =========================
    VENDAS DO DIA
-===================================== */
+========================= */
 
 .vendasDia{
-    margin-top:8px;
+    margin-top:10px;
+
+    background:
+        linear-gradient(145deg,#192938,#101b26);
+
+    border:1px solid var(--line2);
+
+    border-radius:15px;
 
     overflow:hidden;
 
-    background:
-        linear-gradient(145deg,#0d1925,#07101a);
-
-    border:1px solid rgba(76,133,183,.3);
-    border-radius:16px;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 7px 25px rgba(0,0,0,.4);
+    box-shadow:var(--shadow);
 }
 
 .btnVendas{
     width:100%;
-    height:52px;
+    height:50px;
 
     border:0;
+    border-bottom:1px solid var(--line);
 
     background:
-        linear-gradient(145deg,#17293a,#0b1723);
+        linear-gradient(145deg,#263b4f,#172737);
 
-    color:#e6f1fc;
+    color:#e4ecf3;
 
     font-size:15px;
-    font-weight:800;
+    font-weight:900;
 }
 
 .painelVendas{
@@ -901,36 +902,35 @@ button{
 }
 
 .resumoBox{
-    min-height:74px;
+    background:
+        linear-gradient(145deg,#263a4c,#1a2b3b);
+
+    border:1px solid #40586e;
+
+    border-radius:10px;
 
     padding:10px;
 
-    background:
-        linear-gradient(145deg,#172b3e,#0d1b29);
+    text-align:center;
 
-    border:1px solid rgba(77,129,174,.3);
-    border-radius:10px;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 3px 8px rgba(0,0,0,.25);
+    box-shadow:var(--shadowSmall);
 }
 
 .resumoBox small{
     display:block;
 
-    color:#7590a7;
+    color:#8fa2b4;
 
-    font-size:9px;
+    font-size:10px;
     font-weight:700;
 }
 
 .resumoBox strong{
     display:block;
 
-    margin-top:5px;
+    margin-top:4px;
 
-    color:#eef6ff;
+    color:#eef3f7;
 
     font-size:17px;
 }
@@ -940,81 +940,59 @@ button{
 }
 
 .venda{
-    position:relative;
-
-    margin-bottom:6px;
-    padding:10px 11px;
-
     background:
-        linear-gradient(145deg,#172b3d,#0d1a27);
+        linear-gradient(145deg,#253849,#192a3a);
 
-    border:1px solid rgba(75,130,176,.25);
-    border-radius:10px;
+    border-left:4px solid var(--gold);
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 3px 8px rgba(0,0,0,.25);
-}
+    border-radius:9px;
 
-.venda:before{
-    content:"";
+    padding:10px;
 
-    position:absolute;
+    margin-bottom:7px;
 
-    left:0;
-    top:14px;
-
-    width:4px;
-    height:4px;
-
-    border-radius:50%;
-
-    background:#1595ff;
-
-    box-shadow:0 0 8px #1595ff;
+    box-shadow:var(--shadowSmall);
 }
 
 .vendaTopo{
     display:flex;
     justify-content:space-between;
 
-    font-size:13px;
-    font-weight:700;
+    font-weight:800;
 }
 
 .vendaTopo strong{
-    color:var(--green);
+    color:var(--gold2);
 }
 
 .vendaDetalhe{
+    color:#92a5b6;
+    font-size:11px;
     margin-top:5px;
-
-    color:#7890a5;
-
-    font-size:10px;
-    line-height:1.5;
 }
 
 .btnLimparVendas{
     width:100%;
-    height:45px;
+    height:42px;
 
-    margin-top:5px;
-
+    border:1px solid #ed6970;
     border-radius:9px;
+
+    background:
+        linear-gradient(145deg,#df5961,#9e3037);
 
     color:white;
 
-    background:linear-gradient(180deg,#ff4e4e,#a50000);
-
-    border:1px solid #ff7777;
-
     font-weight:800;
+
+    margin-top:6px;
+
+    box-shadow:var(--shadowSmall);
 }
 
-/* =====================================
+/* =========================
    CÂMERA
-===================================== */
+========================= */
 
 .cameraModal{
     display:none;
@@ -1022,61 +1000,60 @@ button{
     position:fixed;
     inset:0;
 
-    z-index:99999;
+    background:rgba(2,6,10,.94);
+
+    z-index:9999;
 
     padding:10px;
 
     overflow:auto;
 
-    background:rgba(0,4,8,.94);
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(8px);
 }
 
 .cameraBox{
-    max-width:500px;
+    max-width:460px;
     margin:auto;
 
+    background:
+        linear-gradient(145deg,#1b2b3a,#0f1a24);
+
+    border:1px solid var(--line2);
+
+    border-radius:17px;
+
     overflow:hidden;
-
-    background:#0b1621;
-
-    border:1px solid #315978;
-    border-radius:16px;
 
     box-shadow:
         0 20px 60px rgba(0,0,0,.7);
 }
 
 .cameraTitulo{
-    padding:15px;
+    background:
+        linear-gradient(145deg,#263c51,#152535);
+
+    color:var(--gold2);
 
     text-align:center;
 
-    background:
-        linear-gradient(145deg,#172a3b,#08121d);
+    padding:15px;
 
-    border-bottom:1px solid #31506b;
+    border-bottom:1px solid var(--gold3);
 }
 
 .cameraTitulo h2{
     margin:0;
-
-    color:#f1f6fb;
-
     font-size:19px;
 }
 
 .cameraTitulo p{
     margin:4px 0 0;
-
-    color:#8498aa;
-
-    font-size:11px;
+    font-size:12px;
+    color:#aebdcc;
 }
 
 video{
     width:100%;
-
     display:block;
 
     background:#000;
@@ -1097,54 +1074,58 @@ video{
     width:100%;
     height:46px;
 
-    border-radius:9px;
+    border-radius:10px;
 
-    font-size:14px;
     font-weight:800;
+    font-size:14px;
 }
 
 .btnCapturar{
-    color:white;
+    background:
+        linear-gradient(145deg,#dfb94f,#a7771b);
 
-    background:linear-gradient(180deg,#168eff,#0757a5);
+    border:1px solid #f1ce69;
 
-    border:1px solid #55b5ff;
+    color:#111;
 }
 
 .btnFechar{
     margin-top:7px;
 
-    color:#dce7f0;
+    background:
+        linear-gradient(145deg,#2d4357,#1b2c3d);
 
-    background:#172838;
+    border:1px solid #49647b;
 
-    border:1px solid #38546c;
+    color:white;
 }
 
 .btnUsar{
+    background:
+        linear-gradient(145deg,#2fc879,#16854c);
+
+    border:1px solid #55dd91;
+
     color:white;
-
-    background:linear-gradient(180deg,#23d866,#078a39);
-
-    border:1px solid #55f18a;
 }
 
 .btnTentar{
     margin-top:6px;
 
+    background:
+        linear-gradient(145deg,#df5961,#9f3037);
+
+    border:1px solid #ed6970;
+
     color:white;
-
-    background:#152536;
-
-    border:1px solid #38546c;
 }
 
 .status{
-    padding:10px 0;
-
     text-align:center;
 
-    color:#8195a8;
+    padding:10px 0;
+
+    color:#a7b7c6;
 
     font-size:12px;
 }
@@ -1152,46 +1133,53 @@ video{
 .resultadoLeitura{
     display:none;
 
-    margin-bottom:8px;
+    background:
+        linear-gradient(145deg,#25394b,#192b3b);
+
+    border:1px solid var(--gold3);
+
     padding:12px;
+
+    border-radius:10px;
 
     text-align:center;
 
-    background:#0e1e2b;
-
-    border:1px solid #315978;
-    border-radius:10px;
+    box-shadow:var(--shadowSmall);
 }
 
 .resultadoLeitura strong{
-    color:#7f98ad;
-
-    font-size:10px;
+    font-size:11px;
+    color:#9eb0c0;
 }
 
 .precoDetectado{
+    font-size:30px;
+    font-weight:900;
+
+    color:var(--gold2);
+
     margin:5px;
-
-    color:var(--green);
-
-    font-size:29px;
-    font-weight:800;
-
-    text-shadow:0 0 12px rgba(49,226,108,.3);
 }
 
 canvas{
     display:none;
 }
 
-/* =====================================
-   MOBILE
-===================================== */
+.vazio{
+    color:#74889a;
+    text-align:center;
+    padding:12px;
+    font-size:13px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media(max-width:360px){
 
     .app{
-        padding:5px;
+        padding:8px;
     }
 
     .botoesDesconto{
@@ -1199,11 +1187,11 @@ canvas{
     }
 
     .preco{
-        font-size:35px;
+        font-size:36px;
     }
 
-    .botoesParcelas{
-        grid-template-columns:repeat(5,1fr);
+    .header h1{
+        font-size:21px;
     }
 }
 
@@ -1214,17 +1202,13 @@ canvas{
 
 <div class="app">
 
-<!-- =====================================
-     CABEÇALHO
-===================================== -->
+<!-- ================= HEADER ================= -->
 
 <div class="header">
 
-    <img
-        src="logo.png"
-        class="logoTopo"
-        alt="Calcula Fácil HP"
-        onerror="this.style.display='none'">
+    <div id="fotoArea">
+        <div class="logoPadrao">HP</div>
+    </div>
 
     <h1>Calcula Fácil HP</h1>
 
@@ -1232,280 +1216,280 @@ canvas{
         Vendedor
     </div>
 
-    <div class="subtitulo">
-        Calculadora de vendas
-    </div>
+    <p>Calculadora profissional de vendas</p>
 
 </div>
 
-<!-- =====================================
-     PERFIL
-===================================== -->
+<!-- ================= PERFIL ================= -->
 
 <div class="perfil">
 
-<button
-    class="btnTech btnPerfil"
-    onclick="abrirPerfil()">
-
-    👤 &nbsp; VENDEDOR
-    <span style="float:right">›</span>
-
+<button class="btnPerfil" onclick="abrirPerfil()">
+    👤 PERSONALIZAR PERFIL
 </button>
 
-<div
-    class="perfilOpcoes"
-    id="perfilOpcoes">
+<div class="perfilOpcoes" id="perfilOpcoes">
 
-    <input
-        type="text"
-        id="nomeInput"
-        placeholder="Nome do vendedor">
+<input
+    type="text"
+    id="nomeInput"
+    placeholder="Nome do vendedor">
 
-    <button
-        class="btnFoto"
-        onclick="document.getElementById('fotoInput').click()">
+<button
+    class="btnFoto"
+    onclick="document.getElementById('fotoInput').click()">
+    📷 ESCOLHER FOTO / LOGO
+</button>
 
-        📷 ESCOLHER FOTO / LOGO
+<input
+    type="file"
+    id="fotoInput"
+    accept="image/*"
+    onchange="carregarFoto(event)">
 
-    </button>
-
-    <input
-        type="file"
-        id="fotoInput"
-        accept="image/*"
-        onchange="carregarFoto(event)">
-
-    <button
-        class="btnSalvarPerfil"
-        onclick="salvarPerfil()">
-
-        💾 SALVAR PERFIL
-
-    </button>
+<button
+    class="btnSalvarPerfil"
+    onclick="salvarPerfil()">
+    💾 SALVAR PERFIL
+</button>
 
 </div>
 
 </div>
 
-<!-- =====================================
-     CARD PRINCIPAL
-===================================== -->
+<!-- ================= CARD ================= -->
 
 <div class="card">
 
-<div class="secao">
+<div class="promo" id="tituloDesconto">
+    🛍️ VENDA
+</div>
 
-<label class="labelTech">
-    VALOR
-</label>
+<div class="area">
 
-<div class="inputValor">
+<label>VALOR</label>
 
-    <div class="simbolo">
-        R$
-    </div>
+<div class="input">
 
-    <input
-        id="valor"
-        type="number"
-        inputmode="decimal"
-        step="0.01"
-        placeholder="0,00">
+<b>R$</b>
+
+<input
+id="valor"
+type="number"
+inputmode="decimal"
+step="0.01"
+placeholder="0,00">
 
 </div>
 
-<div class="acoes">
-
 <button
-    class="btnTech btnBlue btnAcao"
-    onclick="abrirCamera()">
-
-    📷 &nbsp; LER ETIQUETA
-
+class="btnCamera"
+onclick="abrirCamera()">
+    📷 LER ETIQUETA
 </button>
 
 <button
-    class="btnTech btnAcao"
-    onclick="adicionarValor()">
-
-    ＋ &nbsp; ADICIONAR
-
+class="btnAdicionar"
+onclick="adicionarValor()">
+    ＋ ADICIONAR
 </button>
 
+<div class="lista" id="lista">
+<div class="vazio">Nenhum valor</div>
 </div>
 
-<div
-    class="lista"
-    id="lista">
+<!-- DESCONTO -->
 
-    <div class="vazio">
-        Nenhum item adicionado
-    </div>
+<div class="descontos">
 
-</div>
-
-</div>
-
-<!-- =====================================
-     DESCONTO
-===================================== -->
-
-<div class="secao">
-
-<label class="labelTech">
-    DESCONTO
-</label>
+<label>DESCONTO</label>
 
 <div class="botoesDesconto">
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(0,this)">0%</button>
+onclick="selecionarDesconto(0,this)">
+0%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(5,this)">5%</button>
+onclick="selecionarDesconto(5,this)">
+5%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(10,this)">10%</button>
+onclick="selecionarDesconto(10,this)">
+10%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(15,this)">15%</button>
+onclick="selecionarDesconto(15,this)">
+15%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(20,this)">20%</button>
+onclick="selecionarDesconto(20,this)">
+20%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(30,this)">30%</button>
+onclick="selecionarDesconto(30,this)">
+30%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(40,this)">40%</button>
+onclick="selecionarDesconto(40,this)">
+40%
+</button>
 
 <button class="btnDesconto"
-onclick="selecionarDesconto(50,this)">50%</button>
+onclick="selecionarDesconto(50,this)">
+50%
+</button>
+
+<button class="btnDesconto"
+onclick="mostrarOutro()">
+OUTRO
+</button>
 
 </div>
 
-<div class="outro">
+<div
+class="outro"
+id="campoOutro"
+style="display:none">
 
 <input
-    id="outroDesconto"
-    type="number"
-    min="0"
-    max="100"
-    placeholder="Outro %">
+id="outroDesconto"
+type="number"
+min="0"
+max="100"
+placeholder="%">
 
 <button
-    class="btnAplicar"
-    onclick="aplicarOutro()">
-
-    APLICAR
-
+class="btnAplicar"
+onclick="aplicarOutro()">
+OK
 </button>
 
 </div>
 
 </div>
 
-<!-- =====================================
-     RESULTADO
-===================================== -->
+</div>
+
+<!-- ================= RESULTADO ================= -->
 
 <div class="result">
 
-<div class="resultLinha">
-
-<span>TOTAL ORIGINAL</span>
-
-<strong id="totalOriginal">
-R$ 0,00
-</strong>
-
+<div
+class="totalOriginal"
+id="totalOriginal">
+TOTAL: R$ 0,00
 </div>
 
-<div class="resultLinha desconto">
-
-<span>DESCONTO</span>
-
-<strong id="descontoValor">
+<div
+class="descontoValor"
+id="descontoValor">
 0% — R$ 0,00
-</strong>
-
 </div>
-
-<div class="linha"></div>
 
 <div class="precoTitulo">
-    TOTAL A PAGAR
+TOTAL A PAGAR
 </div>
 
 <div
-    class="preco"
-    id="preco">
-
-    R$ 0,00
-
+class="preco"
+id="preco">
+R$ 0,00
 </div>
 
 <div
-    class="economia"
-    id="economia">
-
-    ↗ Economia: R$ 0,00
-
+class="economia"
+id="economia">
+Economia R$ 0,00
 </div>
 
 </div>
 
-<!-- =====================================
-     CREDIÁRIO
-===================================== -->
+<!-- ================= CREDIÁRIO ================= -->
 
 <div class="crediario">
 
 <button
-    class="btnTech btnCrediario"
-    onclick="abrirCrediario()">
-
-    💳 &nbsp; CREDIÁRIO
-    <span style="float:right">›</span>
-
+class="btnCrediario"
+onclick="abrirCrediario()">
+    💳 CREDIÁRIO
 </button>
 
 <div
-    class="parcelas"
-    id="parcelas">
+class="parcelas"
+id="parcelas">
 
 <div class="botoesParcelas">
 
-<button class="btnParcela" onclick="calcularParcela(1,this)">1x</button>
-<button class="btnParcela" onclick="calcularParcela(2,this)">2x</button>
-<button class="btnParcela" onclick="calcularParcela(3,this)">3x</button>
-<button class="btnParcela" onclick="calcularParcela(4,this)">4x</button>
-<button class="btnParcela" onclick="calcularParcela(5,this)">5x</button>
+<button class="btnParcela"
+onclick="calcularParcela(1,this)">
+1x
+</button>
 
-<button class="btnParcela" onclick="calcularParcela(6,this)">6x</button>
-<button class="btnParcela" onclick="calcularParcela(7,this)">7x</button>
-<button class="btnParcela" onclick="calcularParcela(8,this)">8x</button>
-<button class="btnParcela" onclick="calcularParcela(9,this)">9x</button>
-<button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
+<button class="btnParcela"
+onclick="calcularParcela(2,this)">
+2x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(3,this)">
+3x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(4,this)">
+4x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(5,this)">
+5x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(6,this)">
+6x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(7,this)">
+7x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(8,this)">
+8x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(9,this)">
+9x
+</button>
+
+<button class="btnParcela"
+onclick="calcularParcela(10,this)">
+10x
+</button>
 
 </div>
 
 <div
-    class="resultadoParcela"
-    id="resultadoParcela">
+class="resultadoParcela"
+id="resultadoParcela">
 
-    <small>
-        PARCELAMENTO
-    </small>
+<small>PARCELAMENTO</small>
 
-    <div
-        class="valorParcela"
-        id="valorParcela">
-
-        10x de R$ 0,00
-
-    </div>
+<div
+class="valorParcela"
+id="valorParcela">
+10x de R$ 0,00
+</div>
 
 </div>
 
@@ -1514,41 +1498,32 @@ R$ 0,00
 </div>
 
 <button
-    class="btnFinalizar"
-    onclick="finalizarVenda()">
-
-    ✓ &nbsp; FINALIZAR VENDA
-
+class="btnFinalizar"
+onclick="finalizarVenda()">
+    ✓ FINALIZAR VENDA
 </button>
 
 <button
-    class="btnNova"
-    onclick="novaVenda()">
-
-    ↻ &nbsp; NOVA VENDA
-
+class="btnNova"
+onclick="novaVenda()">
+    ↻ NOVA VENDA
 </button>
 
 </div>
 
-<!-- =====================================
-     VENDAS DO DIA
-===================================== -->
+<!-- ================= VENDAS ================= -->
 
 <div class="vendasDia">
 
 <button
-    class="btnVendas"
-    onclick="abrirVendas()">
-
-    📊 &nbsp; VENDAS DO DIA
-    <span style="float:right">›</span>
-
+class="btnVendas"
+onclick="abrirVendas()">
+    📊 VENDAS DO DIA
 </button>
 
 <div
-    class="painelVendas"
-    id="painelVendas">
+class="painelVendas"
+id="painelVendas">
 
 <div class="resumo">
 
@@ -1568,41 +1543,37 @@ R$ 0,00
 </div>
 
 <div class="resumoBox">
-<small>MÉDIA POR VENDA</small>
+<small>MÉDIA</small>
 <strong id="mediaVenda">R$ 0,00</strong>
 </div>
 
 </div>
 
 <div
-    class="listaVendas"
-    id="listaVendas">
-
-    <div class="vazio">
-        Nenhuma venda registrada hoje.
-    </div>
-
+class="listaVendas"
+id="listaVendas">
+<div class="vazio">
+Nenhuma venda registrada hoje.
+</div>
 </div>
 
 <button
-    class="btnLimparVendas"
-    onclick="limparVendas()">
-
-    🗑️ &nbsp; LIMPAR VENDAS DO DIA
-
+class="btnLimparVendas"
+onclick="limparVendas()">
+🗑️ LIMPAR VENDAS DO DIA
 </button>
 
 </div>
 
 </div>
 
-<!-- =====================================
-     CÂMERA
-===================================== -->
+</div>
+
+<!-- ================= CAMERA ================= -->
 
 <div
-    class="cameraModal"
-    id="cameraModal">
+class="cameraModal"
+id="cameraModal">
 
 <div class="cameraBox">
 
@@ -1610,16 +1581,14 @@ R$ 0,00
 
 <h2>📷 Ler etiqueta</h2>
 
-<p>
-Aponte a câmera para o preço
-</p>
+<p>Aponte para o preço</p>
 
 </div>
 
 <video
-    id="video"
-    autoplay
-    playsinline>
+id="video"
+autoplay
+playsinline>
 </video>
 
 <canvas id="canvas"></canvas>
@@ -1627,61 +1596,47 @@ Aponte a câmera para o preço
 <div class="cameraArea">
 
 <button
-    class="btnCapturar"
-    onclick="capturarEtiqueta()">
-
-    📸 &nbsp; CAPTURAR
-
+class="btnCapturar"
+onclick="capturarEtiqueta()">
+📸 CAPTURAR
 </button>
 
 <div
-    class="status"
-    id="status">
-
-    Posicione o preço no centro.
-
+class="status"
+id="status">
+Posicione o preço no centro.
 </div>
 
 <div
-    class="resultadoLeitura"
-    id="resultadoLeitura">
+class="resultadoLeitura"
+id="resultadoLeitura">
 
-<strong>
-    PREÇO ENCONTRADO
-</strong>
+<strong>PREÇO ENCONTRADO</strong>
 
 <div
-    class="precoDetectado"
-    id="precoDetectado">
-
-    R$ 0,00
-
+class="precoDetectado"
+id="precoDetectado">
+R$ 0,00
 </div>
 
 <button
-    class="btnUsar"
-    onclick="usarPrecoDetectado()">
-
-    ✓ &nbsp; USAR ESTE PREÇO
-
+class="btnUsar"
+onclick="usarPrecoDetectado()">
+✓ ADICIONAR
 </button>
 
 <button
-    class="btnTentar"
-    onclick="tentarNovamente()">
-
-    ↻ &nbsp; TENTAR NOVAMENTE
-
+class="btnTentar"
+onclick="tentarNovamente()">
+TENTAR NOVAMENTE
 </button>
 
 </div>
 
 <button
-    class="btnFechar"
-    onclick="fecharCamera()">
-
-    FECHAR
-
+class="btnFechar"
+onclick="fecharCamera()">
+FECHAR
 </button>
 
 </div>
@@ -1692,1052 +1647,1059 @@ Aponte a câmera para o preço
 
 <script>
 
-/* =====================================
-   ESTADO
-===================================== */
+/* =========================
+   VARIÁVEIS
+========================= */
 
-let valores = [];
-let percentual = 0;
-let streamCamera = null;
-let precoLido = 0;
-let numeroParcelas = 0;
-let fotoSelecionada = "";
+let valores=[];
+let percentual=0;
+let streamCamera=null;
+let precoLido=0;
+let fotoSelecionada="";
+let numeroParcelas=0;
 
-/* =====================================
+/* =========================
    DINHEIRO
-===================================== */
+========================= */
 
 function dinheiro(valor){
 
-    return Number(valor).toLocaleString("pt-BR",{
-        style:"currency",
-        currency:"BRL"
-    });
+return valor.toLocaleString("pt-BR",{
+    style:"currency",
+    currency:"BRL"
+});
 
 }
 
-/* =====================================
+/* =========================
    PERFIL
-===================================== */
+========================= */
 
 function abrirPerfil(){
 
-    const area =
-        document.getElementById("perfilOpcoes");
+let area=document.getElementById("perfilOpcoes");
 
-    area.style.display =
-        area.style.display === "block"
-        ? "none"
-        : "block";
+area.style.display=
+area.style.display==="block"
+?"none"
+:"block";
 
 }
 
 function carregarFoto(event){
 
-    const arquivo =
-        event.target.files[0];
+let arquivo=event.target.files[0];
 
-    if(!arquivo) return;
+if(!arquivo)return;
 
-    const leitor =
-        new FileReader();
+let leitor=new FileReader();
 
-    leitor.onload = function(e){
+leitor.onload=function(e){
 
-        fotoSelecionada =
-            e.target.result;
+fotoSelecionada=e.target.result;
 
-    };
+mostrarFoto(fotoSelecionada);
 
-    leitor.readAsDataURL(arquivo);
+};
+
+leitor.readAsDataURL(arquivo);
+
+}
+
+function mostrarFoto(src){
+
+document.getElementById("fotoArea").innerHTML=
+`
+<img
+src="${src}"
+class="logoPerfil"
+alt="Logo do vendedor">
+`;
 
 }
 
 function salvarPerfil(){
 
-    const nome =
-        document
-        .getElementById("nomeInput")
-        .value
-        .trim();
+let nome=
+document
+.getElementById("nomeInput")
+.value
+.trim();
 
-    if(nome){
+if(nome){
 
-        document
-        .getElementById("nomeVendedor")
-        .innerText = nome;
+document
+.getElementById("nomeVendedor")
+.innerText=nome;
 
-        localStorage.setItem(
-            "nomeVendedor",
-            nome
-        );
-
-    }
-
-    if(fotoSelecionada){
-
-        localStorage.setItem(
-            "fotoVendedor",
-            fotoSelecionada
-        );
-
-    }
-
-    document
-    .getElementById("perfilOpcoes")
-    .style.display = "none";
+localStorage.setItem(
+"nomeVendedor",
+nome
+);
 
 }
 
-/* =====================================
-   PRODUTOS
-===================================== */
+if(fotoSelecionada){
+
+localStorage.setItem(
+"fotoVendedor",
+fotoSelecionada
+);
+
+}
+
+document.getElementById(
+"perfilOpcoes"
+).style.display="none";
+
+}
+
+/* =========================
+   VALORES
+========================= */
 
 function adicionarValor(){
 
-    const campo =
-        document.getElementById("valor");
+let campo=
+document.getElementById("valor");
 
-    const valor =
-        Number(
-            String(campo.value)
-            .replace(",",".")
-        );
+let valor=Number(
+String(campo.value)
+.replace(",",".")
+);
 
-    if(!valor || valor <= 0){
+if(!valor || valor<=0){
 
-        campo.focus();
+campo.focus();
 
-        return;
-    }
+return;
 
-    valores.push(valor);
+}
 
-    campo.value = "";
+valores.push(valor);
 
-    atualizarLista();
+campo.value="";
 
-    calcular();
+atualizarLista();
 
-    campo.focus();
+calcular();
+
+campo.focus();
 
 }
 
 function atualizarLista(){
 
-    const lista =
-        document.getElementById("lista");
+let lista=
+document.getElementById("lista");
 
-    lista.innerHTML = "";
+lista.innerHTML="";
 
-    if(valores.length === 0){
+if(valores.length===0){
 
-        lista.innerHTML =
-            '<div class="vazio">Nenhum item adicionado</div>';
+lista.innerHTML=
+'<div class="vazio">Nenhum valor</div>';
 
-        return;
-    }
+return;
 
-    valores.forEach(
-        function(valor,index){
+}
 
-            const item =
-                document.createElement("div");
+valores.forEach(function(valor,index){
 
-            item.className = "item";
+let item=
+document.createElement("div");
 
-            item.innerHTML = `
+item.className="item";
 
-                <div class="itemInfo">
+item.innerHTML=`
+<span>${dinheiro(valor)}</span>
 
-                    <div class="itemIcon">
-                        ◇
-                    </div>
+<button
+class="btnExcluir"
+onclick="excluirValor(${index})">
+🗑️
+</button>
+`;
 
-                    <span>
-                        Produto
-                    </span>
+lista.appendChild(item);
 
-                </div>
-
-                <span class="itemValor">
-                    ${dinheiro(valor)}
-                </span>
-
-                <button
-                    class="btnExcluir"
-                    onclick="excluirValor(${index})">
-
-                    🗑️
-
-                </button>
-
-            `;
-
-            lista.appendChild(item);
-
-        }
-    );
+});
 
 }
 
 function excluirValor(index){
 
-    valores.splice(index,1);
+valores.splice(index,1);
 
-    atualizarLista();
+atualizarLista();
 
-    calcular();
+calcular();
 
 }
 
-/* =====================================
+/* =========================
    DESCONTO
-===================================== */
+========================= */
 
 function selecionarDesconto(valor,botao){
 
-    percentual = valor;
+percentual=valor;
 
-    document
-    .querySelectorAll(".btnDesconto")
-    .forEach(
-        function(btn){
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
 
-            btn.classList.remove("ativo");
+btn.classList.remove("ativo");
 
-        }
-    );
+});
 
-    botao.classList.add("ativo");
+botao.classList.add("ativo");
 
-    calcular();
+document.getElementById(
+"campoOutro"
+).style.display="none";
+
+calcular();
+
+}
+
+function mostrarOutro(){
+
+document.getElementById(
+"campoOutro"
+).style.display="flex";
+
+document
+.getElementById("outroDesconto")
+.focus();
+
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
 
 }
 
 function aplicarOutro(){
 
-    const campo =
-        document.getElementById("outroDesconto");
+let valor=Number(
+document.getElementById(
+"outroDesconto"
+).value
+);
 
-    const valor =
-        Number(campo.value);
+if(valor<0 || valor>100){
 
-    if(
-        isNaN(valor) ||
-        valor < 0 ||
-        valor > 100
-    ){
+alert(
+"Digite um desconto entre 0% e 100%."
+);
 
-        alert(
-            "Digite um desconto entre 0% e 100%."
-        );
-
-        return;
-    }
-
-    percentual = valor;
-
-    document
-    .querySelectorAll(".btnDesconto")
-    .forEach(
-        function(btn){
-            btn.classList.remove("ativo");
-        }
-    );
-
-    calcular();
+return;
 
 }
 
-/* =====================================
+percentual=valor;
+
+calcular();
+
+}
+
+/* =========================
    CALCULAR
-===================================== */
+========================= */
 
 function calcular(){
 
-    const total =
-        valores.reduce(
-            function(soma,valor){
-                return soma + valor;
-            },
-            0
-        );
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
 
-    const desconto =
-        total * (percentual / 100);
+let desconto=
+total*(percentual/100);
 
-    const final =
-        total - desconto;
+let final=
+total-desconto;
 
-    document
-    .getElementById("totalOriginal")
-    .innerText =
-        dinheiro(total);
+document.getElementById(
+"totalOriginal"
+).innerText=
+"TOTAL: "+dinheiro(total);
 
-    document
-    .getElementById("descontoValor")
-    .innerText =
-        percentual +
-        "% — " +
-        dinheiro(desconto);
+document.getElementById(
+"descontoValor"
+).innerText=
+percentual+"% — "+dinheiro(desconto);
 
-    document
-    .getElementById("preco")
-    .innerText =
-        dinheiro(final);
+document.getElementById(
+"preco"
+).innerText=
+dinheiro(final);
 
-    document
-    .getElementById("economia")
-    .innerText =
-        "↗ Economia: " +
-        dinheiro(desconto);
+document.getElementById(
+"economia"
+).innerText=
+"Economia "+dinheiro(desconto);
+
+document.getElementById(
+"tituloDesconto"
+).innerText=
+percentual>0
+?"🔥 "+percentual+"% DE DESCONTO"
+:"🛍️ VENDA";
 
 }
 
-/* =====================================
+/* =========================
    CREDIÁRIO
-===================================== */
+========================= */
 
 function abrirCrediario(){
 
-    const parcelas =
-        document.getElementById("parcelas");
+let parcelas=
+document.getElementById("parcelas");
 
-    parcelas.style.display =
-        parcelas.style.display === "block"
-        ? "none"
-        : "block";
+parcelas.style.display=
+parcelas.style.display==="block"
+?"none"
+:"block";
 
 }
 
 function calcularParcela(numero,botao){
 
-    const total =
-        valores.reduce(
-            function(soma,valor){
-                return soma + valor;
-            },
-            0
-        );
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
 
-    const desconto =
-        total * (percentual / 100);
+let desconto=
+total*(percentual/100);
 
-    const final =
-        total - desconto;
+let final=
+total-desconto;
 
-    if(final <= 0){
+if(final<=0){
 
-        alert(
-            "Adicione pelo menos um produto."
-        );
+alert(
+"Adicione pelo menos um produto."
+);
 
-        return;
-    }
-
-    numeroParcelas = numero;
-
-    document
-    .querySelectorAll(".btnParcela")
-    .forEach(
-        function(btn){
-            btn.classList.remove("ativo");
-        }
-    );
-
-    botao.classList.add("ativo");
-
-    const parcela =
-        final / numero;
-
-    document
-    .getElementById("valorParcela")
-    .innerText =
-        numero +
-        "x de " +
-        dinheiro(parcela);
-
-    document
-    .getElementById("resultadoParcela")
-    .style.display = "block";
+return;
 
 }
 
-/* =====================================
+numeroParcelas=numero;
+
+document
+.querySelectorAll(".btnParcela")
+.forEach(function(btn){
+
+btn.classList.remove("ativo");
+
+});
+
+botao.classList.add("ativo");
+
+let parcela=
+final/numero;
+
+document.getElementById(
+"valorParcela"
+).innerText=
+numero+"x de "+dinheiro(parcela);
+
+document.getElementById(
+"resultadoParcela"
+).style.display="block";
+
+}
+
+/* =========================
    FINALIZAR VENDA
-===================================== */
+========================= */
 
 function finalizarVenda(){
 
-    if(valores.length === 0){
+if(valores.length===0){
 
-        alert(
-            "Adicione pelo menos um produto."
-        );
+alert(
+"Adicione pelo menos um produto."
+);
 
-        return;
-    }
-
-    const total =
-        valores.reduce(
-            function(soma,valor){
-                return soma + valor;
-            },
-            0
-        );
-
-    const desconto =
-        total * (percentual / 100);
-
-    const final =
-        total - desconto;
-
-    const hora =
-        new Date()
-        .toLocaleTimeString(
-            "pt-BR",
-            {
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        );
-
-    const venda = {
-
-        hora:hora,
-        total:total,
-        desconto:desconto,
-        final:final,
-        percentual:percentual,
-        parcelas:numeroParcelas
-
-    };
-
-    const vendas =
-        JSON.parse(
-            localStorage.getItem(
-                "vendasDoDia"
-            ) || "[]"
-        );
-
-    vendas.push(venda);
-
-    localStorage.setItem(
-        "vendasDoDia",
-        JSON.stringify(vendas)
-    );
-
-    atualizarVendas();
-
-    alert(
-        "✅ Venda salva com sucesso!"
-    );
+return;
 
 }
 
-/* =====================================
-   VENDAS
-===================================== */
+let total=
+valores.reduce(
+function(soma,valor){
+return soma+valor;
+},
+0
+);
+
+let desconto=
+total*(percentual/100);
+
+let final=
+total-desconto;
+
+let hora=
+new Date().toLocaleTimeString(
+"pt-BR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+let venda={
+
+hora:hora,
+total:total,
+desconto:desconto,
+final:final,
+percentual:percentual,
+parcelas:numeroParcelas
+
+};
+
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
+
+vendas.push(venda);
+
+localStorage.setItem(
+"vendasDoDia",
+JSON.stringify(vendas)
+);
+
+atualizarVendas();
+
+alert(
+"✅ Venda salva com sucesso!"
+);
+
+}
+
+/* =========================
+   VENDAS DO DIA
+========================= */
 
 function abrirVendas(){
 
-    const painel =
-        document.getElementById(
-            "painelVendas"
-        );
+let painel=
+document.getElementById(
+"painelVendas"
+);
 
-    painel.style.display =
-        painel.style.display === "block"
-        ? "none"
-        : "block";
+painel.style.display=
+painel.style.display==="block"
+?"none"
+:"block";
 
-    atualizarVendas();
+atualizarVendas();
 
 }
 
 function atualizarVendas(){
 
-    const vendas =
-        JSON.parse(
-            localStorage.getItem(
-                "vendasDoDia"
-            ) || "[]"
-        );
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
 
-    let totalVendido = 0;
-    let totalDescontos = 0;
+let totalVendido=0;
+let totalDescontos=0;
 
-    vendas.forEach(
-        function(venda){
+vendas.forEach(
+function(venda){
 
-            totalVendido +=
-                venda.final;
+totalVendido+=venda.final;
 
-            totalDescontos +=
-                venda.desconto;
+totalDescontos+=
+venda.desconto;
 
-        }
-    );
+});
 
-    const media =
-        vendas.length
-        ? totalVendido / vendas.length
-        : 0;
+let media=
+vendas.length
+?totalVendido/vendas.length
+:0;
 
-    document
-    .getElementById("qtdVendas")
-    .innerText =
-        vendas.length;
+document.getElementById(
+"qtdVendas"
+).innerText=vendas.length;
 
-    document
-    .getElementById("totalVendido")
-    .innerText =
-        dinheiro(totalVendido);
+document.getElementById(
+"totalVendido"
+).innerText=
+dinheiro(totalVendido);
 
-    document
-    .getElementById("totalDescontos")
-    .innerText =
-        dinheiro(totalDescontos);
+document.getElementById(
+"totalDescontos"
+).innerText=
+dinheiro(totalDescontos);
 
-    document
-    .getElementById("mediaVenda")
-    .innerText =
-        dinheiro(media);
+document.getElementById(
+"mediaVenda"
+).innerText=
+dinheiro(media);
 
-    const lista =
-        document.getElementById(
-            "listaVendas"
-        );
+let lista=
+document.getElementById(
+"listaVendas"
+);
 
-    lista.innerHTML = "";
+lista.innerHTML="";
 
-    if(vendas.length === 0){
+if(vendas.length===0){
 
-        lista.innerHTML =
-            '<div class="vazio">Nenhuma venda registrada hoje.</div>';
+lista.innerHTML=
+'<div class="vazio">Nenhuma venda registrada hoje.</div>';
 
-        return;
-    }
+return;
 
-    vendas
-    .slice()
-    .reverse()
-    .forEach(
-        function(venda){
+}
 
-            const item =
-                document.createElement("div");
+vendas
+.slice()
+.reverse()
+.forEach(function(venda){
 
-            item.className = "venda";
+let item=
+document.createElement("div");
 
-            const parcelamento =
-                venda.parcelas > 0
-                ? " • " +
-                  venda.parcelas +
-                  "x"
-                : " • À vista";
+item.className="venda";
 
-            item.innerHTML = `
+let parcelamento=
+venda.parcelas>0
+?" • "+venda.parcelas+"x"
+:" • À vista";
 
-                <div class="vendaTopo">
+item.innerHTML=`
 
-                    <span>
-                        ${venda.hora}
-                    </span>
+<div class="vendaTopo">
 
-                    <strong>
-                        ${dinheiro(venda.final)}
-                    </strong>
+<span>
+Venda ${venda.hora}
+</span>
 
-                </div>
+<strong>
+${dinheiro(venda.final)}
+</strong>
 
-                <div class="vendaDetalhe">
+</div>
 
-                    Total:
-                    ${dinheiro(venda.total)}
+<div class="vendaDetalhe">
 
-                    <br>
+Total:
+${dinheiro(venda.total)}
 
-                    ${venda.percentual}%
-                    desconto —
-                    ${dinheiro(venda.desconto)}
+<br>
 
-                    ${parcelamento}
+Desconto:
+${venda.percentual}%
+—
+${dinheiro(venda.desconto)}
 
-                </div>
+${parcelamento}
 
-            `;
+</div>
 
-            lista.appendChild(item);
+`;
 
-        }
-    );
+lista.appendChild(item);
+
+});
 
 }
 
 function limparVendas(){
 
-    const vendas =
-        JSON.parse(
-            localStorage.getItem(
-                "vendasDoDia"
-            ) || "[]"
-        );
+let vendas=
+JSON.parse(
+localStorage.getItem(
+"vendasDoDia"
+)||"[]"
+);
 
-    if(vendas.length === 0)
-        return;
+if(vendas.length===0)return;
 
-    if(
-        !confirm(
-            "Tem certeza que deseja apagar todas as vendas do dia?"
-        )
-    )
-        return;
+let confirmar=
+confirm(
+"Tem certeza que deseja apagar todas as vendas do dia?"
+);
 
-    localStorage.removeItem(
-        "vendasDoDia"
-    );
+if(!confirmar)return;
 
-    atualizarVendas();
+localStorage.removeItem(
+"vendasDoDia"
+);
+
+atualizarVendas();
 
 }
 
-/* =====================================
+/* =========================
    NOVA VENDA
-===================================== */
+========================= */
 
 function novaVenda(){
 
-    valores = [];
+valores=[];
+percentual=0;
+precoLido=0;
+numeroParcelas=0;
 
-    percentual = 0;
+document.getElementById(
+"valor"
+).value="";
 
-    precoLido = 0;
+document.getElementById(
+"outroDesconto"
+).value="";
 
-    numeroParcelas = 0;
+document.getElementById(
+"campoOutro"
+).style.display="none";
 
-    document
-    .getElementById("valor")
-    .value = "";
+document.getElementById(
+"parcelas"
+).style.display="none";
 
-    document
-    .getElementById("outroDesconto")
-    .value = "";
+document.getElementById(
+"resultadoParcela"
+).style.display="none";
 
-    document
-    .getElementById("parcelas")
-    .style.display = "none";
+document
+.querySelectorAll(".btnDesconto")
+.forEach(function(btn){
 
-    document
-    .getElementById("resultadoParcela")
-    .style.display = "none";
+btn.classList.remove("ativo");
 
-    document
-    .querySelectorAll(".btnDesconto")
-    .forEach(
-        function(btn){
-            btn.classList.remove("ativo");
-        }
-    );
+});
 
-    document
-    .querySelectorAll(".btnParcela")
-    .forEach(
-        function(btn){
-            btn.classList.remove("ativo");
-        }
-    );
+document
+.querySelectorAll(".btnParcela")
+.forEach(function(btn){
 
-    atualizarLista();
+btn.classList.remove("ativo");
 
-    calcular();
+});
 
-    document
-    .getElementById("valor")
-    .focus();
+atualizarLista();
+
+calcular();
+
+document.getElementById(
+"valor"
+).focus();
 
 }
 
-/* =====================================
+/* =========================
    CÂMERA
-===================================== */
+========================= */
 
 async function abrirCamera(){
 
-    const modal =
-        document.getElementById(
-            "cameraModal"
-        );
+let modal=
+document.getElementById(
+"cameraModal"
+);
 
-    const video =
-        document.getElementById(
-            "video"
-        );
+let video=
+document.getElementById(
+"video"
+);
 
-    const status =
-        document.getElementById(
-            "status"
-        );
+let status=
+document.getElementById(
+"status"
+);
 
-    document
-    .getElementById(
-        "resultadoLeitura"
-    )
-    .style.display = "none";
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
 
-    modal.style.display = "block";
+modal.style.display="block";
 
-    try{
+try{
 
-        streamCamera =
-            await navigator.mediaDevices
-            .getUserMedia({
+streamCamera=
+await navigator.mediaDevices.getUserMedia({
 
-                video:{
-                    facingMode:{
-                        ideal:"environment"
-                    }
-                },
+video:{
+facingMode:{
+ideal:"environment"
+}
+},
 
-                audio:false
+audio:false
 
-            });
+});
 
-        video.srcObject =
-            streamCamera;
+video.srcObject=
+streamCamera;
 
-    }catch(error){
+}catch(error){
 
-        status.innerText =
-            "Não foi possível abrir a câmera.";
+status.innerText=
+"Não foi possível abrir a câmera.";
 
-        alert(
-            "Permita o acesso à câmera."
-        );
+alert(
+"Permita o acesso à câmera."
+);
 
-    }
+}
 
 }
 
 async function capturarEtiqueta(){
 
-    const video =
-        document.getElementById("video");
+let video=
+document.getElementById(
+"video"
+);
 
-    const canvas =
-        document.getElementById("canvas");
+let canvas=
+document.getElementById(
+"canvas"
+);
 
-    const status =
-        document.getElementById("status");
+let status=
+document.getElementById(
+"status"
+);
 
-    if(!video.videoWidth){
+if(!video.videoWidth){
 
-        status.innerText =
-            "A câmera ainda não está pronta.";
+status.innerText=
+"A câmera ainda não está pronta.";
 
-        return;
-    }
+return;
 
-    status.innerText =
-        "🔎 Lendo preço...";
+}
 
-    canvas.width =
-        video.videoWidth;
+status.innerText=
+"🔎 Lendo preço...";
 
-    canvas.height =
-        video.videoHeight;
+canvas.width=
+video.videoWidth;
 
-    const contexto =
-        canvas.getContext("2d");
+canvas.height=
+video.videoHeight;
 
-    contexto.drawImage(
-        video,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+let contexto=
+canvas.getContext("2d");
 
-    try{
+contexto.drawImage(
+video,
+0,
+0,
+canvas.width,
+canvas.height
+);
 
-        const {data} =
-            await Tesseract.recognize(
-                canvas,
-                "por",
-                {
-                    logger:function(info){
+try{
 
-                        if(
-                            info.status ===
-                            "recognizing text"
-                        ){
+const {data}=
+await Tesseract.recognize(
+canvas,
+"por",
+{
 
-                            status.innerText =
-                                "🔎 Lendo... " +
-                                Math.round(
-                                    info.progress * 100
-                                ) +
-                                "%";
+logger:function(info){
 
-                        }
+if(
+info.status===
+"recognizing text"
+){
 
-                    }
-                }
-            );
+status.innerText=
+"🔎 Lendo... "+
+Math.round(
+info.progress*100
+)+
+"%";
 
-        const preco =
-            encontrarPreco(
-                data.text
-            );
+}
 
-        if(preco){
+}
 
-            precoLido = preco;
+}
+);
 
-            document
-            .getElementById(
-                "precoDetectado"
-            )
-            .innerText =
-                dinheiro(preco);
+let preco=
+encontrarPreco(
+data.text
+);
 
-            document
-            .getElementById(
-                "resultadoLeitura"
-            )
-            .style.display =
-                "block";
+if(preco){
 
-            status.innerText =
-                "Preço encontrado.";
+precoLido=preco;
 
-        }else{
+document.getElementById(
+"precoDetectado"
+).innerText=
+dinheiro(preco);
 
-            status.innerText =
-                "Não encontrei o preço. Tente novamente.";
+document.getElementById(
+"resultadoLeitura"
+).style.display=
+"block";
 
-        }
+status.innerText=
+"Preço encontrado.";
 
-    }catch(error){
+}else{
 
-        console.error(error);
+status.innerText=
+"Não encontrei o preço. Tente novamente.";
 
-        status.innerText =
-            "Erro ao ler. Tente novamente.";
+}
 
-    }
+}catch(error){
+
+console.error(error);
+
+status.innerText=
+"Erro ao ler. Tente novamente.";
+
+}
 
 }
 
 function encontrarPreco(texto){
 
-    const encontrados = [];
+let encontrados=[];
 
-    const padrao =
-        /R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
+let padrao=
+/R?\s*\$?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})|\d+(?:,\d{2}))/gi;
 
-    let resultado;
+let resultado;
 
-    while(
-        (resultado =
-            padrao.exec(texto)) !== null
-    ){
+while(
+(resultado=padrao.exec(texto))!==null
+){
 
-        const numero =
-            resultado[1]
-            .replace(/\s/g,"")
-            .replace(/\./g,"")
-            .replace(",", ".");
+let numero=
+resultado[1]
+.replace(/\s/g,"")
+.replace(/\./g,"")
+.replace(",", ".");
 
-        const valor =
-            Number(numero);
+let valor=
+Number(numero);
 
-        if(
-            valor > 0 &&
-            valor < 100000
-        ){
+if(
+valor>0 &&
+valor<100000
+){
 
-            encontrados.push(valor);
+encontrados.push(valor);
 
-        }
+}
 
-    }
+}
 
-    if(encontrados.length === 0){
+if(
+encontrados.length===0
+){
 
-        const lista =
-            texto.match(
-                /\b\d{1,5}[,.]\d{2}\b/g
-            );
+let lista=
+texto.match(
+/\b\d{1,5}[,.]\d{2}\b/g
+);
 
-        if(lista){
+if(lista){
 
-            lista.forEach(
-                function(item){
+lista.forEach(function(item){
 
-                    const valor =
-                        Number(
-                            item.replace(",",".")
-                        );
+let valor=
+Number(
+item.replace(",",".")
+);
 
-                    if(
-                        valor > 0 &&
-                        valor < 100000
-                    ){
+if(
+valor>0 &&
+valor<100000
+){
 
-                        encontrados.push(
-                            valor
-                        );
+encontrados.push(valor);
 
-                    }
+}
 
-                }
-            );
+});
 
-        }
+}
 
-    }
+}
 
-    return encontrados.length
-        ? encontrados[0]
-        : null;
+return encontrados.length
+?encontrados[0]
+:null;
 
 }
 
 function usarPrecoDetectado(){
 
-    if(!precoLido)
-        return;
+if(!precoLido)return;
 
-    valores.push(precoLido);
+valores.push(
+precoLido
+);
 
-    atualizarLista();
+atualizarLista();
 
-    calcular();
+calcular();
 
-    precoLido = 0;
+precoLido=0;
 
-    document
-    .getElementById(
-        "resultadoLeitura"
-    )
-    .style.display = "none";
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
 
-    document
-    .getElementById("status")
-    .innerText =
-        "✅ Adicionado. Pode ler outra etiqueta.";
+document.getElementById(
+"status"
+).innerText=
+"✅ Adicionado. Pode ler outra etiqueta.";
 
 }
 
 function tentarNovamente(){
 
-    document
-    .getElementById(
-        "resultadoLeitura"
-    )
-    .style.display = "none";
+document.getElementById(
+"resultadoLeitura"
+).style.display="none";
 
-    document
-    .getElementById("status")
-    .innerText =
-        "Posicione o preço no centro.";
+document.getElementById(
+"status"
+).innerText=
+"Posicione o preço no centro.";
 
 }
 
 function fecharCamera(){
 
-    if(streamCamera){
+if(streamCamera){
 
-        streamCamera
-        .getTracks()
-        .forEach(
-            function(track){
-                track.stop();
-            }
-        );
+streamCamera
+.getTracks()
+.forEach(function(track){
 
-        streamCamera = null;
+track.stop();
 
-    }
+});
 
-    document
-    .getElementById("video")
-    .srcObject = null;
-
-    document
-    .getElementById("cameraModal")
-    .style.display = "none";
+streamCamera=null;
 
 }
 
-/* =====================================
+document.getElementById(
+"video"
+).srcObject=null;
+
+document.getElementById(
+"cameraModal"
+).style.display="none";
+
+}
+
+/* =========================
    CARREGAR PERFIL
-===================================== */
+========================= */
 
 function carregarPerfil(){
 
-    const nome =
-        localStorage.getItem(
-            "nomeVendedor"
-        );
+let nome=
+localStorage.getItem(
+"nomeVendedor"
+);
 
-    if(nome){
+let foto=
+localStorage.getItem(
+"fotoVendedor"
+);
 
-        document
-        .getElementById(
-            "nomeVendedor"
-        )
-        .innerText = nome;
+if(nome){
 
-        document
-        .getElementById(
-            "nomeInput"
-        )
-        .value = nome;
+document.getElementById(
+"nomeVendedor"
+).innerText=
+nome;
 
-    }
+document.getElementById(
+"nomeInput"
+).value=
+nome;
 
 }
 
-/* =====================================
+if(foto){
+
+mostrarFoto(foto);
+
+fotoSelecionada=foto;
+
+}
+
+}
+
+/* =========================
    ENTER
-===================================== */
+========================= */
 
-document
-.getElementById("valor")
-.addEventListener(
-    "keydown",
-    function(event){
+document.getElementById(
+"valor"
+).addEventListener(
+"keydown",
+function(event){
 
-        if(event.key === "Enter"){
+if(event.key==="Enter"){
 
-            adicionarValor();
+adicionarValor();
 
-        }
+}
 
-    }
+}
 );
 
-document
-.getElementById("outroDesconto")
-.addEventListener(
-    "keydown",
-    function(event){
+document.getElementById(
+"outroDesconto"
+).addEventListener(
+"keydown",
+function(event){
 
-        if(event.key === "Enter"){
+if(event.key==="Enter"){
 
-            aplicarOutro();
+aplicarOutro();
 
-        }
+}
 
-    }
+}
 );
 
-/* =====================================
+/* =========================
    INICIALIZAÇÃO
-===================================== */
+========================= */
 
 carregarPerfil();
 
