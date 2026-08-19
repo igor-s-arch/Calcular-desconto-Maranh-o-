@@ -3,15 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcula Fácil HELPÍGOS</title>
 
-<!-- APENAS CONFIGURAÇÃO DO ÍCONE DO APP -->
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<title>Calcula Fácil HP</title>
+
+<!-- =====================================================
+     ÍCONE DO APLICATIVO
+     ===================================================== -->
+
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo-192.png">
+
+<link rel="apple-touch-icon" sizes="180x180" href="logo-180.png">
+
 <link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#080808">
+<meta name="mobile-web-app-capable" content="yes">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Calcula Fácil HELPÍGOS">
+<meta name="apple-mobile-web-app-title" content="Calcula Fácil HP">
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
@@ -30,8 +41,6 @@ body{
     margin:auto;
     padding:10px;
 }
-
-/* CABEÇALHO */
 
 .header{
     background:#080808;
@@ -85,8 +94,6 @@ body{
     color:#ccc;
     font-size:12px;
 }
-
-/* PERFIL */
 
 .perfil{
     background:#111;
@@ -142,8 +149,6 @@ body{
     display:none;
 }
 
-/* CARD */
-
 .card{
     background:white;
     border-radius:0 0 20px 20px;
@@ -170,8 +175,6 @@ label{
     margin-bottom:7px;
     font-size:13px;
 }
-
-/* INPUT */
 
 .input{
     height:56px;
@@ -206,8 +209,6 @@ input::-webkit-inner-spin-button{
     -webkit-appearance:none;
 }
 
-/* BOTÕES */
-
 .btnCamera,
 .btnAdicionar{
     width:100%;
@@ -238,8 +239,6 @@ button:active{
     transform:scale(.97);
 }
 
-/* LISTA */
-
 .lista{
     margin-top:14px;
 }
@@ -268,8 +267,6 @@ button:active{
     background:#e60000;
     color:white;
 }
-
-/* DESCONTO */
 
 .descontos{
     margin-top:16px;
@@ -320,8 +317,6 @@ button:active{
     font-weight:bold;
 }
 
-/* RESULTADO */
-
 .result{
     background:#111;
     color:white;
@@ -362,8 +357,6 @@ button:active{
     margin-top:3px;
     color:#fff;
 }
-
-/* CREDIÁRIO */
 
 .crediario{
     padding:12px 16px;
@@ -429,8 +422,6 @@ button:active{
     color:#111;
 }
 
-/* FINALIZAR */
-
 .btnFinalizar{
     width:calc(100% - 32px);
     margin:8px 16px 0;
@@ -444,8 +435,6 @@ button:active{
     box-shadow:0 3px 0 #a80000;
 }
 
-/* NOVA VENDA */
-
 .btnNova{
     width:calc(100% - 32px);
     margin:8px 16px 16px;
@@ -457,8 +446,6 @@ button:active{
     font-weight:bold;
     font-size:15px;
 }
-
-/* VENDAS DO DIA */
 
 .vendasDia{
     margin-top:10px;
@@ -543,8 +530,6 @@ button:active{
     font-weight:bold;
     margin-top:5px;
 }
-
-/* CÂMERA */
 
 .cameraModal{
     display:none;
@@ -684,7 +669,7 @@ canvas{
         <div class="logoPadrao">🧮</div>
     </div>
 
-    <h1>Calcula Fácil HELPÍGOS</h1>
+    <h1>Calcula Fácil HP</h1>
 
     <div class="nomeVendedor" id="nomeVendedor">
         Vendedor
@@ -767,32 +752,15 @@ placeholder="0,00">
 
 <div class="botoesDesconto">
 
-<button class="btnDesconto"
-onclick="selecionarDesconto(0,this)">0%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(5,this)">5%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(10,this)">10%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(15,this)">15%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(20,this)">20%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(30,this)">30%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(40,this)">40%</button>
-
-<button class="btnDesconto"
-onclick="selecionarDesconto(50,this)">50%</button>
-
-<button class="btnDesconto"
-onclick="mostrarOutro()">OUTRO</button>
+<button class="btnDesconto" onclick="selecionarDesconto(0,this)">0%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(5,this)">5%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(10,this)">10%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(15,this)">15%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(20,this)">20%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(30,this)">30%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(40,this)">40%</button>
+<button class="btnDesconto" onclick="selecionarDesconto(50,this)">50%</button>
+<button class="btnDesconto" onclick="mostrarOutro()">OUTRO</button>
 
 </div>
 
@@ -1365,8 +1333,6 @@ calcular();
 document.getElementById("valor").focus();
 }
 
-/* LEITOR */
-
 async function abrirCamera(){
 
 let modal=document.getElementById("cameraModal");
@@ -1607,6 +1573,3 @@ calcular();
 
 </body>
 </html>
-index.html
-manifest.json
-logo.png
