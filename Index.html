@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoção 50%</title>
+<style>
+body{margin:0;background:#f2f4f7;font-family:Arial,sans-serif;color:#111827}
+.app{max-width:480px;margin:auto;padding:20px 14px}
+.header{background:#111827;color:white;text-align:center;padding:25px;border-radius:20px 20px 0 0}
+.header h1{margin:0;font-size:29px}
+.header p{margin:6px 0 0;color:#d1d5db}
+.card{background:white;border-radius:0 0 20px 20px;overflow:hidden}
+.promo{background:#ed1111;color:white;text-align:center;font-size:21px;font-weight:bold;padding:16px}
+.area{padding:25px}
+label{display:block;font-weight:bold;color:#555;margin-bottom:10px}
+.input{height:68px;border:3px solid #111;border-radius:14px;display:flex;align-items:center;padding:0 15px}
+.input b{font-size:22px;margin-right:8px}
+input{border:0;outline:0;width:100%;font-size:30px;font-weight:bold}
+.result{background:#168ce5;color:white;text-align:center;padding:28px 15px}
+.result small{font-weight:bold}
+.preco{font-size:46px;font-weight:bold;margin-top:6px}
+.economia{margin-top:7px}
+button{margin:20px;width:calc(100% - 40px);height:55px;background:#111827;color:white;border:0;border-radius:13px;font-size:17px;font-weight:bold}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="header">
+<h1>Preço Fácil</h1>
+<p>Calculadora da promoção</p>
+</div>
+
+<div class="card">
+
+<div class="promo">
+🔥 50% DE DESCONTO
+</div>
+
+<div class="area">
+<label>VALOR DA ETIQUETA</label>
+
+<div class="input">
+<b>R$</b>
+<input id="valor" type="number" inputmode="decimal" placeholder="0,00">
+</div>
+</div>
+
+<div class="result">
+<small>PREÇO FINAL DE VENDA</small>
+
+<div class="preco" id="preco">
+R$ 0,00
+</div>
+
+<div class="economia" id="economia">
+Você economiza R$ 0,00
+</div>
+</div>
+
+<button onclick="limpar()">NOVA CONTA</button>
+
+</div>
+</div>
+
+<script>
+function calcular(){
+
+var valor = Number(document.getElementById("valor").value) || 0;
+
+var desconto = valor * 0.50;
+
+var final = valor - desconto;
+
+document.getElementById("preco").innerText =
+"R$ " + final.toLocaleString("pt-BR", {
+minimumFractionDigits: 2,
+maximumFractionDigits: 2
+});
+
+document.getElementById("economia").innerText =
+"Você economiza R$ " + desconto.toLocaleString("pt-BR", {
+minimumFractionDigits: 2,
+maximumFractionDigits: 2
+});
+}
+
+document.getElementById("valor").addEventListener("input", calcular);
+
+function limpar(){
+document.getElementById("valor").value="";
+calcular();
+document.getElementById("valor").focus();
+}
+</script>
+
+</body>
+</html>
