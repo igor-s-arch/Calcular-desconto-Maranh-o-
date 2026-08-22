@@ -947,9 +947,7 @@ button:active{
 }
 
 
-/* =========================================================
-   CREDIÁRIO
-========================================================= */
+/* CREDIÁRIO */
 
 .crediario{
 
@@ -984,8 +982,6 @@ button:active{
     box-shadow:var(--shadowSmall);
 }
 
-
-/* NOVO CAMPO DE ENTRADA */
 
 .entradaBox{
 
@@ -1337,11 +1333,64 @@ button:active{
 
     justify-content:space-between;
 
+    align-items:center;
+
     font-weight:800;
 }
 
 .vendaTopo strong{
     color:var(--gold2);
+}
+
+
+/* NOVO: ÁREA DA VENDA E LIXEIRA */
+
+.vendaAcao{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:8px;
+
+    margin-bottom:5px;
+}
+
+.btnExcluirVenda{
+
+    flex-shrink:0;
+
+    width:38px;
+
+    height:34px;
+
+    border:1px solid #91343a;
+
+    border-radius:8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #df5961,
+            #9f3037
+        );
+
+    color:white;
+
+    font-size:16px;
+
+    box-shadow:
+        3px 3px 7px rgba(0,0,0,.4);
+}
+
+.btnExcluirVenda:active{
+
+    transform:
+        translateY(2px)
+        scale(.96);
+
 }
 
 .vendaDetalhe{
@@ -1919,8 +1968,6 @@ canvas{
     </div>
 
 
-    <!-- CREDIÁRIO -->
-
     <div class="crediario">
 
         <button
@@ -1930,8 +1977,6 @@ canvas{
             💳 CREDIÁRIO
         </button>
 
-
-        <!-- NOVO CAMPO DE ENTRADA -->
 
         <div
             class="entradaBox"
@@ -1987,75 +2032,16 @@ canvas{
 
             <div class="botoesParcelas">
 
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(1,this)"
-                >
-                    1x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(2,this)"
-                >
-                    2x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(3,this)"
-                >
-                    3x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(4,this)"
-                >
-                    4x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(5,this)"
-                >
-                    5x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(6,this)"
-                >
-                    6x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(7,this)"
-                >
-                    7x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(8,this)"
-                >
-                    8x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(9,this)"
-                >
-                    9x
-                </button>
-
-                <button
-                    class="btnParcela"
-                    onclick="calcularParcela(10,this)"
-                >
-                    10x
-                </button>
+                <button class="btnParcela" onclick="calcularParcela(1,this)">1x</button>
+                <button class="btnParcela" onclick="calcularParcela(2,this)">2x</button>
+                <button class="btnParcela" onclick="calcularParcela(3,this)">3x</button>
+                <button class="btnParcela" onclick="calcularParcela(4,this)">4x</button>
+                <button class="btnParcela" onclick="calcularParcela(5,this)">5x</button>
+                <button class="btnParcela" onclick="calcularParcela(6,this)">6x</button>
+                <button class="btnParcela" onclick="calcularParcela(7,this)">7x</button>
+                <button class="btnParcela" onclick="calcularParcela(8,this)">8x</button>
+                <button class="btnParcela" onclick="calcularParcela(9,this)">9x</button>
+                <button class="btnParcela" onclick="calcularParcela(10,this)">10x</button>
 
             </div>
 
@@ -2116,51 +2102,23 @@ canvas{
         <div class="resumo">
 
             <div class="resumoBox">
-
-                <small>
-                    VENDAS
-                </small>
-
-                <strong id="qtdVendas">
-                    0
-                </strong>
-
+                <small>VENDAS</small>
+                <strong id="qtdVendas">0</strong>
             </div>
 
             <div class="resumoBox">
-
-                <small>
-                    TOTAL VENDIDO
-                </small>
-
-                <strong id="totalVendido">
-                    R$ 0,00
-                </strong>
-
+                <small>TOTAL VENDIDO</small>
+                <strong id="totalVendido">R$ 0,00</strong>
             </div>
 
             <div class="resumoBox">
-
-                <small>
-                    DESCONTOS
-                </small>
-
-                <strong id="totalDescontos">
-                    R$ 0,00
-                </strong>
-
+                <small>DESCONTOS</small>
+                <strong id="totalDescontos">R$ 0,00</strong>
             </div>
 
             <div class="resumoBox">
-
-                <small>
-                    MÉDIA
-                </small>
-
-                <strong id="mediaVenda">
-                    R$ 0,00
-                </strong>
-
+                <small>MÉDIA</small>
+                <strong id="mediaVenda">R$ 0,00</strong>
             </div>
 
         </div>
@@ -2217,9 +2175,7 @@ canvas{
             playsinline
         ></video>
 
-        <canvas
-            id="canvas"
-        ></canvas>
+        <canvas id="canvas"></canvas>
 
         <div class="cameraArea">
 
@@ -2304,7 +2260,7 @@ let numeroParcelas = 0;
 
 function dinheiro(valor){
 
-    return valor.toLocaleString(
+    return Number(valor || 0).toLocaleString(
         "pt-BR",
         {
             style:"currency",
@@ -2678,9 +2634,7 @@ function calcular(){
 }
 
 
-/* =========================================================
-   NOVAS FUNÇÕES DA ENTRADA
-========================================================= */
+/* TOTAL */
 
 function obterTotalAtual(){
 
@@ -2964,9 +2918,6 @@ function finalizarVenda(){
     let final =
         total - desconto;
 
-
-    /* NOVA PARTE: ENTRADA */
-
     let entrada =
         obterEntrada();
 
@@ -2987,7 +2938,6 @@ function finalizarVenda(){
     let restante =
         final - entrada;
 
-
     let hora =
         new Date()
         .toLocaleTimeString(
@@ -2997,7 +2947,6 @@ function finalizarVenda(){
                 minute:"2-digit"
             }
         );
-
 
     let venda = {
 
@@ -3019,7 +2968,6 @@ function finalizarVenda(){
 
     };
 
-
     let vendas =
         JSON.parse(
             localStorage.getItem(
@@ -3027,18 +2975,14 @@ function finalizarVenda(){
             ) || "[]"
         );
 
-
     vendas.push(venda);
-
 
     localStorage.setItem(
         "vendasDoDia",
         JSON.stringify(vendas)
     );
 
-
     atualizarVendas();
-
 
     alert(
         "✅ Venda salva com sucesso!"
@@ -3066,6 +3010,11 @@ function abrirVendas(){
 }
 
 
+/* =========================================================
+   ATUALIZAR VENDAS
+   AGORA COM LIXEIRA INDIVIDUAL
+========================================================= */
+
 function atualizarVendas(){
 
     let vendas =
@@ -3085,10 +3034,10 @@ function atualizarVendas(){
         function(venda){
 
             totalVendido +=
-                venda.final;
+                Number(venda.final) || 0;
 
             totalDescontos +=
-                venda.desconto;
+                Number(venda.desconto) || 0;
 
         }
     );
@@ -3147,7 +3096,17 @@ function atualizarVendas(){
     .slice()
     .reverse()
     .forEach(
-        function(venda){
+        function(venda, indiceVisual){
+
+            /*
+             * Como a lista é mostrada de trás para frente,
+             * precisamos descobrir o índice verdadeiro
+             * da venda dentro do array original.
+             */
+
+            let indiceReal =
+                vendas.length - 1 - indiceVisual;
+
 
             let item =
                 document.createElement(
@@ -3178,15 +3137,27 @@ function atualizarVendas(){
 
             item.innerHTML = `
 
-                <div class="vendaTopo">
+                <div class="vendaAcao">
 
-                    <span>
-                        Venda ${venda.hora}
-                    </span>
+                    <div class="vendaTopo">
 
-                    <strong>
-                        ${dinheiro(venda.final)}
-                    </strong>
+                        <span>
+                            Venda ${venda.hora}
+                        </span>
+
+                        <strong>
+                            ${dinheiro(venda.final)}
+                        </strong>
+
+                    </div>
+
+                    <button
+                        class="btnExcluirVenda"
+                        onclick="excluirVenda(${indiceReal})"
+                        title="Apagar esta venda"
+                    >
+                        🗑️
+                    </button>
 
                 </div>
 
@@ -3226,6 +3197,87 @@ function atualizarVendas(){
 
 }
 
+
+/* =========================================================
+   NOVA FUNÇÃO
+   EXCLUI UMA VENDA POR VEZ
+========================================================= */
+
+function excluirVenda(index){
+
+    let vendas =
+        JSON.parse(
+            localStorage.getItem(
+                "vendasDoDia"
+            ) || "[]"
+        );
+
+
+    if(
+        index < 0 ||
+        index >= vendas.length
+    ){
+
+        return;
+
+    }
+
+
+    let venda =
+        vendas[index];
+
+
+    let confirmar =
+        confirm(
+            "Tem certeza que deseja apagar esta venda?\n\n" +
+            "Venda: " +
+            venda.hora +
+            "\n" +
+            "Valor: " +
+            dinheiro(venda.final)
+        );
+
+
+    if(!confirmar){
+
+        return;
+
+    }
+
+
+    /*
+     * Remove somente a venda selecionada.
+     * As outras vendas continuam salvas.
+     */
+
+    vendas.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        "vendasDoDia",
+        JSON.stringify(vendas)
+    );
+
+
+    /*
+     * Atualiza imediatamente:
+     * - quantidade de vendas
+     * - total vendido
+     * - descontos
+     * - média
+     * - lista de vendas
+     */
+
+    atualizarVendas();
+
+
+}
+
+
+/* LIMPAR TODAS */
 
 function limparVendas(){
 
@@ -3289,8 +3341,6 @@ function novaVenda(){
         "outroDesconto"
     ).value = "";
 
-
-    /* LIMPAR ENTRADA */
 
     document.getElementById(
         "entrada"
