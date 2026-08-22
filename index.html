@@ -11,50 +11,17 @@
 
 <title>Calcula Fácil HP</title>
 
-<link
-    rel="icon"
-    type="image/png"
-    sizes="192x192"
-    href="logo.png"
->
+<link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+<link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 
-<link
-    rel="icon"
-    type="image/png"
-    sizes="512x512"
-    href="logo.png"
->
+<link rel="manifest" href="manifest.json">
 
-<link
-    rel="apple-touch-icon"
-    sizes="180x180"
-    href="logo.png"
->
+<meta name="theme-color" content="#101923">
 
-<link
-    rel="manifest"
-    href="manifest.json"
->
-
-<meta
-    name="theme-color"
-    content="#101923"
->
-
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
->
-
-<meta
-    name="apple-mobile-web-app-title"
-    content="Calcula Fácil HP"
->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calcula Fácil HP">
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
@@ -66,28 +33,21 @@
 }
 
 :root{
-
     --bg:#091019;
     --bg2:#111c28;
-
     --panel:#182534;
     --panel2:#202f40;
     --panel3:#26384b;
-
     --line:#354b60;
     --line2:#405a70;
-
     --gold:#d6a83a;
     --gold2:#f4cf68;
     --gold3:#8d691b;
-
     --blue:#4f7da7;
     --blue2:#6f9bc2;
-
     --white:#f5f8fb;
     --text:#e8eef4;
     --muted:#8fa1b2;
-
     --green:#28b56b;
     --red:#d94a52;
 
@@ -109,9 +69,7 @@ html{
 }
 
 body{
-
     margin:0;
-
     min-height:100vh;
 
     background:
@@ -148,23 +106,16 @@ button{
 }
 
 .app{
-
     width:100%;
-
     max-width:480px;
-
     margin:auto;
-
     padding:12px;
 }
-
 
 /* CABEÇALHO */
 
 .header{
-
     position:relative;
-
     overflow:hidden;
 
     background:
@@ -191,11 +142,8 @@ button{
 }
 
 .header:before{
-
     content:"";
-
     position:absolute;
-
     inset:0;
 
     background:
@@ -210,7 +158,6 @@ button{
 }
 
 .header:after{
-
     content:"";
 
     position:absolute;
@@ -236,7 +183,6 @@ button{
 }
 
 .logoPerfil{
-
     width:82px;
     height:82px;
 
@@ -258,7 +204,6 @@ button{
 }
 
 .logoPadrao{
-
     display:flex;
 
     width:82px;
@@ -290,7 +235,6 @@ button{
 }
 
 .header h1{
-
     position:relative;
 
     margin:0;
@@ -305,7 +249,6 @@ button{
 }
 
 .nomeVendedor{
-
     margin:7px 0 0;
 
     color:var(--gold2);
@@ -316,7 +259,6 @@ button{
 }
 
 .header p{
-
     margin:5px 0 0;
 
     color:var(--muted);
@@ -324,11 +266,9 @@ button{
     font-size:12px;
 }
 
-
 /* PERFIL */
 
 .perfil{
-
     margin-top:8px;
 
     padding:10px;
@@ -348,7 +288,6 @@ button{
 }
 
 .btnPerfil{
-
     width:100%;
     height:43px;
 
@@ -376,7 +315,6 @@ button{
 }
 
 .btnPerfil:active{
-
     transform:translateY(2px);
 
     box-shadow:
@@ -384,14 +322,11 @@ button{
 }
 
 .perfilOpcoes{
-
     display:none;
-
     margin-top:9px;
 }
 
 .perfilOpcoes input[type="text"]{
-
     width:100%;
     height:43px;
 
@@ -411,7 +346,6 @@ button{
 }
 
 .perfilOpcoes input[type="text"]:focus{
-
     border-color:var(--gold);
 
     box-shadow:
@@ -420,7 +354,6 @@ button{
 
 .btnFoto,
 .btnSalvarPerfil{
-
     width:100%;
     height:43px;
 
@@ -432,7 +365,6 @@ button{
 }
 
 .btnFoto{
-
     background:
         linear-gradient(
             145deg,
@@ -448,7 +380,6 @@ button{
 }
 
 .btnSalvarPerfil{
-
     background:
         linear-gradient(
             145deg,
@@ -469,11 +400,9 @@ button{
     display:none;
 }
 
-
 /* CARD */
 
 .card{
-
     margin-top:8px;
 
     background:
@@ -493,7 +422,6 @@ button{
 }
 
 .promo{
-
     background:
         linear-gradient(
             135deg,
@@ -525,7 +453,6 @@ button{
 }
 
 label{
-
     display:block;
 
     color:#aebdcc;
@@ -539,11 +466,9 @@ label{
     letter-spacing:.7px;
 }
 
-
 /* INPUT */
 
 .input{
-
     height:57px;
 
     display:flex;
@@ -571,7 +496,6 @@ label{
 }
 
 .input:focus-within{
-
     border-color:var(--gold);
 
     box-shadow:
@@ -580,20 +504,14 @@ label{
 }
 
 .input b{
-
     font-size:18px;
-
     margin-right:8px;
-
     color:var(--gold2);
 }
 
 .input input{
-
     border:0;
-
     outline:0;
-
     width:100%;
 
     background:transparent;
@@ -601,7 +519,6 @@ label{
     color:#f4f7fa;
 
     font-size:25px;
-
     font-weight:800;
 }
 
@@ -618,12 +535,10 @@ input::-webkit-inner-spin-button{
     -webkit-appearance:none;
 }
 
-
 /* BOTÕES */
 
 .btnCamera,
 .btnAdicionar{
-
     width:100%;
     height:50px;
 
@@ -639,7 +554,6 @@ input::-webkit-inner-spin-button{
 }
 
 .btnCamera{
-
     background:
         linear-gradient(
             145deg,
@@ -658,7 +572,6 @@ input::-webkit-inner-spin-button{
 }
 
 .btnAdicionar{
-
     background:
         linear-gradient(
             145deg,
@@ -678,7 +591,6 @@ input::-webkit-inner-spin-button{
 .btnCamera:active,
 .btnAdicionar:active,
 button:active{
-
     transform:
         translateY(2px)
         scale(.985);
@@ -687,7 +599,6 @@ button:active{
         inset 3px 3px 7px rgba(0,0,0,.38);
 }
 
-
 /* LISTA */
 
 .lista{
@@ -695,7 +606,6 @@ button:active{
 }
 
 .item{
-
     display:flex;
 
     align-items:center;
@@ -721,7 +631,6 @@ button:active{
 }
 
 .item span{
-
     color:#e8eef4;
 
     font-size:17px;
@@ -730,7 +639,6 @@ button:active{
 }
 
 .btnExcluir{
-
     width:35px;
     height:35px;
 
@@ -751,7 +659,6 @@ button:active{
         3px 3px 7px rgba(0,0,0,.4);
 }
 
-
 /* DESCONTO */
 
 .descontos{
@@ -759,7 +666,6 @@ button:active{
 }
 
 .botoesDesconto{
-
     display:grid;
 
     grid-template-columns:
@@ -769,7 +675,6 @@ button:active{
 }
 
 .btnDesconto{
-
     height:40px;
 
     border:1px solid #435a70;
@@ -795,7 +700,6 @@ button:active{
 }
 
 .btnDesconto.ativo{
-
     background:
         linear-gradient(
             145deg,
@@ -813,7 +717,6 @@ button:active{
 }
 
 .outro{
-
     display:flex;
 
     gap:7px;
@@ -822,7 +725,6 @@ button:active{
 }
 
 .outro input{
-
     height:42px;
 
     flex:1;
@@ -841,7 +743,6 @@ button:active{
 }
 
 .btnAplicar{
-
     border:1px solid #e3bd59;
 
     border-radius:9px;
@@ -862,11 +763,9 @@ button:active{
     box-shadow:var(--shadowSmall);
 }
 
-
 /* RESULTADO */
 
 .result{
-
     background:
         radial-gradient(
             circle at 50% 0%,
@@ -886,7 +785,6 @@ button:active{
     padding:21px 10px;
 
     border-top:1px solid var(--gold3);
-
     border-bottom:1px solid var(--gold3);
 
     box-shadow:
@@ -894,42 +792,28 @@ button:active{
 }
 
 .totalOriginal{
-
     font-size:14px;
-
     font-weight:700;
-
     color:#d5dfe8;
 }
 
 .descontoValor{
-
     font-size:14px;
-
     margin-top:5px;
-
     color:var(--gold2);
 }
 
 .precoTitulo{
-
     font-size:11px;
-
     font-weight:800;
-
     margin-top:13px;
-
     color:#9fb0c0;
-
     letter-spacing:1px;
 }
 
 .preco{
-
     font-size:43px;
-
     font-weight:900;
-
     color:#f0c955;
 
     text-shadow:
@@ -938,28 +822,20 @@ button:active{
 }
 
 .economia{
-
     font-size:13px;
-
     margin-top:3px;
-
     color:#c8d2dc;
 }
-
 
 /* CREDIÁRIO */
 
 .crediario{
-
     padding:12px 16px;
-
     background:#172432;
 }
 
 .btnCrediario{
-
     width:100%;
-
     height:48px;
 
     border:1px solid #52718d;
@@ -976,27 +852,21 @@ button:active{
     color:#eef4f8;
 
     font-size:15px;
-
     font-weight:800;
 
     box-shadow:var(--shadowSmall);
 }
 
-
 .entradaBox{
-
     display:none;
-
     margin-top:10px;
 }
 
 .entradaBox label{
-
     margin-top:0;
 }
 
 .resultadoEntrada{
-
     display:flex;
 
     justify-content:space-between;
@@ -1022,33 +892,25 @@ button:active{
 }
 
 .resultadoEntrada span{
-
     color:#94a6b7;
 
     font-size:10px;
-
     font-weight:800;
 }
 
 .resultadoEntrada strong{
-
     color:var(--gold2);
-
     font-size:16px;
 }
-
 
 /* PARCELAS */
 
 .parcelas{
-
     display:none;
-
     margin-top:10px;
 }
 
 .botoesParcelas{
-
     display:grid;
 
     grid-template-columns:
@@ -1058,7 +920,6 @@ button:active{
 }
 
 .btnParcela{
-
     height:38px;
 
     border:1px solid #40576c;
@@ -1075,7 +936,6 @@ button:active{
     color:#dbe4ec;
 
     font-size:13px;
-
     font-weight:800;
 
     box-shadow:
@@ -1083,7 +943,6 @@ button:active{
 }
 
 .btnParcela.ativo{
-
     background:
         linear-gradient(
             145deg,
@@ -1097,7 +956,6 @@ button:active{
 }
 
 .resultadoParcela{
-
     display:none;
 
     margin-top:10px;
@@ -1121,26 +979,19 @@ button:active{
 }
 
 .resultadoParcela small{
-
     color:#94a6b7;
-
     font-size:10px;
 }
 
 .valorParcela{
-
     font-size:25px;
-
     font-weight:900;
-
     color:var(--gold2);
 }
-
 
 /* FINALIZAR */
 
 .btnFinalizar{
-
     width:calc(100% - 32px);
 
     margin:8px 16px 0;
@@ -1161,7 +1012,6 @@ button:active{
     color:white;
 
     font-size:15px;
-
     font-weight:900;
 
     box-shadow:
@@ -1170,7 +1020,6 @@ button:active{
 }
 
 .btnNova{
-
     width:calc(100% - 32px);
 
     margin:8px 16px 16px;
@@ -1197,11 +1046,9 @@ button:active{
     box-shadow:var(--shadowSmall);
 }
 
-
 /* VENDAS DO DIA */
 
 .vendasDia{
-
     margin-top:10px;
 
     background:
@@ -1221,13 +1068,10 @@ button:active{
 }
 
 .btnVendas{
-
     width:100%;
-
     height:50px;
 
     border:0;
-
     border-bottom:1px solid var(--line);
 
     background:
@@ -1240,19 +1084,15 @@ button:active{
     color:#e4ecf3;
 
     font-size:15px;
-
     font-weight:900;
 }
 
 .painelVendas{
-
     display:none;
-
     padding:12px;
 }
 
 .resumo{
-
     display:grid;
 
     grid-template-columns:
@@ -1262,7 +1102,6 @@ button:active{
 }
 
 .resumoBox{
-
     background:
         linear-gradient(
             145deg,
@@ -1282,18 +1121,15 @@ button:active{
 }
 
 .resumoBox small{
-
     display:block;
 
     color:#8fa2b4;
 
     font-size:10px;
-
     font-weight:700;
 }
 
 .resumoBox strong{
-
     display:block;
 
     margin-top:4px;
@@ -1308,7 +1144,6 @@ button:active{
 }
 
 .venda{
-
     background:
         linear-gradient(
             145deg,
@@ -1328,7 +1163,6 @@ button:active{
 }
 
 .vendaTopo{
-
     display:flex;
 
     justify-content:space-between;
@@ -1342,11 +1176,7 @@ button:active{
     color:var(--gold2);
 }
 
-
-/* NOVO: ÁREA DA VENDA E LIXEIRA */
-
 .vendaAcao{
-
     display:flex;
 
     align-items:center;
@@ -1359,11 +1189,9 @@ button:active{
 }
 
 .btnExcluirVenda{
-
     flex-shrink:0;
 
     width:38px;
-
     height:34px;
 
     border:1px solid #91343a;
@@ -1386,15 +1214,12 @@ button:active{
 }
 
 .btnExcluirVenda:active{
-
     transform:
         translateY(2px)
         scale(.96);
-
 }
 
 .vendaDetalhe{
-
     color:#92a5b6;
 
     font-size:11px;
@@ -1403,9 +1228,7 @@ button:active{
 }
 
 .btnLimparVendas{
-
     width:100%;
-
     height:42px;
 
     border:1px solid #ed6970;
@@ -1428,15 +1251,12 @@ button:active{
     box-shadow:var(--shadowSmall);
 }
 
-
 /* CÂMERA */
 
 .cameraModal{
-
     display:none;
 
     position:fixed;
-
     inset:0;
 
     background:rgba(2,6,10,.94);
@@ -1451,9 +1271,7 @@ button:active{
 }
 
 .cameraBox{
-
     max-width:460px;
-
     margin:auto;
 
     background:
@@ -1474,7 +1292,6 @@ button:active{
 }
 
 .cameraTitulo{
-
     background:
         linear-gradient(
             145deg,
@@ -1492,23 +1309,17 @@ button:active{
 }
 
 .cameraTitulo h2{
-
     margin:0;
-
     font-size:19px;
 }
 
 .cameraTitulo p{
-
     margin:4px 0 0;
-
     font-size:12px;
-
     color:#aebdcc;
 }
 
 video{
-
     width:100%;
 
     display:block;
@@ -1528,20 +1339,16 @@ video{
 .btnFechar,
 .btnUsar,
 .btnTentar{
-
     width:100%;
-
     height:46px;
 
     border-radius:10px;
 
     font-weight:800;
-
     font-size:14px;
 }
 
 .btnCapturar{
-
     background:
         linear-gradient(
             145deg,
@@ -1555,7 +1362,6 @@ video{
 }
 
 .btnFechar{
-
     margin-top:7px;
 
     background:
@@ -1571,7 +1377,6 @@ video{
 }
 
 .btnUsar{
-
     background:
         linear-gradient(
             145deg,
@@ -1585,7 +1390,6 @@ video{
 }
 
 .btnTentar{
-
     margin-top:6px;
 
     background:
@@ -1601,7 +1405,6 @@ video{
 }
 
 .status{
-
     text-align:center;
 
     padding:10px 0;
@@ -1614,7 +1417,6 @@ video{
 }
 
 .resultadoLeitura{
-
     display:none;
 
     background:
@@ -1636,14 +1438,11 @@ video{
 }
 
 .resultadoLeitura strong{
-
     font-size:11px;
-
     color:#9eb0c0;
 }
 
 .precoDetectado{
-
     font-size:30px;
 
     font-weight:900;
@@ -1658,7 +1457,6 @@ canvas{
 }
 
 .vazio{
-
     color:#74889a;
 
     text-align:center;
@@ -1667,9 +1465,6 @@ canvas{
 
     font-size:13px;
 }
-
-
-/* RESPONSIVO */
 
 @media(max-width:360px){
 
@@ -1726,7 +1521,6 @@ canvas{
 
 </div>
 
-
 <div class="perfil">
 
     <button
@@ -1771,7 +1565,6 @@ canvas{
     </div>
 
 </div>
-
 
 <div class="card">
 
@@ -1822,13 +1615,10 @@ canvas{
             class="lista"
             id="lista"
         >
-
             <div class="vazio">
                 Nenhum valor
             </div>
-
         </div>
-
 
         <div class="descontos">
 
@@ -1930,7 +1720,6 @@ canvas{
 
     </div>
 
-
     <div class="result">
 
         <div
@@ -1967,7 +1756,6 @@ canvas{
 
     </div>
 
-
     <div class="crediario">
 
         <button
@@ -1976,7 +1764,6 @@ canvas{
         >
             💳 CREDIÁRIO
         </button>
-
 
         <div
             class="entradaBox"
@@ -2024,7 +1811,6 @@ canvas{
 
         </div>
 
-
         <div
             class="parcelas"
             id="parcelas"
@@ -2067,7 +1853,6 @@ canvas{
 
     </div>
 
-
     <button
         class="btnFinalizar"
         onclick="finalizarVenda()"
@@ -2083,7 +1868,6 @@ canvas{
     </button>
 
 </div>
-
 
 <div class="vendasDia">
 
@@ -2146,7 +1930,6 @@ canvas{
 </div>
 
 </div>
-
 
 <!-- CÂMERA -->
 
@@ -2237,7 +2020,6 @@ canvas{
     </div>
 
 </div>
-
 
 <script>
 
@@ -2887,7 +2669,10 @@ function calcularParcela(
 }
 
 
-/* FINALIZAR VENDA */
+/* =========================================================
+   FINALIZAR VENDA
+   SALVA E ZERA AUTOMATICAMENTE
+========================================================= */
 
 function finalizarVenda(){
 
@@ -2988,6 +2773,15 @@ function finalizarVenda(){
         "✅ Venda salva com sucesso!"
     );
 
+
+    /* =====================================================
+       AQUI ESTÁ A ALTERAÇÃO:
+       DEPOIS DE SALVAR A VENDA,
+       O SISTEMA ZERA AUTOMATICAMENTE.
+    ===================================================== */
+
+    novaVenda();
+
 }
 
 
@@ -3010,10 +2804,7 @@ function abrirVendas(){
 }
 
 
-/* =========================================================
-   ATUALIZAR VENDAS
-   AGORA COM LIXEIRA INDIVIDUAL
-========================================================= */
+/* ATUALIZAR VENDAS */
 
 function atualizarVendas(){
 
@@ -3024,11 +2815,9 @@ function atualizarVendas(){
             ) || "[]"
         );
 
-
     let totalVendido = 0;
 
     let totalDescontos = 0;
-
 
     vendas.forEach(
         function(venda){
@@ -3042,45 +2831,37 @@ function atualizarVendas(){
         }
     );
 
-
     let media =
         vendas.length
         ? totalVendido / vendas.length
         : 0;
-
 
     document.getElementById(
         "qtdVendas"
     ).innerText =
         vendas.length;
 
-
     document.getElementById(
         "totalVendido"
     ).innerText =
         dinheiro(totalVendido);
-
 
     document.getElementById(
         "totalDescontos"
     ).innerText =
         dinheiro(totalDescontos);
 
-
     document.getElementById(
         "mediaVenda"
     ).innerText =
         dinheiro(media);
-
 
     let lista =
         document.getElementById(
             "listaVendas"
         );
 
-
     lista.innerHTML = "";
-
 
     if(vendas.length === 0){
 
@@ -3091,32 +2872,22 @@ function atualizarVendas(){
 
     }
 
-
     vendas
     .slice()
     .reverse()
     .forEach(
         function(venda, indiceVisual){
 
-            /*
-             * Como a lista é mostrada de trás para frente,
-             * precisamos descobrir o índice verdadeiro
-             * da venda dentro do array original.
-             */
-
             let indiceReal =
                 vendas.length - 1 - indiceVisual;
-
 
             let item =
                 document.createElement(
                     "div"
                 );
 
-
             item.className =
                 "venda";
-
 
             let parcelamento =
                 venda.parcelas > 0
@@ -3125,15 +2896,12 @@ function atualizarVendas(){
                   "x"
                 : " • À vista";
 
-
             let entrada =
                 venda.entrada || 0;
-
 
             let restante =
                 venda.restante ??
                 venda.final;
-
 
             item.innerHTML = `
 
@@ -3189,7 +2957,6 @@ function atualizarVendas(){
 
             `;
 
-
             lista.appendChild(item);
 
         }
@@ -3198,10 +2965,7 @@ function atualizarVendas(){
 }
 
 
-/* =========================================================
-   NOVA FUNÇÃO
-   EXCLUI UMA VENDA POR VEZ
-========================================================= */
+/* EXCLUIR VENDA */
 
 function excluirVenda(index){
 
@@ -3212,7 +2976,6 @@ function excluirVenda(index){
             ) || "[]"
         );
 
-
     if(
         index < 0 ||
         index >= vendas.length
@@ -3222,10 +2985,8 @@ function excluirVenda(index){
 
     }
 
-
     let venda =
         vendas[index];
-
 
     let confirmar =
         confirm(
@@ -3237,42 +2998,23 @@ function excluirVenda(index){
             dinheiro(venda.final)
         );
 
-
     if(!confirmar){
 
         return;
 
     }
 
-
-    /*
-     * Remove somente a venda selecionada.
-     * As outras vendas continuam salvas.
-     */
-
     vendas.splice(
         index,
         1
     );
-
 
     localStorage.setItem(
         "vendasDoDia",
         JSON.stringify(vendas)
     );
 
-
-    /*
-     * Atualiza imediatamente:
-     * - quantidade de vendas
-     * - total vendido
-     * - descontos
-     * - média
-     * - lista de vendas
-     */
-
     atualizarVendas();
-
 
 }
 
@@ -3288,19 +3030,16 @@ function limparVendas(){
             ) || "[]"
         );
 
-
     if(vendas.length === 0){
 
         return;
 
     }
 
-
     let confirmar =
         confirm(
             "Tem certeza que deseja apagar todas as vendas do dia?"
         );
-
 
     if(!confirmar){
 
@@ -3308,18 +3047,16 @@ function limparVendas(){
 
     }
 
-
     localStorage.removeItem(
         "vendasDoDia"
     );
-
 
     atualizarVendas();
 
 }
 
 
-/* NOVA VENDA */
+/* NOVA VENDA / RESET */
 
 function novaVenda(){
 
@@ -3428,35 +3165,28 @@ async function abrirCamera(){
             "cameraModal"
         );
 
-
     let video =
         document.getElementById(
             "video"
         );
-
 
     let status =
         document.getElementById(
             "status"
         );
 
-
     document.getElementById(
         "resultadoLeitura"
     ).style.display =
         "none";
 
-
     precoLido = 0;
-
 
     status.innerText =
         "Posicione o preço no centro.";
 
-
     modal.style.display =
         "block";
-
 
     try{
 
@@ -3466,7 +3196,6 @@ async function abrirCamera(){
             .getUserMedia({
 
                 video:{
-
                     facingMode:{
                         ideal:"environment"
                     },
@@ -3478,26 +3207,21 @@ async function abrirCamera(){
                     height:{
                         ideal:1080
                     }
-
                 },
 
                 audio:false
 
             });
 
-
         video.srcObject =
             streamCamera;
-
 
     }catch(error){
 
         console.error(error);
 
-
         status.innerText =
             "Não foi possível abrir a câmera.";
-
 
         alert(
             "Permita o acesso à câmera."
@@ -3517,18 +3241,15 @@ async function capturarEtiqueta(){
             "video"
         );
 
-
     const canvas =
         document.getElementById(
             "canvas"
         );
 
-
     const status =
         document.getElementById(
             "status"
         );
-
 
     if(!video.videoWidth){
 
@@ -3539,10 +3260,8 @@ async function capturarEtiqueta(){
 
     }
 
-
     status.innerText =
         "🔎 Analisando etiqueta...";
-
 
     canvas.width =
         video.videoWidth;
@@ -3550,12 +3269,10 @@ async function capturarEtiqueta(){
     canvas.height =
         video.videoHeight;
 
-
     const ctx =
         canvas.getContext(
             "2d"
         );
-
 
     ctx.drawImage(
         video,
@@ -3565,22 +3282,18 @@ async function capturarEtiqueta(){
         canvas.height
     );
 
-
     try{
 
         let leituras = [];
 
-
         status.innerText =
             "🔎 Procurando o preço...";
-
 
         const leituraCompleta =
             await Tesseract.recognize(
                 canvas,
                 "por",
                 {
-
                     logger:function(info){
 
                         if(
@@ -3598,10 +3311,8 @@ async function capturarEtiqueta(){
                         }
 
                     }
-
                 }
             );
-
 
         leituras.push({
 
@@ -3612,61 +3323,50 @@ async function capturarEtiqueta(){
 
         });
 
-
         const largura =
             canvas.width;
 
         const altura =
             canvas.height;
 
-
         const regiaoPreco =
             document.createElement(
                 "canvas"
             );
-
 
         const origemX =
             Math.floor(
                 largura * 0.35
             );
 
-
         const origemY =
             Math.floor(
                 altura * 0.40
             );
-
 
         const origemLargura =
             Math.floor(
                 largura * 0.65
             );
 
-
         const origemAltura =
             Math.floor(
                 altura * 0.60
             );
 
-
         regiaoPreco.width =
             origemLargura * 2;
 
-
         regiaoPreco.height =
             origemAltura * 2;
-
 
         const ctxPreco =
             regiaoPreco.getContext(
                 "2d"
             );
 
-
         ctxPreco.imageSmoothingEnabled =
             true;
-
 
         ctxPreco.drawImage(
 
@@ -3684,17 +3384,14 @@ async function capturarEtiqueta(){
 
         );
 
-
         status.innerText =
             "🔎 Conferindo região do preço...";
-
 
         const leituraPreco =
             await Tesseract.recognize(
                 regiaoPreco,
                 "por",
                 {
-
                     logger:function(info){
 
                         if(
@@ -3712,10 +3409,8 @@ async function capturarEtiqueta(){
                         }
 
                     }
-
                 }
             );
-
 
         leituras.push({
 
@@ -3726,23 +3421,19 @@ async function capturarEtiqueta(){
 
         });
 
-
         const tratado =
             criarImagemTratada(
                 canvas
             );
 
-
         status.innerText =
             "🔎 Fazendo leitura de precisão...";
-
 
         const leituraTratada =
             await Tesseract.recognize(
                 tratado,
                 "por",
                 {
-
                     logger:function(info){
 
                         if(
@@ -3760,10 +3451,8 @@ async function capturarEtiqueta(){
                         }
 
                     }
-
                 }
             );
-
 
         leituras.push({
 
@@ -3774,9 +3463,7 @@ async function capturarEtiqueta(){
 
         });
 
-
         let candidatos = [];
-
 
         leituras.forEach(
             function(leitura){
@@ -3785,7 +3472,6 @@ async function capturarEtiqueta(){
                     encontrarPrecos(
                         leitura.texto
                     );
-
 
                 encontrados.forEach(
                     function(preco){
@@ -3813,7 +3499,6 @@ async function capturarEtiqueta(){
             }
         );
 
-
         if(candidatos.length){
 
             candidatos.sort(
@@ -3825,45 +3510,36 @@ async function capturarEtiqueta(){
                 }
             );
 
-
             precoLido =
                 candidatos[0].valor;
-
 
             document.getElementById(
                 "precoDetectado"
             ).innerText =
                 dinheiro(precoLido);
 
-
             document.getElementById(
                 "resultadoLeitura"
             ).style.display =
                 "block";
 
-
             status.innerText =
                 "✅ Preço encontrado.";
-
 
         }else{
 
             precoLido = 0;
-
 
             status.innerText =
                 "❌ Não encontrei o preço. Aproxime a etiqueta e tente novamente.";
 
         }
 
-
     }catch(error){
 
         console.error(error);
 
-
         precoLido = 0;
-
 
         status.innerText =
             "❌ Erro ao ler a etiqueta. Tente novamente.";
@@ -3884,27 +3560,22 @@ function criarImagemTratada(
             "canvas"
         );
 
-
     novoCanvas.width =
         canvasOriginal.width;
 
-
     novoCanvas.height =
         canvasOriginal.height;
-
 
     const ctx =
         novoCanvas.getContext(
             "2d"
         );
 
-
     ctx.drawImage(
         canvasOriginal,
         0,
         0
     );
-
 
     const imagem =
         ctx.getImageData(
@@ -3914,10 +3585,8 @@ function criarImagemTratada(
             novoCanvas.height
         );
 
-
     const dados =
         imagem.data;
-
 
     for(
         let i = 0;
@@ -3934,17 +3603,14 @@ function criarImagemTratada(
         const b =
             dados[i + 2];
 
-
         let cinza =
             (r * 0.299) +
             (g * 0.587) +
             (b * 0.114);
 
-
         cinza =
             ((cinza - 128) * 1.8) +
             128;
-
 
         cinza =
             Math.max(
@@ -3954,7 +3620,6 @@ function criarImagemTratada(
                     cinza
                 )
             );
-
 
         dados[i] =
             cinza;
@@ -3967,13 +3632,11 @@ function criarImagemTratada(
 
     }
 
-
     ctx.putImageData(
         imagem,
         0,
         0
     );
-
 
     return novoCanvas;
 
@@ -3988,17 +3651,14 @@ function encontrarPrecos(
 
     let candidatos = [];
 
-
     if(!texto){
 
         return candidatos;
 
     }
 
-
     let textoOriginal =
         texto;
-
 
     let textoNormalizado =
         texto
@@ -4016,13 +3676,10 @@ function encontrarPrecos(
         )
         .trim();
 
-
     const padraoMoeda =
         /(?:R\s*\$|\$)\s*(\d{1,3}(?:[.\s]\d{3})*(?:[,.]\d{2})|\d+(?:[,.]\d{2}))/gi;
 
-
     let resultado;
-
 
     while(
         (
@@ -4048,10 +3705,8 @@ function encontrarPrecos(
                 "."
             );
 
-
         let valor =
             Number(numero);
-
 
         if(
             Number.isFinite(valor) &&
@@ -4075,10 +3730,8 @@ function encontrarPrecos(
 
     }
 
-
     const padraoDecimal =
         /\b(\d{1,3}(?:\.\d{3})*,\d{2}|\d{1,6}[,.]\d{2})\b/g;
-
 
     while(
         (
@@ -4100,10 +3753,8 @@ function encontrarPrecos(
                 "."
             );
 
-
         let valor =
             Number(numero);
-
 
         if(
             Number.isFinite(valor) &&
@@ -4127,12 +3778,10 @@ function encontrarPrecos(
 
     }
 
-
     const linhas =
         textoOriginal.split(
             /\n/
         );
-
 
     linhas.forEach(
         function(linha){
@@ -4145,16 +3794,13 @@ function encontrarPrecos(
                 )
                 .trim();
 
-
             const moedaSeparada =
                 /(?:R\s*\$|\$)\s*(\d{1,5})\s+(\d{2})(?:\b|$)/i;
-
 
             const encontrado =
                 linhaLimpa.match(
                     moedaSeparada
                 );
-
 
             if(encontrado){
 
@@ -4164,7 +3810,6 @@ function encontrarPrecos(
                         "." +
                         encontrado[2]
                     );
-
 
                 if(
                     valor > 0 &&
@@ -4190,7 +3835,6 @@ function encontrarPrecos(
         }
     );
 
-
     return candidatos;
 
 }
@@ -4206,11 +3850,9 @@ function usarPrecoDetectado(){
 
     }
 
-
     valores.push(
         precoLido
     );
-
 
     atualizarLista();
 
@@ -4218,15 +3860,12 @@ function usarPrecoDetectado(){
 
     calcularParcelaAtualizada();
 
-
     precoLido = 0;
-
 
     document.getElementById(
         "resultadoLeitura"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "status"
@@ -4242,12 +3881,10 @@ function tentarNovamente(){
 
     precoLido = 0;
 
-
     document.getElementById(
         "resultadoLeitura"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "status"
@@ -4273,29 +3910,24 @@ function fecharCamera(){
             }
         );
 
-
         streamCamera = null;
 
     }
-
 
     document.getElementById(
         "video"
     ).srcObject =
         null;
 
-
     document.getElementById(
         "cameraModal"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "resultadoLeitura"
     ).style.display =
         "none";
-
 
     precoLido = 0;
 
@@ -4311,12 +3943,10 @@ function carregarPerfil(){
             "nomeVendedor"
         );
 
-
     let foto =
         localStorage.getItem(
             "fotoVendedor"
         );
-
 
     if(nome){
 
@@ -4325,7 +3955,6 @@ function carregarPerfil(){
         ).innerText =
             nome;
 
-
         document.getElementById(
             "nomeInput"
         ).value =
@@ -4333,13 +3962,11 @@ function carregarPerfil(){
 
     }
 
-
     if(foto){
 
         mostrarFoto(
             foto
         );
-
 
         fotoSelecionada =
             foto;
