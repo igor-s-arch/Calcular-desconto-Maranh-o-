@@ -66,6 +66,24 @@ function injectUI(){
     if(adminCard)adminCard.insertAdjacentElement("beforebegin",claim);else profile.appendChild(claim);
   }
 
+  var salesScreen=document.getElementById("screen-sales");
+  if(salesScreen && !document.getElementById("cfhpStoreGoalSeller")){
+    var salesTitle=salesScreen.querySelector(".pageTitle");
+    var storeCard=document.createElement("div");
+    storeCard.id="cfhpStoreGoalSeller";
+    storeCard.className="metaCard";
+    storeCard.innerHTML=
+      '<div class="metaTop"><div><div class="sectionTitle" style="margin-bottom:3px">Meta da loja</div><strong id="cfhpStoreGoalValue">R$ 0,00</strong></div><span class="badge" id="cfhpStoreGoalPct">0%</span></div>'+
+      '<div class="progress"><div id="cfhpStoreGoalProgress"></div></div>'+
+      '<div class="metaGrid">'+
+        '<div class="metaMini"><small>VENDIDO PELA LOJA</small><strong id="cfhpStoreSold">R$ 0,00</strong></div>'+
+        '<div class="metaMini"><small>FALTA PARA A LOJA</small><strong id="cfhpStoreRemaining">R$ 0,00</strong></div>'+
+        '<div class="metaMini"><small>VENDAS DA EQUIPE</small><strong id="cfhpStoreSalesCount">0</strong></div>'+
+        '<div class="metaMini"><small>SEU OBJETIVO</small><strong>Meta individual abaixo</strong></div>'+
+      '</div>';
+    salesTitle.insertAdjacentElement("afterend",storeCard);
+  }
+
   var adminScreen=document.getElementById("screen-admin");
   if(adminScreen){
     var at=adminScreen.querySelector(".pageTitle");
@@ -91,12 +109,69 @@ function injectUI(){
     var team=document.createElement("div");team.id="cfhpTeamCard";team.className="card";
     team.innerHTML='<div class="sectionTitle" id="cfhpTeamTitle">Todas as vendedoras — hoje</div><div id="cfhpTeamList" class="cfhp-admin-team"><div class="empty">Carregando vendedoras...</div></div>';
 
-    at.insertAdjacentElement("afterend",filter);
+    var storeGoal=document.createElement("div");
+    storeGoal.id="cfhpStoreGoalAdmin";
+    storeGoal.className="card";
+    storeGoal.innerHTML=
+      '<div class="sectionTitle">Meta mensal da loja</div>'+
+      '<div class="notice">Essa meta é da loja inteira. A meta individual de cada vendedor continua separada.</div>'+
+      '<div class="field" style="margin-top:10px"><label>Valor da meta da loja</label><input class="plainInput" id="cfhpStoreGoalInput" type="number" min="1" step="1000" placeholder="Ex.: 150000"></div>'+
+      '<button class="btn primary full" onclick="CFHP.saveStoreGoal()">💾 Salvar meta da loja e avisar equipe</button>'+
+      '<div class="metaGrid" style="margin-top:10px">'+
+        '<div class="metaMini"><small>VENDIDO NO MÊS</small><strong id="cfhpStoreAdmSold">R$ 0,00</strong></div>'+
+        '<div class="metaMini"><small>FALTA</small><strong id="cfhpStoreAdmRemaining">R$ 0,00</strong></div>'+
+        '<div class="metaMini"><small>ATINGIDO</small><strong id="cfhpStoreAdmPct">0%</strong></div>'+
+        '<div class="metaMini"><small>VENDAS</small><strong id="cfhpStoreAdmCount">0</strong></div>'+
+      '</div>';
+
+    at.insertAdjacentElement("afterend",storeGoal);
+    storeGoal.insertAdjacentElement("afterend",filter);
     filter.insertAdjacentElement("afterend",team);
   }
 }
 function setPill(t,ok){var e=document.getElementById("cfhpOnlinePill");if(e){e.textContent=t;e.classList.toggle("ok",!!ok);}}
 function authMsg(t,err){var e=document.getElementById("cfhpAuthMsg");if(e){e.textContent=t||"";e.style.color=err?"#b3444b":"#60788c";}}
+async function loadStoreProgress(){
+  if(!currentUser)return null;
+  try{
+    var r=await sb.rpc("cfhp_store_progress");
+    if(r.error)throw r.error;
+    var x=Array.isArray(r.data)?r.data[0]:r.data;
+    if(!x)return null;
+    var goal=Number(x.monthly_goal||0),sold=Number(x.sold_month||0),remaining=Number(x.remaining||0),pct=Number(x.percent||0),count=Number(x.sales_count||0);
+    var el=document.getElementById("cfhpStoreGoalValue");if(el)el.textContent=dinheiro(goal);
+    el=document.getElementById("cfhpStoreSold");if(el)el.textContent=dinheiro(sold);
+    el=document.getElementById("cfhpStoreRemaining");if(el)el.textContent=dinheiro(remaining);
+    el=document.getElementById("cfhpStoreSalesCount");if(el)el.textContent=count;
+    el=document.getElementById("cfhpStoreGoalPct");if(el)el.textContent=pct.toFixed(1).replace(".",",")+"%";
+    el=document.getElementById("cfhpStoreGoalProgress");if(el)el.style.width=Math.min(100,pct)+"%";
+    el=document.getElementById("cfhpStoreGoalInput");if(el && document.activeElement!==el)el.value=goal;
+    el=document.getElementById("cfhpStoreAdmSold");if(el)el.textContent=dinheiro(sold);
+    el=document.getElementById("cfhpStoreAdmRemaining");if(el)el.textContent=dinheiro(remaining);
+    el=document.getElementById("cfhpStoreAdmPct");if(el)el.textContent=pct.toFixed(1).replace(".",",")+"%";
+    el=document.getElementById("cfhpStoreAdmCount");if(el)el.textContent=count;
+    return {goal:goal,sold:sold,remaining:remaining,pct:pct,count:count};
+  }catch(e){console.warn("Meta da loja",e);return null;}
+}
+async function saveStoreGoal(){
+  if(!isAdmin){toast("Somente o administrador pode alterar a meta da loja.");return;}
+  var input=document.getElementById("cfhpStoreGoalInput");
+  var goal=Number(input&&input.value||0);
+  if(!goal||goal<=0){toast("Digite uma meta da loja maior que zero.");return;}
+  try{
+    var r=await sb.rpc("cfhp_admin_set_store_goal",{p_goal:goal});
+    if(r.error)throw r.error;
+    await loadStoreProgress();
+    toast("🏪 Meta da loja atualizada para "+dinheiro(goal)+".");
+    try{
+      var n=await sb.functions.invoke("cfhp-store-goal-notify",{body:{}});
+      if(n.error)console.warn("Notificação da meta da loja",n.error);
+      else toast("🔔 A nova meta foi enviada para a equipe.");
+    }catch(e){console.warn("Notificação da meta da loja",e);}
+  }catch(e){
+    console.error(e);toast("Não foi possível alterar a meta da loja.");
+  }
+}
 async function joinApp(name){
   try{await sb.auth.updateUser({data:{app:"cfhp",name:name||undefined}});}catch(e){}
   var r=await sb.rpc("cfhp_join",{p_name:name||null});if(r.error)throw r.error;return r.data;
@@ -153,7 +228,7 @@ async function handleSession(session){
     var auth=document.getElementById("cfhpAuth"),app=document.getElementById("appRoot");
     if(!session){currentUser=null;currentProfile=null;isAdmin=false;if(auth)auth.classList.remove("hidden");if(app)app.style.display="none";setPill("Desconectado",false);handling=false;return;}
     currentUser=session.user;if(auth)auth.classList.add("hidden");if(app)app.style.display="block";setPill(navigator.onLine?"Online":"Modo local",navigator.onLine);
-    await loadProfile();await syncUp();await syncDown();updateRole();
+    await loadProfile();await syncUp();await syncDown();await loadStoreProgress();updateRole();
   }catch(e){console.error(e);authMsg("Não foi possível carregar sua conta: "+(e.message||e),true);}finally{handling=false;}
 }
 async function saveCloudProfile(){
@@ -169,7 +244,7 @@ async function saveCloudProfile(){
   }
 }
 window.salvarPerfil=async function(){baseSalvarPerfil();try{await saveCloudProfile();toast("Perfil salvo no aparelho e na nuvem.");}catch(e){console.warn(e);toast("Perfil salvo neste aparelho. Vai sincronizar quando possível.");}};
-window.salvarVenda=function(v){baseSalvarVenda(v);setTimeout(syncUp,0);};
+window.salvarVenda=function(v){baseSalvarVenda(v);setTimeout(async function(){await syncUp();await loadStoreProgress();},0);};
 window.excluirVenda=async function(id){
   var sales=window.getSales(),v=sales.find(function(x){return x.id===id;});if(!v)return;if(!confirm("Apagar esta venda?"))return;
   window.saveSales(sales.filter(function(x){return x.id!==id;}));window.atualizarPainelVendas();
@@ -231,6 +306,7 @@ async function loadAdminData(){
     renderAdminSummary(adminProfilesCache,adminSalesCache,r);
     renderTeam(adminProfilesCache,adminSalesCache,r);
     renderSales(adminSalesCache,adminProfilesCache,"Vendas — "+r.label);
+    await loadStoreProgress();
     var lab=document.getElementById("cfhpAdminFilterLabel");if(lab)lab.textContent=filterLabel(r);
   }catch(e){
     console.error(e);
@@ -358,7 +434,7 @@ async function submitAuth(){
     else{var l=await sb.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;await joinApp(l.data.user&&l.data.user.user_metadata&&l.data.user.user_metadata.name||l.data.user.email.split("@")[0]);await handleSession(l.data.session);}
   }catch(e){console.error(e);var m=e.message||"Não foi possível entrar.";if(/invalid login/i.test(m))m="E-mail ou senha incorretos.";authMsg(m,true);}
 }
-window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();},client:sb};
+window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,saveStoreGoal:saveStoreGoal,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();await loadStoreProgress();},client:sb};
 
 async function boot(){
   addStyle();injectUI();var r=await sb.auth.getSession();await handleSession(r.data.session);
