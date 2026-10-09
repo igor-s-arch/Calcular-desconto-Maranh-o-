@@ -30,7 +30,7 @@ function addStyle(){
   ".cfhp-account{background:linear-gradient(145deg,#eef6fb,#fff);border:1px solid #d2e1ea;border-radius:16px;padding:12px;margin-bottom:12px}.cfhp-account-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.cfhp-account small{display:block;color:#71869a}.cfhp-account strong{display:block;color:#17324b;margin-top:2px}"+
   ".cfhp-admin-team{display:grid;gap:10px}.cfhp-seller{border:1px solid #d7e2ea;border-radius:16px;padding:13px;background:#f9fbfc}.cfhp-seller-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.cfhp-seller-head strong{font-size:17px;color:#17324b}.cfhp-seller-metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.cfhp-seller-metrics div{background:#fff;border-radius:10px;padding:8px}.cfhp-seller-metrics small{display:block;color:#8294a2;font-size:9px;font-weight:900}.cfhp-seller-metrics b{display:block;color:#214866;margin-top:3px;font-size:13px}.cfhp-seller details{margin-top:9px}.cfhp-seller summary{cursor:pointer;color:#49697f;font-weight:900;font-size:12px}.cfhp-admin-edit{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.cfhp-admin-edit label{font-size:9px;font-weight:900;color:#71869a}.cfhp-admin-edit input{width:100%;height:39px;border:1px solid #cedce6;border-radius:9px;padding:0 8px;background:#fff}"+
   ".cfhp-sync-warn{background:#fff5df;color:#8f6810;border:1px solid #eed291;padding:9px;border-radius:11px;font-size:11px;margin-top:8px}"+
-  ".cfhp-filter-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.cfhp-filter-btn{height:42px;border:1px solid #cfdae3;background:#f5f8fb;border-radius:11px;color:#49677e;font-size:11px;font-weight:900}.cfhp-filter-btn.active{background:#17324b;color:#fff;border-color:#17324b}.cfhp-period-fields{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px;align-items:end}.cfhp-period-fields label{display:block;font-size:9px;font-weight:900;color:#71869a;margin-bottom:4px}.cfhp-period-fields input{width:100%;height:42px;border:1px solid #cedce6;border-radius:10px;padding:0 8px;background:#fff;color:#193047}.cfhp-period-fields .btn{height:42px}.cfhp-sale-detail{margin-top:8px;border-top:1px solid #dde6ed;padding-top:8px}.cfhp-sale-detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #dce5ec;font-size:11px;color:#667e90}.cfhp-sale-detail-row:last-child{border-bottom:0}.cfhp-sale-detail-row strong{color:#17324b}.cfhp-seller-zero{font-size:11px;color:#8a9aa6;margin-top:8px}"+
+  ".cfhp-filter-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.cfhp-filter-btn{height:42px;border:1px solid #cfdae3;background:#f5f8fb;border-radius:11px;color:#49677e;font-size:11px;font-weight:900}.cfhp-filter-btn.active{background:#17324b;color:#fff;border-color:#17324b}.cfhp-period-fields{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px;align-items:end}.cfhp-period-fields label{display:block;font-size:9px;font-weight:900;color:#71869a;margin-bottom:4px}.cfhp-period-fields input{width:100%;height:42px;border:1px solid #cedce6;border-radius:10px;padding:0 8px;background:#fff;color:#193047}.cfhp-period-fields .btn{height:42px}.cfhp-sale-detail{margin-top:8px;border-top:1px solid #dde6ed;padding-top:8px}.cfhp-sale-detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #dce5ec;font-size:11px;color:#667e90}.cfhp-sale-detail-row:last-child{border-bottom:0}.cfhp-sale-detail-row strong{color:#17324b}.cfhp-seller-zero{font-size:11px;color:#8a9aa6;margin-top:8px}.cfhp-goal-control{margin-top:10px;background:#fff8e8;border:1px solid #efd58d;border-radius:13px;padding:10px}.cfhp-goal-control label{display:block;font-size:10px;font-weight:900;color:#8a6a16;margin-bottom:5px}.cfhp-goal-row{display:grid;grid-template-columns:1fr auto;gap:7px}.cfhp-goal-row input{height:42px;border:1px solid #ddc06c;border-radius:10px;padding:0 10px;background:#fff;color:#17324b;font-weight:900;min-width:0}.cfhp-goal-row .btn{height:42px}.cfhp-goal-current{font-size:11px;color:#7f6a2a;margin-top:6px}"+
   "@media(max-width:480px){.cfhp-filter-tabs{grid-template-columns:1fr 1fr}.cfhp-period-fields{grid-template-columns:1fr 1fr}.cfhp-period-fields .btn{grid-column:1/-1;width:100%}}@media(max-width:380px){.cfhp-admin-edit{grid-template-columns:1fr}}";
   document.head.appendChild(s);
 }
@@ -368,10 +368,12 @@ function renderTeam(profiles,sales,r){
     }
     card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">'+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div>'+badge+'</div>'+
       '<div class="cfhp-seller-metrics"><div><small>VENDAS</small><b>'+own.length+'</b></div><div><small>TOTAL</small><b>'+dinheiro(total)+'</b></div><div><small>DESCONTOS</small><b>'+dinheiro(desc)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(comm)+'</b></div></div>'+
+      '<div class="cfhp-goal-control"><label>META INDIVIDUAL MENSAL</label><div class="cfhp-goal-row"><input id="goal-'+p.id+'" type="number" min="1" step="1000" value="'+Number(p.monthly_goal||40000)+'"><button class="btn primary" data-goal-save="'+esc(p.id)+'">Salvar meta</button></div><div class="cfhp-goal-current">Meta atual: <strong>'+dinheiro(p.monthly_goal||40000)+'</strong></div></div>'+
       detail+
       '<button class="btn secondary full" style="margin-top:9px;height:42px" data-view="'+esc(p.id)+'">Ver histórico da vendedora</button>'+
-      '<details><summary>Editar meta e comissão</summary><div class="cfhp-admin-edit"><div><label>META MENSAL</label><input id="goal-'+p.id+'" type="number" value="'+Number(p.monthly_goal||0)+'"></div><div><label>À VISTA %</label><input id="cash-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_cash||0)+'"></div><div><label>ENTRADA %</label><input id="entry-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_entry||0)+'"></div><div><label>CARTÃO/CARNÊ %</label><input id="credit-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_credit||0)+'"></div></div><button class="btn primary full" style="margin-top:8px;height:42px" data-save="'+esc(p.id)+'">Salvar regras</button></details>';
+      '<details><summary>Editar comissão</summary><div class="cfhp-admin-edit"><div><label>À VISTA %</label><input id="cash-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_cash||0)+'"></div><div><label>ENTRADA %</label><input id="entry-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_entry||0)+'"></div><div><label>CARTÃO/CARNÊ %</label><input id="credit-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_credit||0)+'"></div></div><button class="btn primary full" style="margin-top:8px;height:42px" data-save="'+esc(p.id)+'">Salvar comissão</button></details>';
     card.querySelector("[data-view]").onclick=function(){viewSeller(p.id,p.name);};
+    card.querySelector("[data-goal-save]").onclick=function(){saveIndividualGoal(p.id,p.name);};
     card.querySelector("[data-save]").onclick=function(){saveSeller(p.id);};
     list.appendChild(card);
   });
@@ -411,10 +413,19 @@ async function applyAdminPeriod(){
   if(start>end){toast("A data inicial não pode ser maior que a final.");return;}
   adminPeriodStart=start;adminPeriodEnd=end;adminFilterMode="period";await loadAdminData();
 }
+async function saveIndividualGoal(uid,name){
+  var input=document.getElementById("goal-"+uid);
+  var goal=Number(input&&input.value||0);
+  if(!goal||goal<=0){toast("Digite uma meta individual maior que zero.");return;}
+  var r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:uid,p_name:null,p_goal:goal,p_cash:null,p_entry:null,p_credit:null,p_check:null});
+  if(r.error){console.error(r.error);toast("Erro ao salvar a meta individual.");return;}
+  toast("🎯 Meta individual de "+name+" atualizada para "+dinheiro(goal)+".");
+  await loadAdminData();
+}
 async function saveSeller(uid){
   function n(id){return Number(document.getElementById(id+"-"+uid).value||0);}
-  var r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:uid,p_name:null,p_goal:n("goal"),p_cash:n("cash"),p_entry:n("entry"),p_credit:n("credit"),p_check:null});
-  if(r.error){console.error(r.error);toast("Erro ao salvar regras.");return;}toast("Meta e comissão atualizadas.");window.abrirAdmin();
+  var r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:uid,p_name:null,p_goal:null,p_cash:n("cash"),p_entry:n("entry"),p_credit:n("credit"),p_check:null});
+  if(r.error){console.error(r.error);toast("Erro ao salvar comissão.");return;}toast("Comissão atualizada.");await loadAdminData();
 }
 async function claimAdmin(){
   var code=(document.getElementById("cfhpAdminCode").value||"").trim();if(!code){toast("Digite o código mestre.");return;}
@@ -434,7 +445,7 @@ async function submitAuth(){
     else{var l=await sb.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;await joinApp(l.data.user&&l.data.user.user_metadata&&l.data.user.user_metadata.name||l.data.user.email.split("@")[0]);await handleSession(l.data.session);}
   }catch(e){console.error(e);var m=e.message||"Não foi possível entrar.";if(/invalid login/i.test(m))m="E-mail ou senha incorretos.";authMsg(m,true);}
 }
-window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,saveStoreGoal:saveStoreGoal,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();await loadStoreProgress();},client:sb};
+window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,saveIndividualGoal:saveIndividualGoal,saveStoreGoal:saveStoreGoal,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();await loadStoreProgress();},client:sb};
 
 async function boot(){
   addStyle();injectUI();var r=await sb.auth.getSession();await handleSession(r.data.session);
