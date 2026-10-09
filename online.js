@@ -201,6 +201,23 @@ function filterLabel(r){
   if(adminFilterMode==="all")return "Mostrando todo o histórico disponível.";
   return "Mostrando de "+String(r.start).split("-").reverse().join("/")+" até "+String(r.end).split("-").reverse().join("/")+".";
 }
+async function fetchAllAdminSales(start,end,userId){
+  var page=0,size=1000,all=[];
+  while(true){
+    var from=page*size,to=from+size-1;
+    var q=sb.from("cfhp_sales").select("*").order("sold_at",{ascending:false}).range(from,to);
+    if(start)q=q.gte("sale_date",start);
+    if(end)q=q.lte("sale_date",end);
+    if(userId)q=q.eq("user_id",userId);
+    var r=await q;
+    if(r.error)throw r.error;
+    var batch=r.data||[];
+    all=all.concat(batch);
+    if(batch.length<size)break;
+    page++;
+  }
+  return all;
+}
 async function loadAdminData(){
   var team=document.getElementById("cfhpTeamList");
   if(team)team.innerHTML='<div class="empty">Carregando equipe...</div>';
@@ -208,13 +225,9 @@ async function loadAdminData(){
     var r=currentAdminRange();
     var pr=await sb.from("cfhp_profiles").select("*").eq("app_code","cfhp").order("name");
     if(pr.error)throw pr.error;
-    var q=sb.from("cfhp_sales").select("*").order("sold_at",{ascending:false});
-    if(r.start)q=q.gte("sale_date",r.start);
-    if(r.end)q=q.lte("sale_date",r.end);
-    var sr=await q;
-    if(sr.error)throw sr.error;
+    var allSales=await fetchAllAdminSales(r.start,r.end,null);
     adminProfilesCache=pr.data||[];
-    adminSalesCache=sr.data||[];
+    adminSalesCache=allSales;
     renderAdminSummary(adminProfilesCache,adminSalesCache,r);
     renderTeam(adminProfilesCache,adminSalesCache,r);
     renderSales(adminSalesCache,adminProfilesCache,"Vendas — "+r.label);
@@ -302,10 +315,11 @@ function renderSales(sales,profiles,title){
   });
 }
 async function viewSeller(uid,name){
-  var r=await sb.from("cfhp_sales").select("*").eq("user_id",uid).order("sold_at",{ascending:false});
-  if(r.error){toast("Não foi possível carregar as vendas.");return;}
-  renderSales(r.data||[],[{id:uid,name:name}],"Histórico completo de "+name);
-  document.getElementById("admLista").scrollIntoView({behavior:"smooth",block:"start"});
+  try{
+    var sales=await fetchAllAdminSales(null,null,uid);
+    renderSales(sales,[{id:uid,name:name}],"Histórico completo de "+name);
+    document.getElementById("admLista").scrollIntoView({behavior:"smooth",block:"start"});
+  }catch(e){console.error(e);toast("Não foi possível carregar as vendas.");}
 }
 async function setAdminFilter(mode,btn){
   adminFilterMode=mode;
