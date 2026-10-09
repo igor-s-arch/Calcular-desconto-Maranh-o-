@@ -142,7 +142,7 @@ async function saveCloudProfile(){
   }else{
     r=await sb.from("cfhp_profiles").update({name:p.nome}).eq("id",currentUser.id).select().single();
     if(r.error)throw r.error;currentProfile=r.data;
-    syncProfileDown(currentProfile);
+    await loadProfile();
   }
 }
 window.salvarPerfil=async function(){baseSalvarPerfil();try{await saveCloudProfile();toast("Perfil salvo no aparelho e na nuvem.");}catch(e){console.warn(e);toast("Perfil salvo neste aparelho. Vai sincronizar quando possível.");}};
