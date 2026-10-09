@@ -91,6 +91,10 @@ function updateRole(){
   var em=document.getElementById("cfhpAccountEmail");if(em)em.textContent=currentUser&&currentUser.email||"Conta conectada";
   var c=document.getElementById("cfhpClaimAdmin"),a=document.getElementById("cfhpAdminCard");
   if(c)c.style.display=isAdmin?"none":"block";if(a)a.style.display=isAdmin?"block":"none";
+  ["metaInput","taxaVista","taxaEntrada","taxaPrazo","taxaCheque"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.disabled=!isAdmin;el.style.opacity=isAdmin?"1":".72";}
+  });
 }
 function uuid(){return crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);});}
 function validUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||""));}
@@ -131,9 +135,15 @@ async function handleSession(session){
 }
 async function saveCloudProfile(){
   if(!currentUser)return;
-  var p=window.getProfile();
-  var r=await sb.from("cfhp_profiles").update({name:p.nome,monthly_goal:Number(p.meta||0),commission_cash:Number(p.taxaVista||0),commission_entry:Number(p.taxaEntrada||0),commission_credit:Number(p.taxaPrazo||0),commission_check:Number(p.taxaCheque||0)}).eq("id",currentUser.id).select().single();
-  if(r.error)throw r.error;currentProfile=r.data;
+  var p=window.getProfile(),r;
+  if(isAdmin){
+    r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:currentUser.id,p_name:p.nome,p_goal:Number(p.meta||0),p_cash:Number(p.taxaVista||0),p_entry:Number(p.taxaEntrada||0),p_credit:Number(p.taxaPrazo||0),p_check:Number(p.taxaCheque||0)});
+    if(r.error)throw r.error;currentProfile=r.data;
+  }else{
+    r=await sb.from("cfhp_profiles").update({name:p.nome}).eq("id",currentUser.id).select().single();
+    if(r.error)throw r.error;currentProfile=r.data;
+    syncProfileDown(currentProfile);
+  }
 }
 window.salvarPerfil=async function(){baseSalvarPerfil();try{await saveCloudProfile();toast("Perfil salvo no aparelho e na nuvem.");}catch(e){console.warn(e);toast("Perfil salvo neste aparelho. Vai sincronizar quando possível.");}};
 window.salvarVenda=function(v){baseSalvarVenda(v);setTimeout(syncUp,0);};
@@ -183,7 +193,7 @@ function renderSales(sales,profiles,title){
 async function viewSeller(uid,name){var r=await sb.from("cfhp_sales").select("*").eq("user_id",uid).order("sold_at",{ascending:false}).limit(100);if(r.error){toast("Não foi possível carregar as vendas.");return;}renderSales(r.data||[],[{id:uid,name:name}],"Vendas de "+name);document.getElementById("admLista").scrollIntoView({behavior:"smooth",block:"start"});}
 async function saveSeller(uid){
   function n(id){return Number(document.getElementById(id+"-"+uid).value||0);}
-  var r=await sb.from("cfhp_profiles").update({monthly_goal:n("goal"),commission_cash:n("cash"),commission_entry:n("entry"),commission_credit:n("credit")}).eq("id",uid);
+  var r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:uid,p_name:null,p_goal:n("goal"),p_cash:n("cash"),p_entry:n("entry"),p_credit:n("credit"),p_check:null});
   if(r.error){console.error(r.error);toast("Erro ao salvar regras.");return;}toast("Meta e comissão atualizadas.");window.abrirAdmin();
 }
 async function claimAdmin(){
