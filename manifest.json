@@ -1,10 +1,12 @@
 {
   "name": "Calcula Fácil HP",
   "short_name": "Calcula Fácil HP",
+  "description": "Calculadora profissional de vendas, crediário, metas e comissão.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#080808",
-  "theme_color": "#080808",
+  "background_color": "#edf3f8",
+  "theme_color": "#17324b",
   "icons": [
     {
       "src": "icon-192.png",
