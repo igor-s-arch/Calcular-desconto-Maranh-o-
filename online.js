@@ -38,7 +38,7 @@ function injectUI(){
   a.innerHTML='<div class="cfhp-auth-card">'+
     '<img class="cfhp-auth-logo" src="logo.png" alt="Calcula Fácil HP">'+
     '<h2>Calcula Fácil HP</h2><div class="lead">Entre para salvar vendas, metas e comissão online.</div>'+
-    '<div class="cfhp-auth-tabs"><button id="cfhpTabLogin" class="cfhp-auth-tab active" onclick="CFHP.showAuthMode(\\'login\\')">Entrar</button><button id="cfhpTabSignup" class="cfhp-auth-tab" onclick="CFHP.showAuthMode(\\'signup\\')">Criar conta</button></div>'+
+    '<div class="cfhp-auth-tabs"><button id="cfhpTabLogin" class="cfhp-auth-tab active" onclick="CFHP.showAuthMode(\'login\')">Entrar</button><button id="cfhpTabSignup" class="cfhp-auth-tab" onclick="CFHP.showAuthMode(\'signup\')">Criar conta</button></div>'+
     '<div id="cfhpSignupName" class="cfhp-auth-field" style="display:none"><label>Nome</label><input id="cfhpAuthName" type="text" placeholder="Nome da vendedora"></div>'+
     '<div class="cfhp-auth-field"><label>E-mail</label><input id="cfhpAuthEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com"></div>'+
     '<div class="cfhp-auth-field"><label>Senha</label><input id="cfhpAuthPassword" type="password" autocomplete="current-password" placeholder="Sua senha"></div>'+
