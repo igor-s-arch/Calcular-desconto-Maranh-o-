@@ -29,7 +29,9 @@ function addStyle(){
   ".cfhp-online-pill{position:absolute;right:15px;bottom:11px;background:rgba(255,255,255,.12);color:#dceaf3;border:1px solid rgba(255,255,255,.12);padding:5px 9px;border-radius:999px;font-size:10px;font-weight:900;z-index:2}.cfhp-online-pill.ok{color:#c9f3df;background:rgba(39,139,97,.22)}"+
   ".cfhp-account{background:linear-gradient(145deg,#eef6fb,#fff);border:1px solid #d2e1ea;border-radius:16px;padding:12px;margin-bottom:12px}.cfhp-account-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.cfhp-account small{display:block;color:#71869a}.cfhp-account strong{display:block;color:#17324b;margin-top:2px}"+
   ".cfhp-admin-team{display:grid;gap:10px}.cfhp-seller{border:1px solid #d7e2ea;border-radius:16px;padding:13px;background:#f9fbfc}.cfhp-seller-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.cfhp-seller-head strong{font-size:17px;color:#17324b}.cfhp-seller-metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.cfhp-seller-metrics div{background:#fff;border-radius:10px;padding:8px}.cfhp-seller-metrics small{display:block;color:#8294a2;font-size:9px;font-weight:900}.cfhp-seller-metrics b{display:block;color:#214866;margin-top:3px;font-size:13px}.cfhp-seller details{margin-top:9px}.cfhp-seller summary{cursor:pointer;color:#49697f;font-weight:900;font-size:12px}.cfhp-admin-edit{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.cfhp-admin-edit label{font-size:9px;font-weight:900;color:#71869a}.cfhp-admin-edit input{width:100%;height:39px;border:1px solid #cedce6;border-radius:9px;padding:0 8px;background:#fff}"+
-  ".cfhp-sync-warn{background:#fff5df;color:#8f6810;border:1px solid #eed291;padding:9px;border-radius:11px;font-size:11px;margin-top:8px}@media(max-width:380px){.cfhp-admin-edit{grid-template-columns:1fr}}";
+  ".cfhp-sync-warn{background:#fff5df;color:#8f6810;border:1px solid #eed291;padding:9px;border-radius:11px;font-size:11px;margin-top:8px}"+
+  ".cfhp-filter-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.cfhp-filter-btn{height:42px;border:1px solid #cfdae3;background:#f5f8fb;border-radius:11px;color:#49677e;font-size:11px;font-weight:900}.cfhp-filter-btn.active{background:#17324b;color:#fff;border-color:#17324b}.cfhp-period-fields{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px;align-items:end}.cfhp-period-fields label{display:block;font-size:9px;font-weight:900;color:#71869a;margin-bottom:4px}.cfhp-period-fields input{width:100%;height:42px;border:1px solid #cedce6;border-radius:10px;padding:0 8px;background:#fff;color:#193047}.cfhp-period-fields .btn{height:42px}.cfhp-sale-detail{margin-top:8px;border-top:1px solid #dde6ed;padding-top:8px}.cfhp-sale-detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #dce5ec;font-size:11px;color:#667e90}.cfhp-sale-detail-row:last-child{border-bottom:0}.cfhp-sale-detail-row strong{color:#17324b}.cfhp-seller-zero{font-size:11px;color:#8a9aa6;margin-top:8px}"+
+  "@media(max-width:480px){.cfhp-filter-tabs{grid-template-columns:1fr 1fr}.cfhp-period-fields{grid-template-columns:1fr 1fr}.cfhp-period-fields .btn{grid-column:1/-1;width:100%}}@media(max-width:380px){.cfhp-admin-edit{grid-template-columns:1fr}}";
   document.head.appendChild(s);
 }
 function injectUI(){
@@ -67,9 +69,30 @@ function injectUI(){
   var adminScreen=document.getElementById("screen-admin");
   if(adminScreen){
     var at=adminScreen.querySelector(".pageTitle");
+
+    var filter=document.createElement("div");
+    filter.id="cfhpAdminFilter";
+    filter.className="card";
+    filter.innerHTML=
+      '<div class="sectionTitle">Consultar vendas</div>'+
+      '<div class="cfhp-filter-tabs">'+
+        '<button class="cfhp-filter-btn active" data-filter="today" onclick="CFHP.setAdminFilter(\'today\',this)">Hoje</button>'+
+        '<button class="cfhp-filter-btn" data-filter="month" onclick="CFHP.setAdminFilter(\'month\',this)">Este mês</button>'+
+        '<button class="cfhp-filter-btn" data-filter="period" onclick="CFHP.setAdminFilter(\'period\',this)">Período</button>'+
+        '<button class="cfhp-filter-btn" data-filter="all" onclick="CFHP.setAdminFilter(\'all\',this)">Todas</button>'+
+      '</div>'+
+      '<div id="cfhpPeriodFields" class="cfhp-period-fields" style="display:none">'+
+        '<div><label>De</label><input id="cfhpPeriodStart" type="date"></div>'+
+        '<div><label>Até</label><input id="cfhpPeriodEnd" type="date"></div>'+
+        '<button class="btn dark" onclick="CFHP.applyAdminPeriod()">Aplicar</button>'+
+      '</div>'+
+      '<div id="cfhpAdminFilterLabel" class="notice" style="margin-top:9px">Mostrando o movimento de hoje.</div>';
+
     var team=document.createElement("div");team.id="cfhpTeamCard";team.className="card";
-    team.innerHTML='<div class="sectionTitle">Equipe</div><div id="cfhpTeamList" class="cfhp-admin-team"><div class="empty">Carregando vendedoras...</div></div>';
-    at.insertAdjacentElement("afterend",team);
+    team.innerHTML='<div class="sectionTitle" id="cfhpTeamTitle">Todas as vendedoras — hoje</div><div id="cfhpTeamList" class="cfhp-admin-team"><div class="empty">Carregando vendedoras...</div></div>';
+
+    at.insertAdjacentElement("afterend",filter);
+    filter.insertAdjacentElement("afterend",team);
   }
 }
 function setPill(t,ok){var e=document.getElementById("cfhpOnlinePill");if(e){e.textContent=t;e.classList.toggle("ok",!!ok);}}
@@ -162,35 +185,142 @@ function sum(p,sales){
   var total=sales.reduce(function(a,v){return a+Number(v.final_total||0);},0),comm=sales.reduce(function(a,v){return a+Number(v.commission_amount||0);},0),goal=Number(p.monthly_goal||0),missing=Math.max(0,goal-total);
   return {total:total,comm:comm,goal:goal,missing:missing,daily:missing/daysLeft(),pct:goal>0?total/goal*100:0,count:sales.length};
 }
-window.abrirAdmin=async function(){
-  if(!isAdmin){toast("Esta conta não tem acesso de administrador.");return;}window.navigate("admin");
-  var team=document.getElementById("cfhpTeamList");team.innerHTML='<div class="empty">Carregando equipe...</div>';
+var adminFilterMode="today",adminPeriodStart="",adminPeriodEnd="",adminProfilesCache=[],adminSalesCache=[];
+
+function todayRange(){var d=window.hojeISO();return {start:d,end:d,label:"Hoje"};}
+function monthRange(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0");return {start:y+"-"+m+"-01",end:y+"-"+m+"-31",label:"Este mês"};}
+function currentAdminRange(){
+  if(adminFilterMode==="today")return todayRange();
+  if(adminFilterMode==="month")return monthRange();
+  if(adminFilterMode==="period")return {start:adminPeriodStart||window.hojeISO(),end:adminPeriodEnd||window.hojeISO(),label:"Período"};
+  return {start:null,end:null,label:"Todas as vendas"};
+}
+function filterLabel(r){
+  if(adminFilterMode==="today")return "Mostrando o movimento de hoje.";
+  if(adminFilterMode==="month")return "Mostrando todas as vendas deste mês.";
+  if(adminFilterMode==="all")return "Mostrando todo o histórico disponível.";
+  return "Mostrando de "+String(r.start).split("-").reverse().join("/")+" até "+String(r.end).split("-").reverse().join("/")+".";
+}
+async function loadAdminData(){
+  var team=document.getElementById("cfhpTeamList");
+  if(team)team.innerHTML='<div class="empty">Carregando equipe...</div>';
   try{
-    var rg=range(),pr=await sb.from("cfhp_profiles").select("*").eq("app_code","cfhp").order("name"),sr=await sb.from("cfhp_sales").select("*").gte("sale_date",rg.start).lte("sale_date",rg.end).order("sold_at",{ascending:false});
-    if(pr.error)throw pr.error;if(sr.error)throw sr.error;var profiles=pr.data||[],sales=sr.data||[],tg=0,tt=0,tc=0,td=0;
-    profiles.forEach(function(p){var x=sum(p,sales.filter(function(v){return v.user_id===p.id;}));tg+=x.goal;tt+=x.total;tc+=x.comm;td+=x.daily;});
-    document.getElementById("admVendedor").textContent=profiles.length+" conta(s)";document.getElementById("admVendaMes").textContent=dinheiro(tt);document.getElementById("admFalta").textContent=dinheiro(Math.max(0,tg-tt));document.getElementById("admComissao").textContent=dinheiro(tc);document.getElementById("admMeta").textContent=dinheiro(tg);document.getElementById("admPct").textContent=(tg>0?tt/tg*100:0).toFixed(1).replace(".",",")+"%";document.getElementById("admDiaria").textContent=dinheiro(td);document.getElementById("admQtd").textContent=sales.length;document.getElementById("admProgress").style.width=Math.min(100,tg>0?tt/tg*100:0)+"%";
-    renderTeam(profiles,sales);renderSales(sales,profiles,"Últimas vendas da equipe");
-  }catch(e){console.error(e);team.innerHTML='<div class="empty">Não foi possível carregar o painel online.</div>';}
+    var r=currentAdminRange();
+    var pr=await sb.from("cfhp_profiles").select("*").eq("app_code","cfhp").order("name");
+    if(pr.error)throw pr.error;
+    var q=sb.from("cfhp_sales").select("*").order("sold_at",{ascending:false});
+    if(r.start)q=q.gte("sale_date",r.start);
+    if(r.end)q=q.lte("sale_date",r.end);
+    var sr=await q;
+    if(sr.error)throw sr.error;
+    adminProfilesCache=pr.data||[];
+    adminSalesCache=sr.data||[];
+    renderAdminSummary(adminProfilesCache,adminSalesCache,r);
+    renderTeam(adminProfilesCache,adminSalesCache,r);
+    renderSales(adminSalesCache,adminProfilesCache,"Vendas — "+r.label);
+    var lab=document.getElementById("cfhpAdminFilterLabel");if(lab)lab.textContent=filterLabel(r);
+  }catch(e){
+    console.error(e);
+    if(team)team.innerHTML='<div class="empty">Não foi possível carregar o painel online.</div>';
+  }
+}
+function renderAdminSummary(profiles,sales,r){
+  var total=sales.reduce(function(a,v){return a+Number(v.final_total||0);},0);
+  var discounts=sales.reduce(function(a,v){return a+Number(v.discount_amount||0);},0);
+  var comm=sales.reduce(function(a,v){return a+Number(v.commission_amount||0);},0);
+  document.getElementById("admVendedor").textContent=profiles.length+" vendedora(s)";
+  document.getElementById("admVendaMes").textContent=dinheiro(total);
+  document.getElementById("admFalta").textContent=dinheiro(discounts);
+  document.getElementById("admComissao").textContent=dinheiro(comm);
+  document.getElementById("admMeta").textContent=sales.length+" venda(s)";
+  document.getElementById("admPct").textContent=sales.length?dinheiro(total/sales.length):dinheiro(0);
+  document.getElementById("admDiaria").textContent=r.label;
+  document.getElementById("admQtd").textContent=sales.length;
+  document.getElementById("admProgress").style.width=sales.length?"100%":"0%";
+  var stats=document.querySelectorAll("#screen-admin .stats .stat small");
+  if(stats[0])stats[0].textContent="VENDEDORAS";
+  if(stats[1])stats[1].textContent="TOTAL VENDIDO";
+  if(stats[2])stats[2].textContent="DESCONTOS";
+  if(stats[3])stats[3].textContent="COMISSÃO";
+  var minis=document.querySelectorAll("#screen-admin .metaMini small");
+  if(minis[0])minis[0].textContent="QUANTIDADE";
+  if(minis[1])minis[1].textContent="MÉDIA POR VENDA";
+  if(minis[2])minis[2].textContent="FILTRO";
+  if(minis[3])minis[3].textContent="VENDAS";
+}
+window.abrirAdmin=async function(){
+  if(!isAdmin){toast("Esta conta não tem acesso de administrador.");return;}
+  window.navigate("admin");
+  adminFilterMode="today";
+  var fields=document.getElementById("cfhpPeriodFields");if(fields)fields.style.display="none";
+  document.querySelectorAll(".cfhp-filter-btn").forEach(function(b){b.classList.toggle("active",b.dataset.filter==="today");});
+  await loadAdminData();
 };
-function renderTeam(profiles,sales){
+function renderTeam(profiles,sales,r){
   var list=document.getElementById("cfhpTeamList");list.innerHTML="";
+  var title=document.getElementById("cfhpTeamTitle");if(title)title.textContent="Todas as vendedoras — "+r.label.toLowerCase();
   if(!profiles.length){list.innerHTML='<div class="empty">Nenhuma vendedora cadastrada.</div>';return;}
   profiles.forEach(function(p){
-    var x=sum(p,sales.filter(function(v){return v.user_id===p.id;})),card=document.createElement("div");card.className="cfhp-seller";
-    card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">'+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div><span class="badge '+(x.pct>=100?"":"warn")+'">'+x.pct.toFixed(1).replace(".",",")+'%</span></div>'+
-      '<div class="progress"><div style="width:'+Math.min(100,x.pct)+'%"></div></div>'+
-      '<div class="cfhp-seller-metrics"><div><small>VENDEU NO MÊS</small><b>'+dinheiro(x.total)+'</b></div><div><small>FALTA</small><b>'+dinheiro(x.missing)+'</b></div><div><small>PRECISA / DIA</small><b>'+dinheiro(x.daily)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(x.comm)+'</b></div></div>'+
-      '<button class="btn secondary full" style="margin-top:9px;height:42px" data-view="'+esc(p.id)+'">Ver vendas</button>'+
+    var own=sales.filter(function(v){return v.user_id===p.id;});
+    var total=own.reduce(function(a,v){return a+Number(v.final_total||0);},0);
+    var desc=own.reduce(function(a,v){return a+Number(v.discount_amount||0);},0);
+    var comm=own.reduce(function(a,v){return a+Number(v.commission_amount||0);},0);
+    var card=document.createElement("div");card.className="cfhp-seller";
+    var badge=own.length?'<span class="badge">'+own.length+' venda(s)</span>':'<span class="badge warn">Sem venda</span>';
+    var detail='';
+    if(own.length){
+      detail='<div class="cfhp-sale-detail">'+own.map(function(v){
+        var h="";
+        try{h=new Date(v.sold_at).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});}catch(e){}
+        return '<div class="cfhp-sale-detail-row"><span>'+esc(h)+' · '+esc(v.payment_method)+'</span><strong>'+dinheiro(v.final_total)+'</strong></div>';
+      }).join("")+'</div>';
+    }else{
+      detail='<div class="cfhp-seller-zero">Nenhuma venda registrada neste filtro.</div>';
+    }
+    card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">'+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div>'+badge+'</div>'+
+      '<div class="cfhp-seller-metrics"><div><small>VENDAS</small><b>'+own.length+'</b></div><div><small>TOTAL</small><b>'+dinheiro(total)+'</b></div><div><small>DESCONTOS</small><b>'+dinheiro(desc)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(comm)+'</b></div></div>'+
+      detail+
+      '<button class="btn secondary full" style="margin-top:9px;height:42px" data-view="'+esc(p.id)+'">Ver histórico da vendedora</button>'+
       '<details><summary>Editar meta e comissão</summary><div class="cfhp-admin-edit"><div><label>META MENSAL</label><input id="goal-'+p.id+'" type="number" value="'+Number(p.monthly_goal||0)+'"></div><div><label>À VISTA %</label><input id="cash-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_cash||0)+'"></div><div><label>ENTRADA %</label><input id="entry-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_entry||0)+'"></div><div><label>CARTÃO/CARNÊ %</label><input id="credit-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_credit||0)+'"></div></div><button class="btn primary full" style="margin-top:8px;height:42px" data-save="'+esc(p.id)+'">Salvar regras</button></details>';
-    card.querySelector("[data-view]").onclick=function(){viewSeller(p.id,p.name);};card.querySelector("[data-save]").onclick=function(){saveSeller(p.id);};list.appendChild(card);
+    card.querySelector("[data-view]").onclick=function(){viewSeller(p.id,p.name);};
+    card.querySelector("[data-save]").onclick=function(){saveSeller(p.id);};
+    list.appendChild(card);
   });
 }
 function renderSales(sales,profiles,title){
-  var map={};profiles.forEach(function(p){map[p.id]=p.name;});var t=document.querySelector("#screen-admin .card:last-child .sectionTitle");if(t)t.textContent=title;var l=document.getElementById("admLista");l.innerHTML="";if(!sales.length){l.innerHTML='<div class="empty">Nenhuma venda.</div>';return;}
-  sales.slice(0,100).forEach(function(v){var row=document.createElement("div");row.className="saleRow";row.innerHTML='<div class="saleTop"><span>'+esc(map[v.user_id]||"Vendedora")+' · '+String(v.sale_date).split("-").reverse().join("/")+'</span><strong>'+dinheiro(v.final_total)+'</strong></div><div class="saleMeta">'+esc(v.payment_method)+' · Comissão '+dinheiro(v.commission_amount||0)+'</div>';l.appendChild(row);});
+  var map={};profiles.forEach(function(p){map[p.id]=p.name;});
+  var t=document.querySelector("#screen-admin .card:last-child .sectionTitle");if(t)t.textContent=title;
+  var l=document.getElementById("admLista");l.innerHTML="";
+  if(!sales.length){l.innerHTML='<div class="empty">Nenhuma venda neste filtro.</div>';return;}
+  sales.forEach(function(v){
+    var row=document.createElement("div");row.className="saleRow";
+    var when=String(v.sale_date).split("-").reverse().join("/");
+    var h="";try{h=new Date(v.sold_at).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});}catch(e){}
+    row.innerHTML='<div class="saleTop"><span>'+esc(map[v.user_id]||"Vendedora")+' · '+when+' '+esc(h)+'</span><strong>'+dinheiro(v.final_total)+'</strong></div>'+
+      '<div class="saleMeta">'+esc(v.payment_method)+' · Desconto '+dinheiro(v.discount_amount||0)+' · Comissão '+dinheiro(v.commission_amount||0)+'</div>';
+    l.appendChild(row);
+  });
 }
-async function viewSeller(uid,name){var r=await sb.from("cfhp_sales").select("*").eq("user_id",uid).order("sold_at",{ascending:false}).limit(100);if(r.error){toast("Não foi possível carregar as vendas.");return;}renderSales(r.data||[],[{id:uid,name:name}],"Vendas de "+name);document.getElementById("admLista").scrollIntoView({behavior:"smooth",block:"start"});}
+async function viewSeller(uid,name){
+  var r=await sb.from("cfhp_sales").select("*").eq("user_id",uid).order("sold_at",{ascending:false});
+  if(r.error){toast("Não foi possível carregar as vendas.");return;}
+  renderSales(r.data||[],[{id:uid,name:name}],"Histórico completo de "+name);
+  document.getElementById("admLista").scrollIntoView({behavior:"smooth",block:"start"});
+}
+async function setAdminFilter(mode,btn){
+  adminFilterMode=mode;
+  document.querySelectorAll(".cfhp-filter-btn").forEach(function(b){b.classList.remove("active");});
+  if(btn)btn.classList.add("active");
+  var fields=document.getElementById("cfhpPeriodFields");
+  if(fields)fields.style.display=mode==="period"?"grid":"none";
+  if(mode!=="period")await loadAdminData();
+}
+async function applyAdminPeriod(){
+  var start=document.getElementById("cfhpPeriodStart").value,end=document.getElementById("cfhpPeriodEnd").value;
+  if(!start||!end){toast("Escolha a data inicial e final.");return;}
+  if(start>end){toast("A data inicial não pode ser maior que a final.");return;}
+  adminPeriodStart=start;adminPeriodEnd=end;adminFilterMode="period";await loadAdminData();
+}
 async function saveSeller(uid){
   function n(id){return Number(document.getElementById(id+"-"+uid).value||0);}
   var r=await sb.rpc("cfhp_admin_update_profile",{p_user_id:uid,p_name:null,p_goal:n("goal"),p_cash:n("cash"),p_entry:n("entry"),p_credit:n("credit"),p_check:null});
@@ -214,7 +344,7 @@ async function submitAuth(){
     else{var l=await sb.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;await joinApp(l.data.user&&l.data.user.user_metadata&&l.data.user.user_metadata.name||l.data.user.email.split("@")[0]);await handleSession(l.data.session);}
   }catch(e){console.error(e);var m=e.message||"Não foi possível entrar.";if(/invalid login/i.test(m))m="E-mail ou senha incorretos.";authMsg(m,true);}
 }
-window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,syncNow:async function(){await syncUp();await syncDown();},client:sb};
+window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();},client:sb};
 
 async function boot(){
   addStyle();injectUI();var r=await sb.auth.getSession();await handleSession(r.data.session);
