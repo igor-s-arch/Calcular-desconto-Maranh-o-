@@ -90,6 +90,10 @@ button{cursor:pointer}
 .stat.gold{background:#fff8e8;border-color:#f0d793}
 .dateBar{display:grid;grid-template-columns:1fr auto;gap:8px}
 .dateBar input{height:44px;border:1px solid #cad9e4;border-radius:12px;background:#fff;padding:0 10px;color:var(--text);font-weight:800}
+.dateRangeBar{grid-template-columns:repeat(2,minmax(0,1fr))}
+.dateField{display:block;min-width:0}
+.dateField span{display:block;font-size:10px;font-weight:900;letter-spacing:.5px;color:#71869a;margin:0 0 5px;text-transform:uppercase}
+.dateRangeBar .btn{grid-column:1/-1;width:100%;height:44px}
 .metaCard{background:linear-gradient(145deg,#fffaf0,#fff);border:1px solid #eedaa4;border-radius:19px;padding:15px;margin-top:12px}
 .metaTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .metaTop strong{font-size:20px}
@@ -137,6 +141,8 @@ canvas{display:none}
  .chips{grid-template-columns:repeat(5,1fr)}
  .stats{grid-template-columns:repeat(4,1fr)}
  .metaGrid{grid-template-columns:repeat(4,1fr)}
+.dateRangeBar{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:end}
+.dateRangeBar .btn{grid-column:auto;width:auto}
 }
 @media(max-width:370px){
  .chips{grid-template-columns:repeat(3,1fr)}
@@ -250,16 +256,17 @@ canvas{display:none}
       <div class="pageTitle"><div><h2>Vendas</h2><p>Hoje, mês, meta individual, meta da loja e comissão.</p></div></div>
 
       <div class="card soft">
-        <div class="sectionTitle">Ver vendas de uma data</div>
-        <div class="dateBar">
-          <input id="filtroData" type="date" onchange="atualizarPainelVendas()">
+        <div class="sectionTitle">Filtrar vendas por período</div>
+        <div class="dateBar dateRangeBar">
+          <label class="dateField"><span>Data inicial</span><input id="filtroDataInicio" type="date" onchange="atualizarPainelVendas()"></label>
+          <label class="dateField"><span>Data final</span><input id="filtroDataFim" type="date" onchange="atualizarPainelVendas()"></label>
           <button class="btn secondary" onclick="irParaHoje()">Hoje</button>
         </div>
       </div>
 
       <div class="stats">
-        <div class="stat"><small>VENDAS DO DIA</small><strong id="qtdVendas">0</strong></div>
-        <div class="stat"><small>TOTAL DO DIA</small><strong id="totalVendido">R$ 0,00</strong></div>
+        <div class="stat"><small>VENDAS NO PERÍODO</small><strong id="qtdVendas">0</strong></div>
+        <div class="stat"><small>TOTAL DO PERÍODO</small><strong id="totalVendido">R$ 0,00</strong></div>
         <div class="stat"><small>DESCONTOS</small><strong id="totalDescontos">R$ 0,00</strong></div>
         <div class="stat"><small>MÉDIA</small><strong id="mediaVenda">R$ 0,00</strong></div>
       </div>
@@ -281,7 +288,7 @@ canvas{display:none}
       <div class="card" style="margin-top:12px">
         <div class="sectionTitle" id="listaTitulo">Vendas de hoje</div>
         <div id="listaVendas" class="salesList"><div class="empty">Nenhuma venda.</div></div>
-        <button class="btn danger full" style="margin-top:10px" onclick="limparVendasDaData()">🗑 Limpar vendas desta data</button>
+        <button class="btn danger full" style="margin-top:10px" onclick="limparVendasDaData()">🗑 Limpar vendas deste período</button>
       </div>
     </section>
 
@@ -617,7 +624,7 @@ function novaVenda(){
   document.querySelectorAll(".method").forEach(function(x){x.classList.toggle("active",x.dataset.method==="avista")});
   atualizarLista();calcular();calcularParcelaAtualizada();
 }
-function irParaHoje(){document.getElementById("filtroData").value=hojeISO();atualizarPainelVendas()}
+function irParaHoje(){var hoje=hojeISO();document.getElementById("filtroDataInicio").value=hoje;document.getElementById("filtroDataFim").value=hoje;atualizarPainelVendas()}
 function labelPagamento(p){
   if(p==="avista")return "À vista";
   if(p==="cartao")return "Cartão";
@@ -639,8 +646,11 @@ function calcularResumoMes(){
   return {sales:ms,total:total,commission:commission,meta:meta,falta:falta,pct:pct,diaria:diaria};
 }
 function atualizarPainelVendas(){
-  var data=document.getElementById("filtroData").value||hojeISO();
-  var all=getSales(),day=all.filter(function(v){return v.date===data});
+  var hoje=hojeISO();
+  var inicio=document.getElementById("filtroDataInicio").value||hoje;
+  var fim=document.getElementById("filtroDataFim").value||hoje;
+  if(inicio>fim){toast("A data inicial deve ser anterior ou igual à data final.");return}
+  var all=getSales(),day=all.filter(function(v){var data=String(v.date||"");return data>=inicio&&data<=fim});
   var total=day.reduce(function(a,v){return a+Number(v.final||0)},0);
   var desc=day.reduce(function(a,v){return a+Number(v.discount||0)},0);
   var media=day.length?total/day.length:0;
@@ -648,9 +658,12 @@ function atualizarPainelVendas(){
   document.getElementById("totalVendido").textContent=dinheiro(total);
   document.getElementById("totalDescontos").textContent=dinheiro(desc);
   document.getElementById("mediaVenda").textContent=dinheiro(media);
-  document.getElementById("listaTitulo").textContent=data===hojeISO()?"Vendas de hoje":"Vendas de "+data.split("-").reverse().join("/");
+  var inicioBR=inicio.split("-").reverse().join("/");
+  var fimBR=fim.split("-").reverse().join("/");
+  var titulo=inicio===fim?(inicio===hoje?"Vendas de hoje":"Vendas de "+inicioBR):"Vendas de "+inicioBR+" a "+fimBR;
+  document.getElementById("listaTitulo").textContent=titulo;
   var list=document.getElementById("listaVendas");list.innerHTML="";
-  if(!day.length){list.innerHTML='<div class="empty">Nenhuma venda nesta data.</div>'}
+  if(!day.length){list.innerHTML='<div class="empty">Nenhuma venda neste período.</div>'}
   day.slice().reverse().forEach(function(v){
     var row=document.createElement("div");row.className="saleRow";
     var detail=labelPagamento(v.payment);
@@ -682,11 +695,13 @@ function excluirVenda(id){
   saveSales(getSales().filter(function(v){return v.id!==id}));atualizarPainelVendas();
 }
 function limparVendasDaData(){
-  var data=document.getElementById("filtroData").value||hojeISO();
-  var sales=getSales(),count=sales.filter(function(v){return v.date===data}).length;
-  if(!count)return;
-  if(!confirm("Apagar todas as vendas desta data?"))return;
-  saveSales(sales.filter(function(v){return v.date!==data}));atualizarPainelVendas();
+  var hoje=hojeISO(),inicio=document.getElementById("filtroDataInicio").value||hoje,fim=document.getElementById("filtroDataFim").value||hoje;
+  if(inicio>fim){toast("A data inicial deve ser anterior ou igual à data final.");return}
+  var sales=getSales(),count=sales.filter(function(v){var data=String(v.date||"");return data>=inicio&&data<=fim}).length;
+  if(!count){toast("Não há vendas neste período.");return}
+  var inicioBR=inicio.split("-").reverse().join("/"),fimBR=fim.split("-").reverse().join("/");
+  if(!confirm("Apagar "+count+" venda(s) do período de "+inicioBR+" a "+fimBR+"? Esta ação não pode ser desfeita."))return;
+  saveSales(sales.filter(function(v){var data=String(v.date||"");return data<inicio||data>fim}));atualizarPainelVendas();
 }
 function abrirAdmin(){
   navigate("admin");
@@ -817,7 +832,8 @@ document.getElementById("entrada").addEventListener("keydown",function(e){if(e.k
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})})}
 migrateLegacy();
 initProfileMigration();
-document.getElementById("filtroData").value=hojeISO();
+document.getElementById("filtroDataInicio").value=hojeISO();
+document.getElementById("filtroDataFim").value=hojeISO();
 renderHeader();
 carregarPerfilForm();
 atualizarLista();
