@@ -251,8 +251,14 @@ window.excluirVenda=async function(id){
   if(v.cloud_id&&currentUser&&navigator.onLine)await sb.from("cfhp_sales").delete().eq("id",v.cloud_id);
 };
 window.limparVendasDaData=async function(){
-  var data=document.getElementById("filtroData").value||window.hojeISO(),sales=window.getSales();if(!sales.some(function(v){return v.date===data;}))return;if(!confirm("Apagar todas as vendas desta data?"))return;
-  window.saveSales(sales.filter(function(v){return v.date!==data;}));window.atualizarPainelVendas();if(currentUser&&navigator.onLine)await sb.from("cfhp_sales").delete().eq("user_id",currentUser.id).eq("sale_date",data);
+  var hoje=window.hojeISO(),inicio=document.getElementById("filtroDataInicio").value||hoje,fim=document.getElementById("filtroDataFim").value||hoje;
+  if(inicio>fim){toast("A data inicial deve ser anterior ou igual à data final.");return}
+  var sales=window.getSales(),count=sales.filter(function(v){var data=String(v.date||"");return data>=inicio&&data<=fim}).length;
+  if(!count){toast("Não há vendas neste período.");return}
+  var inicioBR=inicio.split("-").reverse().join("/"),fimBR=fim.split("-").reverse().join("/");
+  if(!confirm("Apagar "+count+" venda(s) do período de "+inicioBR+" a "+fimBR+"? Esta ação não pode ser desfeita."))return;
+  window.saveSales(sales.filter(function(v){var data=String(v.date||"");return data<inicio||data>fim;}));window.atualizarPainelVendas();
+  if(currentUser&&navigator.onLine)await sb.from("cfhp_sales").delete().eq("user_id",currentUser.id).gte("sale_date",inicio).lte("sale_date",fim);
 };
 function daysLeft(){var d=new Date(),last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),c=0;for(var day=d.getDate();day<=last;day++){if(new Date(d.getFullYear(),d.getMonth(),day).getDay()!==0)c++;}return Math.max(1,c);}
 function range(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0");return {start:y+"-"+m+"-01",end:y+"-"+m+"-31"};}
