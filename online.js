@@ -42,7 +42,7 @@ function injectUI(){
     '<h2>Calcula Fácil HP</h2><div class="lead">Entre para salvar vendas, metas e comissão online.</div>'+
     '<div class="cfhp-auth-tabs"><button id="cfhpTabLogin" class="cfhp-auth-tab active" onclick="CFHP.showAuthMode(\'login\')">Entrar</button><button id="cfhpTabSignup" class="cfhp-auth-tab" onclick="CFHP.showAuthMode(\'signup\')">Criar conta</button></div>'+
     '<div id="cfhpSignupName" class="cfhp-auth-field" style="display:none"><label>Nome</label><input id="cfhpAuthName" type="text" placeholder="Nome da vendedora"></div>'+
-    '<div class="cfhp-auth-field"><label>E-mail</label><input id="cfhpAuthEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com"></div>'+
+    '<div class="cfhp-auth-field"><label>Usuário</label><input id="cfhpAuthUsername" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ex.: gislena"></div>'+
     '<div class="cfhp-auth-field"><label>Senha</label><input id="cfhpAuthPassword" type="password" autocomplete="current-password" placeholder="Sua senha"></div>'+
     '<button id="cfhpAuthButton" class="btn primary full" onclick="CFHP.submitAuth()">Entrar</button><div id="cfhpAuthMsg" class="cfhp-auth-msg"></div>'+
     '<div class="cfhp-auth-note">Cada vendedora usa sua própria conta. O administrador acompanha os resultados pelo mesmo aplicativo.</div></div>';
@@ -55,7 +55,7 @@ function injectUI(){
   if(profile){
     var title=profile.querySelector(".pageTitle");
     var box=document.createElement("div");box.id="cfhpAccount";box.className="cfhp-account";
-    box.innerHTML='<div class="cfhp-account-top"><div><small>CONTA CONECTADA</small><strong id="cfhpAccountEmail">—</strong></div><button class="btn secondary" style="height:39px" onclick="CFHP.logout()">Sair</button></div><div id="cfhpSyncInfo" style="font-size:11px;color:#6f8394;margin-top:7px">Sincronização online ativa.</div>';
+    box.innerHTML='<div class="cfhp-account-top"><div><small>USUÁRIO CONECTADO</small><strong id="cfhpAccountEmail">—</strong></div><button class="btn secondary" style="height:39px" onclick="CFHP.logout()">Sair</button></div><div id="cfhpSyncInfo" style="font-size:11px;color:#6f8394;margin-top:7px">Sincronização online ativa.</div>';
     title.insertAdjacentElement("afterend",box);
     var buttons=[].slice.call(profile.querySelectorAll("button"));
     var adm=buttons.find(function(b){return b.textContent.indexOf("Área ADM")>=0;});
@@ -186,7 +186,7 @@ async function loadProfile(){
   window.renderHeader();window.carregarPerfilForm();updateRole();
 }
 function updateRole(){
-  var em=document.getElementById("cfhpAccountEmail");if(em)em.textContent=currentUser&&currentUser.email||"Conta conectada";
+  var em=document.getElementById("cfhpAccountEmail");if(em)em.textContent=currentProfile&&(currentProfile.username||currentProfile.name)||"Conta conectada";
   var c=document.getElementById("cfhpClaimAdmin"),a=document.getElementById("cfhpAdminCard");
   if(c)c.style.display=isAdmin?"none":"block";if(a)a.style.display=isAdmin?"block":"none";
   ["metaInput","taxaVista","taxaEntrada","taxaPrazo","taxaCheque"].forEach(function(id){
@@ -372,7 +372,7 @@ function renderTeam(profiles,sales,r){
     }else{
       detail='<div class="cfhp-seller-zero">Nenhuma venda registrada neste filtro.</div>';
     }
-    card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">'+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div>'+badge+'</div>'+
+    card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">Usuário: <b>'+esc(p.username||"—")+'</b> · '+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div>'+badge+'</div>'+
       '<div class="cfhp-seller-metrics"><div><small>VENDAS</small><b>'+own.length+'</b></div><div><small>TOTAL</small><b>'+dinheiro(total)+'</b></div><div><small>DESCONTOS</small><b>'+dinheiro(desc)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(comm)+'</b></div></div>'+
       '<div class="cfhp-goal-control"><label>META INDIVIDUAL MENSAL</label><div class="cfhp-goal-row"><input id="goal-'+p.id+'" type="number" min="1" step="1000" value="'+Number(p.monthly_goal||40000)+'"><button class="btn primary" data-goal-save="'+esc(p.id)+'">Salvar meta</button></div><div class="cfhp-goal-current">Meta atual: <strong>'+dinheiro(p.monthly_goal||40000)+'</strong></div></div>'+
       detail+
@@ -445,11 +445,29 @@ window.ativarNotificacoes=async function(){
 async function logout(){await syncUp();await sb.auth.signOut();window.saveSales([]);location.reload();}
 function showAuthMode(m){authMode=m;document.getElementById("cfhpTabLogin").classList.toggle("active",m==="login");document.getElementById("cfhpTabSignup").classList.toggle("active",m==="signup");document.getElementById("cfhpSignupName").style.display=m==="signup"?"block":"none";document.getElementById("cfhpAuthButton").textContent=m==="signup"?"Criar conta":"Entrar";authMsg("");}
 async function submitAuth(){
-  var email=(document.getElementById("cfhpAuthEmail").value||"").trim(),pass=document.getElementById("cfhpAuthPassword").value||"",name=(document.getElementById("cfhpAuthName").value||"").trim();if(!email||!pass){authMsg("Preencha e-mail e senha.",true);return;}if(authMode==="signup"&&!name){authMsg("Digite o nome da vendedora.",true);return;}authMsg("Aguarde...");
+  var username=(document.getElementById("cfhpAuthUsername").value||"").trim().toLowerCase(),pass=document.getElementById("cfhpAuthPassword").value||"",name=(document.getElementById("cfhpAuthName").value||"").trim();
+  if(!username||!pass){authMsg("Preencha usuário e senha.",true);return;}
+  if(authMode==="signup"&&!name){authMsg("Digite o nome da vendedora.",true);return;}
+  if(pass.length<6){authMsg("A senha precisa ter pelo menos 6 caracteres.",true);return;}
+  authMsg("Aguarde...");
   try{
-    if(authMode==="signup"){var r=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name,app:"cfhp"}}});if(r.error)throw r.error;if(!r.data.session){authMsg("Conta criada. Confira seu e-mail para confirmar o cadastro.");}else{await handleSession(r.data.session);}}
-    else{var l=await sb.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;await joinApp(l.data.user&&l.data.user.user_metadata&&l.data.user.user_metadata.name||l.data.user.email.split("@")[0]);await handleSession(l.data.session);}
-  }catch(e){console.error(e);var m=e.message||"Não foi possível entrar.";if(/invalid login/i.test(m))m="E-mail ou senha incorretos.";authMsg(m,true);}
+    var result=await sb.functions.invoke("cfhp-auth",{body:{action:authMode,username:username,name:name,password:pass}});
+    if(result.error){
+      var message=result.error.message||"Não foi possível concluir a solicitação.";
+      try{if(result.error.context&&typeof result.error.context.json==="function"){var detail=await result.error.context.json();if(detail&&detail.error)message=detail.error;}}catch(_){}
+      throw new Error(message);
+    }
+    if(result.data&&result.data.error){authMsg(result.data.error,true);return;}
+    if(!result.data||!result.data.session){authMsg("Conta criada. Entre usando seu usuário e sua senha.",true);return;}
+    var saved=await sb.auth.setSession({access_token:result.data.session.access_token,refresh_token:result.data.session.refresh_token});
+    if(saved.error)throw saved.error;
+    await handleSession(saved.data.session);
+  }catch(e){
+    console.error(e);
+    var m=e.message||"Não foi possível entrar.";
+    if(/invalid login|invalid credentials/i.test(m))m="Usuário ou senha incorretos.";
+    authMsg(m,true);
+  }
 }
 window.CFHP={showAuthMode:showAuthMode,submitAuth:submitAuth,logout:logout,claimAdmin:claimAdmin,viewSeller:viewSeller,saveSeller:saveSeller,saveIndividualGoal:saveIndividualGoal,saveStoreGoal:saveStoreGoal,setAdminFilter:setAdminFilter,applyAdminPeriod:applyAdminPeriod,syncNow:async function(){await syncUp();await syncDown();await loadStoreProgress();},client:sb};
 
