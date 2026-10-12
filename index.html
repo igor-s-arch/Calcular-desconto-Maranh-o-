@@ -90,13 +90,6 @@ button{cursor:pointer}
 .stat.gold{background:#fff8e8;border-color:#f0d793}
 .dateBar{display:grid;grid-template-columns:1fr auto;gap:8px}
 .dateBar input{height:44px;border:1px solid #cad9e4;border-radius:12px;background:#fff;padding:0 10px;color:var(--text);font-weight:800}
-.salesPeriodFields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.salesPeriodFields .field{margin-bottom:0;min-width:0}
-.salesPeriodFields label{display:block;font-size:11px;font-weight:900;color:#5d7488;margin-bottom:5px;text-transform:uppercase}
-.salesPeriodFields input{width:100%;height:44px;min-width:0;border:1px solid #cad9e4;border-radius:12px;background:#fff;padding:0 8px;color:var(--text);font-weight:800}
-.salesPeriodActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
-.salesPeriodActions .btn{height:44px;padding:0 8px;font-size:12px}
-.salesClearActions{display:grid;gap:8px;margin-top:10px}
 .metaCard{background:linear-gradient(145deg,#fffaf0,#fff);border:1px solid #eedaa4;border-radius:19px;padding:15px;margin-top:12px}
 .metaTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .metaTop strong{font-size:20px}
@@ -257,22 +250,16 @@ canvas{display:none}
       <div class="pageTitle"><div><h2>Vendas</h2><p>Hoje, mês, meta individual, meta da loja e comissão.</p></div></div>
 
       <div class="card soft">
-        <div class="sectionTitle">Buscar vendas por período</div>
-        <div class="salesPeriodFields">
-          <div class="field"><label for="filtroInicio">Data inicial</label><input id="filtroInicio" type="date"></div>
-          <div class="field"><label for="filtroFim">Data final</label><input id="filtroFim" type="date"></div>
-        </div>
-        <div class="salesPeriodActions">
-          <button class="btn dark" onclick="aplicarFiltroPeriodo()">🔎 Buscar período</button>
+        <div class="sectionTitle">Ver vendas de uma data</div>
+        <div class="dateBar">
+          <input id="filtroData" type="date" onchange="atualizarPainelVendas()">
           <button class="btn secondary" onclick="irParaHoje()">Hoje</button>
-          <button class="btn secondary" style="grid-column:1/-1" onclick="irParaMesAtual()">Este mês inteiro</button>
         </div>
-        <div class="helper">Exemplo: escolha do dia 01 ao dia 20 para consultar somente essas vendas.</div>
       </div>
 
       <div class="stats">
-        <div class="stat"><small>VENDAS NO PERÍODO</small><strong id="qtdVendas">0</strong></div>
-        <div class="stat"><small>TOTAL DO PERÍODO</small><strong id="totalVendido">R$ 0,00</strong></div>
+        <div class="stat"><small>VENDAS DO DIA</small><strong id="qtdVendas">0</strong></div>
+        <div class="stat"><small>TOTAL DO DIA</small><strong id="totalVendido">R$ 0,00</strong></div>
         <div class="stat"><small>DESCONTOS</small><strong id="totalDescontos">R$ 0,00</strong></div>
         <div class="stat"><small>MÉDIA</small><strong id="mediaVenda">R$ 0,00</strong></div>
       </div>
@@ -294,10 +281,7 @@ canvas{display:none}
       <div class="card" style="margin-top:12px">
         <div class="sectionTitle" id="listaTitulo">Vendas de hoje</div>
         <div id="listaVendas" class="salesList"><div class="empty">Nenhuma venda.</div></div>
-        <div class="salesClearActions">
-          <button class="btn secondary full" onclick="limparVendasDoPeriodo()">🗑 Limpar vendas do período</button>
-          <button class="btn danger full" onclick="limparTodasAsVendas()">⚠️ Limpar todas as vendas</button>
-        </div>
+        <button class="btn danger full" style="margin-top:10px" onclick="limparVendasDaData()">🗑 Limpar vendas desta data</button>
       </div>
     </section>
 
@@ -633,26 +617,7 @@ function novaVenda(){
   document.querySelectorAll(".method").forEach(function(x){x.classList.toggle("active",x.dataset.method==="avista")});
   atualizarLista();calcular();calcularParcelaAtualizada();
 }
-function aplicarFiltroPeriodo(){
-  var inicio=document.getElementById("filtroInicio").value;
-  var fim=document.getElementById("filtroFim").value;
-  if(!inicio||!fim){toast("Escolha a data inicial e a data final.");return}
-  if(inicio>fim){toast("A data inicial não pode ser maior que a final.");return}
-  atualizarPainelVendas();
-}
-function irParaHoje(){
-  var hoje=hojeISO();
-  document.getElementById("filtroInicio").value=hoje;
-  document.getElementById("filtroFim").value=hoje;
-  atualizarPainelVendas();
-}
-function irParaMesAtual(){
-  var d=new Date(),inicio=new Date(d.getFullYear(),d.getMonth(),1),fim=new Date(d.getFullYear(),d.getMonth()+1,0);
-  function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
-  document.getElementById("filtroInicio").value=iso(inicio);
-  document.getElementById("filtroFim").value=iso(fim);
-  atualizarPainelVendas();
-}
+function irParaHoje(){document.getElementById("filtroData").value=hojeISO();atualizarPainelVendas()}
 function labelPagamento(p){
   if(p==="avista")return "À vista";
   if(p==="cartao")return "Cartão";
@@ -674,31 +639,25 @@ function calcularResumoMes(){
   return {sales:ms,total:total,commission:commission,meta:meta,falta:falta,pct:pct,diaria:diaria};
 }
 function atualizarPainelVendas(){
-  var inicioEl=document.getElementById("filtroInicio"),fimEl=document.getElementById("filtroFim");
-  var inicio=(inicioEl&&inicioEl.value)||hojeISO(),fim=(fimEl&&fimEl.value)||hojeISO();
-  if(inicioEl&&!inicioEl.value)inicioEl.value=inicio;
-  if(fimEl&&!fimEl.value)fimEl.value=fim;
-  if(inicio>fim){toast("A data inicial não pode ser maior que a final.");return}
-  var all=getSales(),period=all.filter(function(v){var d=String(v.date||"");return d>=inicio&&d<=fim;});
-  var total=period.reduce(function(a,v){return a+Number(v.final||0)},0);
-  var desc=period.reduce(function(a,v){return a+Number(v.discount||0)},0);
-  var media=period.length?total/period.length:0;
-  document.getElementById("qtdVendas").textContent=period.length;
+  var data=document.getElementById("filtroData").value||hojeISO();
+  var all=getSales(),day=all.filter(function(v){return v.date===data});
+  var total=day.reduce(function(a,v){return a+Number(v.final||0)},0);
+  var desc=day.reduce(function(a,v){return a+Number(v.discount||0)},0);
+  var media=day.length?total/day.length:0;
+  document.getElementById("qtdVendas").textContent=day.length;
   document.getElementById("totalVendido").textContent=dinheiro(total);
   document.getElementById("totalDescontos").textContent=dinheiro(desc);
   document.getElementById("mediaVenda").textContent=dinheiro(media);
-  var inicioBR=inicio.split("-").reverse().join("/"),fimBR=fim.split("-").reverse().join("/");
-  document.getElementById("listaTitulo").textContent=inicio===fim?(inicio===hojeISO()?"Vendas de hoje":"Vendas de "+inicioBR):"Vendas de "+inicioBR+" até "+fimBR;
+  document.getElementById("listaTitulo").textContent=data===hojeISO()?"Vendas de hoje":"Vendas de "+data.split("-").reverse().join("/");
   var list=document.getElementById("listaVendas");list.innerHTML="";
-  if(!period.length){list.innerHTML='<div class="empty">Nenhuma venda neste período.</div>'}
-  period.slice().reverse().forEach(function(v){
+  if(!day.length){list.innerHTML='<div class="empty">Nenhuma venda nesta data.</div>'}
+  day.slice().reverse().forEach(function(v){
     var row=document.createElement("div");row.className="saleRow";
     var detail=labelPagamento(v.payment);
     if(v.payment==="crediario")detail+=" · Entrada "+dinheiro(v.entry)+" · "+v.installments+"x";
-    var when=inicio===fim?(v.hora||""):(String(v.date||"").split("-").reverse().join("/")+" · "+(v.hora||""));
-    row.innerHTML='<div class="saleTop"><span>'+when+'</span><strong>'+dinheiro(v.final)+'</strong></div>'+
+    row.innerHTML='<div class="saleTop"><span>'+v.hora+'</span><strong>'+dinheiro(v.final)+'</strong></div>'+
       '<div class="saleMeta">'+(v.items?v.items.length:1)+' item(ns) · '+v.percent+'% desconto · '+detail+'<br>Comissão: '+dinheiro(v.commission||0)+'</div>'+
-      '<div class="saleActions"><button class="iconBtn" onclick="excluirVenda(\\''+v.id+'\\')">🗑</button></div>';
+      '<div class="saleActions"><button class="iconBtn" onclick="excluirVenda(\''+v.id+'\')">🗑</button></div>';
     list.appendChild(row);
   });
   var r=calcularResumoMes();
@@ -722,22 +681,13 @@ function excluirVenda(id){
   if(!confirm("Apagar esta venda?"))return;
   saveSales(getSales().filter(function(v){return v.id!==id}));atualizarPainelVendas();
 }
-function limparVendasDoPeriodo(){
-  var inicio=document.getElementById("filtroInicio").value||hojeISO();
-  var fim=document.getElementById("filtroFim").value||hojeISO();
-  if(inicio>fim){toast("A data inicial não pode ser maior que a final.");return}
-  var sales=getSales(),matching=sales.filter(function(v){var d=String(v.date||"");return d>=inicio&&d<=fim;});
-  if(!matching.length){toast("Não há vendas neste período para limpar.");return}
-  if(!confirm("Apagar "+matching.length+" venda(s) deste período?"))return;
-  saveSales(sales.filter(function(v){var d=String(v.date||"");return !(d>=inicio&&d<=fim);}));
-  atualizarPainelVendas();toast("Vendas do período apagadas.");
+function limparVendasDaData(){
+  var data=document.getElementById("filtroData").value||hojeISO();
+  var sales=getSales(),count=sales.filter(function(v){return v.date===data}).length;
+  if(!count)return;
+  if(!confirm("Apagar todas as vendas desta data?"))return;
+  saveSales(sales.filter(function(v){return v.date!==data}));atualizarPainelVendas();
 }
-function limparTodasAsVendas(){
-  if(!getSales().length){toast("Não há vendas neste aparelho para limpar.");return}
-  if(!confirm("ATENÇÃO: apagar todas as vendas registradas neste aparelho? Esta ação não pode ser desfeita."))return;
-  saveSales([]);atualizarPainelVendas();toast("Todas as vendas deste aparelho foram apagadas.");
-}
-function limparVendasDaData(){limparVendasDoPeriodo();}
 function abrirAdmin(){
   navigate("admin");
   var p=getProfile(),r=calcularResumoMes();
