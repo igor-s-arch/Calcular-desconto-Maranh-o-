@@ -8,7 +8,7 @@ var VAPID_PUBLIC="BHYwHJoB7xmUDOJ45boyHvTiwHcRFOWW5DQNh5M2TcWMEFIy894YjuWA88F4kP
 if(!window.supabase){console.error("Supabase JS não carregou.");return;}
 
 var sb=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-var currentUser=null,currentProfile=null,isAdmin=false,authMode="login",handling=false;
+var currentUser=null,currentProfile=null,isAdmin=false,authMode="login",handling=false,deletingSales=false;
 var baseSalvarPerfil=window.salvarPerfil;
 var baseSalvarVenda=window.salvarVenda;
 
@@ -206,7 +206,7 @@ function syncInfo(ok){
   var e=document.getElementById("cfhpSyncInfo");if(e){e.textContent=ok?"✓ Vendas sincronizadas com o painel ADM.":"Sem internet: as vendas ficam neste aparelho e sincronizam depois.";e.className=ok?"":"cfhp-sync-warn";}setPill(ok?"Online":"Modo local",ok);
 }
 async function syncUp(){
-  if(!currentUser||!navigator.onLine)return false;
+  if(!currentUser||!navigator.onLine||deletingSales)return false;
   var sales=window.getSales(),changed=false,ok=true;
   for(var i=0;i<sales.length;i++){
     var v=sales[i];if(v.synced_user_id===currentUser.id&&validUuid(v.cloud_id))continue;
@@ -215,7 +215,7 @@ async function syncUp(){
   if(changed)window.saveSales(sales);syncInfo(ok);return ok;
 }
 async function syncDown(){
-  if(!currentUser||!navigator.onLine)return false;
+  if(!currentUser||!navigator.onLine||deletingSales)return false;
   try{
     var r=await sb.from("cfhp_sales").select("*").eq("user_id",currentUser.id).order("sold_at",{ascending:true});if(r.error)throw r.error;
     var local=window.getSales(),unsynced=local.filter(function(v){return !(v.synced_user_id===currentUser.id&&validUuid(v.cloud_id));});
@@ -246,14 +246,58 @@ async function saveCloudProfile(){
 window.salvarPerfil=async function(){baseSalvarPerfil();try{await saveCloudProfile();toast("Perfil salvo no aparelho e na nuvem.");}catch(e){console.warn(e);toast("Perfil salvo neste aparelho. Vai sincronizar quando possível.");}};
 window.salvarVenda=function(v){baseSalvarVenda(v);setTimeout(async function(){await syncUp();await loadStoreProgress();},0);};
 window.excluirVenda=async function(id){
-  var sales=window.getSales(),v=sales.find(function(x){return x.id===id;});if(!v)return;if(!confirm("Apagar esta venda?"))return;
-  window.saveSales(sales.filter(function(x){return x.id!==id;}));window.atualizarPainelVendas();
-  if(v.cloud_id&&currentUser&&navigator.onLine)await sb.from("cfhp_sales").delete().eq("id",v.cloud_id);
+  var sales=window.getSales(),v=sales.find(function(x){return x.id===id;});if(!v)return;
+  if(!confirm("Apagar esta venda?"))return;
+  if(v.cloud_id&&currentUser){
+    if(!navigator.onLine){toast("Conecte à internet para apagar esta venda sincronizada.");return;}
+    try{
+      var del=await sb.from("cfhp_sales").delete().eq("id",v.cloud_id).eq("user_id",currentUser.id);
+      if(del.error)throw del.error;
+    }catch(e){console.error(e);toast("Não foi possível apagar a venda online. Tente novamente.");return;}
+  }
+  window.saveSales(sales.filter(function(x){return x.id!==id;}));
+  window.atualizarPainelVendas();
+  if(currentUser)await loadStoreProgress();
 };
-window.limparVendasDaData=async function(){
-  var data=document.getElementById("filtroData").value||window.hojeISO(),sales=window.getSales();if(!sales.some(function(v){return v.date===data;}))return;if(!confirm("Apagar todas as vendas desta data?"))return;
-  window.saveSales(sales.filter(function(v){return v.date!==data;}));window.atualizarPainelVendas();if(currentUser&&navigator.onLine)await sb.from("cfhp_sales").delete().eq("user_id",currentUser.id).eq("sale_date",data);
+window.limparVendasDoPeriodo=async function(){
+  var inicioEl=document.getElementById("filtroInicio"),fimEl=document.getElementById("filtroFim"),legacy=document.getElementById("filtroData");
+  var start=(inicioEl&&inicioEl.value)||(legacy&&legacy.value)||window.hojeISO();
+  var end=(fimEl&&fimEl.value)||(legacy&&legacy.value)||start;
+  if(start>end){toast("A data inicial não pode ser maior que a final.");return;}
+  if(!currentUser){toast("Entre na sua conta para limpar as vendas.");return;}
+  if(!navigator.onLine){toast("Conecte à internet para limpar as vendas com segurança.");return;}
+  var sales=window.getSales();
+  var startBR=start.split("-").reverse().join("/"),endBR=end.split("-").reverse().join("/");
+  if(!confirm("Apagar as vendas da sua conta de "+startBR+" até "+endBR+"? A exclusão será aplicada também na nuvem."))return;
+  deletingSales=true;
+  try{
+    var r=await sb.from("cfhp_sales").delete().eq("user_id",currentUser.id).gte("sale_date",start).lte("sale_date",end);
+    if(r.error)throw r.error;
+    window.saveSales(sales.filter(function(v){var d=String(v.date||"");return !(d>=start&&d<=end);}));
+    window.atualizarPainelVendas();
+    await loadStoreProgress();
+    toast("Vendas do período apagadas.");
+  }catch(e){
+    console.error(e);toast("Não foi possível apagar as vendas do período. Tente novamente.");
+  }finally{deletingSales=false;}
 };
+window.limparTodasAsVendas=async function(){
+  if(!currentUser){toast("Entre na sua conta para limpar as vendas.");return;}
+  if(!navigator.onLine){toast("Conecte à internet antes de limpar todas as vendas.");return;}
+  if(!confirm("ATENÇÃO: isso vai apagar TODAS as vendas da sua conta, inclusive as sincronizadas na nuvem. As vendas de outras vendedoras não serão apagadas. Esta ação não pode ser desfeita. Continuar?"))return;
+  deletingSales=true;
+  try{
+    var r=await sb.from("cfhp_sales").delete().eq("user_id",currentUser.id);
+    if(r.error)throw r.error;
+    window.saveSales([]);
+    window.atualizarPainelVendas();
+    await loadStoreProgress();
+    toast("Todas as vendas da sua conta foram apagadas.");
+  }catch(e){
+    console.error(e);toast("Não foi possível limpar todas as vendas. Tente novamente.");
+  }finally{deletingSales=false;}
+};
+window.limparVendasDaData=window.limparVendasDoPeriodo;
 function daysLeft(){var d=new Date(),last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),c=0;for(var day=d.getDate();day<=last;day++){if(new Date(d.getFullYear(),d.getMonth(),day).getDay()!==0)c++;}return Math.max(1,c);}
 function range(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0");return {start:y+"-"+m+"-01",end:y+"-"+m+"-31"};}
 function sum(p,sales){
