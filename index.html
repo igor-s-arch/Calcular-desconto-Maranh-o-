@@ -150,6 +150,20 @@ canvas{display:none}
  .payTotal strong{font-size:25px}
  .bottomNav{height:calc(68px + env(safe-area-inset-bottom))}
 }
+
+/* Comissão por forma de pagamento — Calcula Fácil HP */
+.commissionBreakdownCard .commissionPeriodTotal{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:13px;background:linear-gradient(145deg,#17324b,#214866);color:#fff;margin-bottom:9px}
+.commissionPeriodTotal small{display:block;color:#c3d2df;font-size:9px;font-weight:900;letter-spacing:.04em}
+.commissionPeriodTotal strong{display:block;margin-top:3px;font-size:22px;color:#ffda70}
+.commissionPeriodTotal>span{font-size:10px;color:#dceaf3;white-space:nowrap}
+.commissionBreakdownGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.commissionBreakdownItem{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;padding:10px;background:#f7fafc;border:1px solid #e0e8ee;border-radius:12px}
+.commissionBreakdownItem b{display:block;font-size:10px;color:#25445d}
+.commissionBreakdownItem small{display:block;font-size:9px;color:#8193a1;margin-top:4px}
+.commissionBreakdownItem small span{font-weight:800;color:#4d6578}
+.commissionBreakdownItem>strong{font-size:12px;color:#18754f;white-space:nowrap}
+@media(max-width:380px){.commissionBreakdownGrid{grid-template-columns:1fr}.commissionBreakdownItem{padding:9px 10px}}
+
 </style>
 </head>
 <body>
