@@ -285,6 +285,18 @@ canvas{display:none}
         </div>
       </div>
 
+      <div class="card commissionBreakdownCard" style="margin-top:12px">
+        <div class="sectionTitle">Comissão por forma de pagamento</div>
+        <div class="commissionPeriodTotal"><div><small>COMISSÃO NO PERÍODO</small><strong id="comissaoPeriodoTotal">R$ 0,00</strong></div><span id="comissaoPeriodoVendas">0 vendas</span></div>
+        <div class="commissionBreakdownGrid">
+          <div class="commissionBreakdownItem"><div><b>À vista</b><small>Vendido: <span id="comissaoVistaBase">R$ 0,00</span></small></div><strong id="comissaoVistaValor">R$ 0,00</strong></div>
+          <div class="commissionBreakdownItem"><div><b>Entrada do crediário</b><small>Entradas: <span id="comissaoEntradaBase">R$ 0,00</span></small></div><strong id="comissaoEntradaValor">R$ 0,00</strong></div>
+          <div class="commissionBreakdownItem"><div><b>Cartão</b><small>Vendido: <span id="comissaoCartaoBase">R$ 0,00</span></small></div><strong id="comissaoCartaoValor">R$ 0,00</strong></div>
+          <div class="commissionBreakdownItem"><div><b>Saldo do carnê</b><small>Saldo: <span id="comissaoCarneBase">R$ 0,00</span></small></div><strong id="comissaoCarneValor">R$ 0,00</strong></div>
+          <div class="commissionBreakdownItem"><div><b>Cheque</b><small>Vendido: <span id="comissaoChequeBase">R$ 0,00</span></small></div><strong id="comissaoChequeValor">R$ 0,00</strong></div>
+        </div>
+      </div>
+
       <div class="card" style="margin-top:12px">
         <div class="sectionTitle" id="listaTitulo">Vendas de hoje</div>
         <div id="listaVendas" class="salesList"><div class="empty">Nenhuma venda.</div></div>
@@ -578,13 +590,54 @@ function calcularParcela(n,b){
   numeroParcelas=n;document.querySelectorAll(".installment").forEach(function(x){x.classList.remove("active")});b.classList.add("active");
   calcularParcelaAtualizada();
 }
-function calcularComissao(payment,final,entry,remaining){
-  var p=getProfile();
-  if(payment==="avista")return final*(Number(p.taxaVista||0)/100);
-  if(payment==="cartao")return final*(Number(p.taxaPrazo||0)/100);
-  if(payment==="cheque")return final*(Number(p.taxaCheque||0)/100);
-  if(payment==="crediario")return entry*(Number(p.taxaEntrada||0)/100)+remaining*(Number(p.taxaPrazo||0)/100);
-  return 0;
+function arredondarComissao(v){return Math.round((Number(v||0)+Number.EPSILON)*100)/100}
+function detalharComissao(payment,final,entry,remaining){
+  var p=getProfile(),parts={cash:0,entry:0,credit:0,check:0};
+  if(payment==="avista")parts.cash=arredondarComissao(final*(Number(p.taxaVista||0)/100));
+  if(payment==="cartao")parts.credit=arredondarComissao(final*(Number(p.taxaPrazo||0)/100));
+  if(payment==="cheque")parts.check=arredondarComissao(final*(Number(p.taxaCheque||0)/100));
+  if(payment==="crediario"){
+    parts.entry=arredondarComissao(entry*(Number(p.taxaEntrada||0)/100));
+    parts.credit=arredondarComissao(remaining*(Number(p.taxaPrazo||0)/100));
+  }
+  parts.total=arredondarComissao(parts.cash+parts.entry+parts.credit+parts.check);
+  return parts;
+}
+function calcularComissao(payment,final,entry,remaining){return detalharComissao(payment,final,entry,remaining).total}
+function partesComissaoVenda(v){
+  var total=Number(v.commission||0);
+  var cash=Number(v.commissionCashAmount||0),entry=Number(v.commissionEntryAmount||0),credit=Number(v.commissionCreditAmount||0),check=Number(v.commissionCheckAmount||0);
+  if(Math.abs(cash)+Math.abs(entry)+Math.abs(credit)+Math.abs(check)<0.005&&total>0){
+    if(v.payment==="avista")cash=total;
+    else if(v.payment==="cartao")credit=total;
+    else if(v.payment==="cheque")check=total;
+    else if(v.payment==="crediario"){
+      var rawEntry=Math.max(0,Number(v.entry||0))*Number(getProfile().taxaEntrada||0);
+      var rawCredit=Math.max(0,Number(v.remaining||0))*Number(getProfile().taxaPrazo||0);
+      entry=rawEntry+rawCredit>0?arredondarComissao(total*rawEntry/(rawEntry+rawCredit)):arredondarComissao(total/2);
+      credit=arredondarComissao(total-entry);
+    }
+  }
+  return {cash:cash,entry:entry,credit:credit,check:check,total:arredondarComissao(cash+entry+credit+check)};
+}
+function renderComissaoPorForma(sales){
+  var p=getProfile(),sum={cashBase:0,cash:0,entryBase:0,entry:0,cardBase:0,card:0,carneBase:0,carne:0,checkBase:0,check:0,total:0};
+  (sales||[]).forEach(function(v){
+    var parts=partesComissaoVenda(v),final=Number(v.final||0);
+    if(v.payment==="avista"){sum.cashBase+=final;sum.cash+=parts.cash;}
+    if(v.payment==="cartao"){sum.cardBase+=final;sum.card+=parts.credit;}
+    if(v.payment==="cheque"){sum.checkBase+=final;sum.check+=parts.check;}
+    if(v.payment==="crediario"){sum.entryBase+=Number(v.entry||0);sum.entry+=parts.entry;sum.carneBase+=Number(v.remaining||0);sum.carne+=parts.credit;}
+    sum.total+=parts.total;
+  });
+  var set=function(id,value){var el=document.getElementById(id);if(el)el.textContent=dinheiro(value)};
+  set("comissaoPeriodoTotal",sum.total);
+  set("comissaoPeriodoVendas",(sales||[]).length+" venda(s)");
+  set("comissaoVistaBase",sum.cashBase);set("comissaoVistaValor",sum.cash);
+  set("comissaoEntradaBase",sum.entryBase);set("comissaoEntradaValor",sum.entry);
+  set("comissaoCartaoBase",sum.cardBase);set("comissaoCartaoValor",sum.card);
+  set("comissaoCarneBase",sum.carneBase);set("comissaoCarneValor",sum.carne);
+  set("comissaoChequeBase",sum.checkBase);set("comissaoChequeValor",sum.check);
 }
 function montarVenda(payment){
   var total=obterTotalAtual();if(total<=0)return null;
@@ -593,6 +646,7 @@ function montarVenda(payment){
   if(entrada>final){alert("A entrada não pode ser maior que o total da venda.");return null}
   var restante=payment==="crediario"?Math.max(0,final-entrada):0;
   if(payment==="crediario"&&restante>0&&numeroParcelas<=0){toast("Escolha o número de parcelas.");return null}
+  var comissao=detalharComissao(payment,final,entrada,restante);
   var now=new Date();
   return {
     id:String(now.getTime())+"-"+Math.random().toString(16).slice(2),
@@ -600,7 +654,11 @@ function montarVenda(payment){
     hora:now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
     items:valores.slice(),total:total,discount:desconto,final:final,percent:percentual,
     payment:payment,entry:entrada,remaining:restante,installments:payment==="crediario"?numeroParcelas:0,
-    commission:calcularComissao(payment,final,entrada,restante)
+    commission:comissao.total,
+    commissionCashAmount:comissao.cash,
+    commissionEntryAmount:comissao.entry,
+    commissionCreditAmount:comissao.credit,
+    commissionCheckAmount:comissao.check
   };
 }
 function salvarVenda(v){
@@ -658,6 +716,7 @@ function atualizarPainelVendas(){
   document.getElementById("totalVendido").textContent=dinheiro(total);
   document.getElementById("totalDescontos").textContent=dinheiro(desc);
   document.getElementById("mediaVenda").textContent=dinheiro(media);
+  renderComissaoPorForma(day);
   var inicioBR=inicio.split("-").reverse().join("/");
   var fimBR=fim.split("-").reverse().join("/");
   var titulo=inicio===fim?(inicio===hoje?"Vendas de hoje":"Vendas de "+inicioBR):"Vendas de "+inicioBR+" a "+fimBR;
