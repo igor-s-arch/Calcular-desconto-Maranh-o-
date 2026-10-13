@@ -32,6 +32,20 @@ function addStyle(){
   ".cfhp-sync-warn{background:#fff5df;color:#8f6810;border:1px solid #eed291;padding:9px;border-radius:11px;font-size:11px;margin-top:8px}"+
   ".cfhp-filter-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.cfhp-filter-btn{height:42px;border:1px solid #cfdae3;background:#f5f8fb;border-radius:11px;color:#49677e;font-size:11px;font-weight:900}.cfhp-filter-btn.active{background:#17324b;color:#fff;border-color:#17324b}.cfhp-period-fields{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px;align-items:end}.cfhp-period-fields label{display:block;font-size:9px;font-weight:900;color:#71869a;margin-bottom:4px}.cfhp-period-fields input{width:100%;height:42px;border:1px solid #cedce6;border-radius:10px;padding:0 8px;background:#fff;color:#193047}.cfhp-period-fields .btn{height:42px}.cfhp-sale-detail{margin-top:8px;border-top:1px solid #dde6ed;padding-top:8px}.cfhp-sale-detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #dce5ec;font-size:11px;color:#667e90}.cfhp-sale-detail-row:last-child{border-bottom:0}.cfhp-sale-detail-row strong{color:#17324b}.cfhp-seller-zero{font-size:11px;color:#8a9aa6;margin-top:8px}.cfhp-goal-control{margin-top:10px;background:#fff8e8;border:1px solid #efd58d;border-radius:13px;padding:10px}.cfhp-goal-control label{display:block;font-size:10px;font-weight:900;color:#8a6a16;margin-bottom:5px}.cfhp-goal-row{display:grid;grid-template-columns:1fr auto;gap:7px}.cfhp-goal-row input{height:42px;border:1px solid #ddc06c;border-radius:10px;padding:0 10px;background:#fff;color:#17324b;font-weight:900;min-width:0}.cfhp-goal-row .btn{height:42px}.cfhp-goal-current{font-size:11px;color:#7f6a2a;margin-top:6px}"+
   "@media(max-width:480px){.cfhp-filter-tabs{grid-template-columns:1fr 1fr}.cfhp-period-fields{grid-template-columns:1fr 1fr}.cfhp-period-fields .btn{grid-column:1/-1;width:100%}}@media(max-width:380px){.cfhp-admin-edit{grid-template-columns:1fr}}";
+  s.textContent +=
+    ".cfhp-commission-breakdown{display:grid;gap:7px;margin-top:9px}"+
+    ".cfhp-commission-total{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;border-radius:12px;background:#17324b;color:#fff}"+
+    ".cfhp-commission-total small{display:block;font-size:9px;font-weight:900;letter-spacing:.04em;color:#c3d2df}"+
+    ".cfhp-commission-total strong{font-size:19px;color:#ffda70;white-space:nowrap}"+
+    ".cfhp-commission-lines{display:grid;grid-template-columns:1fr 1fr;gap:7px}"+
+    ".cfhp-commission-line{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;padding:9px 10px;background:#f7fafc;border:1px solid #e0e8ee;border-radius:11px}"+
+    ".cfhp-commission-line b{display:block;font-size:10px;color:#25445d}"+
+    ".cfhp-commission-line small{display:block;margin-top:3px;font-size:9px;color:#8193a1}"+
+    ".cfhp-commission-line strong{font-size:12px;color:#18754f;white-space:nowrap}"+
+    ".cfhp-commission-details{margin-top:9px;border-top:1px solid #dce6ed;padding-top:9px}"+
+    ".cfhp-commission-details summary{cursor:pointer;font-size:11px;font-weight:900;color:#49697f}"+
+    ".cfhp-commission-breakdown.compact .cfhp-commission-total strong{font-size:16px}"+
+    "@media(max-width:380px){.cfhp-commission-lines{grid-template-columns:1fr}.cfhp-commission-line{padding:8px 9px}}";
   document.head.appendChild(s);
 }
 function injectUI(){
@@ -124,9 +138,15 @@ function injectUI(){
         '<div class="metaMini"><small>VENDAS</small><strong id="cfhpStoreAdmCount">0</strong></div>'+
       '</div>';
 
+    var commissionCard=document.createElement("div");
+    commissionCard.id="cfhpCommissionBreakdown";
+    commissionCard.className="card";
+    commissionCard.innerHTML='<div class="sectionTitle">Comissão por forma de pagamento</div><div class="notice">Os valores acompanham o filtro de datas selecionado acima.</div><div class="cfhp-commission-breakdown"><div class="empty">Carregando comissões...</div></div>';
+
     at.insertAdjacentElement("afterend",storeGoal);
     storeGoal.insertAdjacentElement("afterend",filter);
-    filter.insertAdjacentElement("afterend",team);
+    filter.insertAdjacentElement("afterend",commissionCard);
+    commissionCard.insertAdjacentElement("afterend",team);
   }
 }
 function setPill(t,ok){var e=document.getElementById("cfhpOnlinePill");if(e){e.textContent=t;e.classList.toggle("ok",!!ok);}}
@@ -197,10 +217,10 @@ function updateRole(){
 function uuid(){return crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);});}
 function validUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||""));}
 function cloudRow(v){
-  return {id:validUuid(v.cloud_id)?v.cloud_id:uuid(),user_id:currentUser.id,sale_date:v.date||window.hojeISO(),sold_at:v.timestamp||new Date().toISOString(),items:Array.isArray(v.items)?v.items:[],gross_total:Number(v.total||0),discount_amount:Number(v.discount||0),discount_percent:Number(v.percent||0),final_total:Number(v.final||0),payment_method:v.payment||"avista",entry_amount:Number(v.entry||0),remaining_amount:Number(v.remaining||0),installments:Number(v.installments||0),commission_amount:Number(v.commission||0)};
+  return {id:validUuid(v.cloud_id)?v.cloud_id:uuid(),user_id:currentUser.id,sale_date:v.date||window.hojeISO(),sold_at:v.timestamp||new Date().toISOString(),items:Array.isArray(v.items)?v.items:[],gross_total:Number(v.total||0),discount_amount:Number(v.discount||0),discount_percent:Number(v.percent||0),final_total:Number(v.final||0),payment_method:v.payment||"avista",entry_amount:Number(v.entry||0),remaining_amount:Number(v.remaining||0),installments:Number(v.installments||0),commission_amount:Number(v.commission||0),commission_cash_amount:Number(v.commissionCashAmount||0),commission_entry_amount:Number(v.commissionEntryAmount||0),commission_credit_amount:Number(v.commissionCreditAmount||0),commission_check_amount:Number(v.commissionCheckAmount||0)};
 }
 function localRow(r){
-  return {id:"cloud-"+r.id,cloud_id:r.id,synced_user_id:r.user_id,date:r.sale_date,timestamp:r.sold_at,hora:new Date(r.sold_at).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),items:Array.isArray(r.items)?r.items:[],total:Number(r.gross_total||0),discount:Number(r.discount_amount||0),percent:Number(r.discount_percent||0),final:Number(r.final_total||0),payment:r.payment_method||"avista",entry:Number(r.entry_amount||0),remaining:Number(r.remaining_amount||0),installments:Number(r.installments||0),commission:Number(r.commission_amount||0)};
+  return {id:"cloud-"+r.id,cloud_id:r.id,synced_user_id:r.user_id,date:r.sale_date,timestamp:r.sold_at,hora:new Date(r.sold_at).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),items:Array.isArray(r.items)?r.items:[],total:Number(r.gross_total||0),discount:Number(r.discount_amount||0),percent:Number(r.discount_percent||0),final:Number(r.final_total||0),payment:r.payment_method||"avista",entry:Number(r.entry_amount||0),remaining:Number(r.remaining_amount||0),installments:Number(r.installments||0),commission:Number(r.commission_amount||0),commissionCashAmount:Number(r.commission_cash_amount||0),commissionEntryAmount:Number(r.commission_entry_amount||0),commissionCreditAmount:Number(r.commission_credit_amount||0),commissionCheckAmount:Number(r.commission_check_amount||0)};
 }
 function syncInfo(ok){
   var e=document.getElementById("cfhpSyncInfo");if(e){e.textContent=ok?"✓ Vendas sincronizadas com o painel ADM.":"Sem internet: as vendas ficam neste aparelho e sincronizam depois.";e.className=ok?"":"cfhp-sync-warn";}setPill(ok?"Online":"Modo local",ok);
@@ -299,6 +319,54 @@ async function fetchAllAdminSales(start,end,userId){
   }
   return all;
 }
+function commissionParts(v,profiles){
+  var total=Number(v.commission_amount||v.commission||0);
+  var cash=Number(v.commission_cash_amount??v.commissionCashAmount??0);
+  var entry=Number(v.commission_entry_amount??v.commissionEntryAmount??0);
+  var credit=Number(v.commission_credit_amount??v.commissionCreditAmount??0);
+  var check=Number(v.commission_check_amount??v.commissionCheckAmount??0);
+  if(Math.abs(cash)+Math.abs(entry)+Math.abs(credit)+Math.abs(check)<0.005&&total>0){
+    var method=v.payment_method||v.payment||"avista";
+    if(method==="avista")cash=total;
+    else if(method==="cartao")credit=total;
+    else if(method==="cheque")check=total;
+    else if(method==="crediario"){
+      var profile=(profiles||[]).find(function(p){return p.id===v.user_id;})||{};
+      var rawEntry=Math.max(0,Number(v.entry_amount??v.entry??0))*Math.max(0,Number(profile.commission_entry??5));
+      var rawCredit=Math.max(0,Number(v.remaining_amount??v.remaining??0))*Math.max(0,Number(profile.commission_credit??1.3));
+      entry=rawEntry+rawCredit>0?Math.round(total*rawEntry/(rawEntry+rawCredit)*100)/100:Math.round(total/2*100)/100;
+      credit=Math.round((total-entry)*100)/100;
+    }
+  }
+  return {cash:cash,entry:entry,credit:credit,check:check,total:total};
+}
+function summarizeCommissionByPayment(sales,profiles){
+  var s={cashBase:0,cash:0,entryBase:0,entry:0,cardBase:0,card:0,carneBase:0,carne:0,checkBase:0,check:0,total:0};
+  (sales||[]).forEach(function(v){
+    var method=v.payment_method||v.payment||"avista",final=Number(v.final_total??v.final??0),entryBase=Number(v.entry_amount??v.entry??0),remaining=Number(v.remaining_amount??v.remaining??0),p=commissionParts(v,profiles);
+    if(method==="avista"){s.cashBase+=final;s.cash+=p.cash;}
+    else if(method==="cartao"){s.cardBase+=final;s.card+=p.credit;}
+    else if(method==="cheque"){s.checkBase+=final;s.check+=p.check;}
+    else if(method==="crediario"){s.entryBase+=entryBase;s.entry+=p.entry;s.carneBase+=remaining;s.carne+=p.credit;}
+    s.total+=Number(v.commission_amount??v.commission??p.total);
+  });
+  return s;
+}
+function commissionBreakdownMarkup(sales,profiles,compact){
+  var s=summarizeCommissionByPayment(sales,profiles);
+  var rows=[
+    ["À vista",s.cashBase,s.cash],
+    ["Entrada do crediário",s.entryBase,s.entry],
+    ["Cartão",s.cardBase,s.card],
+    ["Saldo do carnê",s.carneBase,s.carne],
+    ["Cheque",s.checkBase,s.check]
+  ];
+  return '<div class="cfhp-commission-breakdown'+(compact?' compact':'')+'">'+
+    '<div class="cfhp-commission-total"><div><small>COMISSÃO TOTAL</small><strong>'+dinheiro(s.total)+'</strong></div><span style="font-size:10px;color:#c3d2df">'+(sales||[]).length+' venda(s)</span></div>'+
+    '<div class="cfhp-commission-lines">'+rows.map(function(row){
+      return '<div class="cfhp-commission-line"><div><b>'+row[0]+'</b><small>Base: '+dinheiro(row[1])+'</small></div><strong>'+dinheiro(row[2])+'</strong></div>';
+    }).join('')+'</div></div>';
+}
 async function loadAdminData(){
   var team=document.getElementById("cfhpTeamList");
   if(team)team.innerHTML='<div class="empty">Carregando equipe...</div>';
@@ -342,6 +410,8 @@ function renderAdminSummary(profiles,sales,r){
   if(minis[1])minis[1].textContent="MÉDIA POR VENDA";
   if(minis[2])minis[2].textContent="FILTRO";
   if(minis[3])minis[3].textContent="VENDAS";
+  var breakdown=document.querySelector("#cfhpCommissionBreakdown .cfhp-commission-breakdown");
+  if(breakdown)breakdown.outerHTML=commissionBreakdownMarkup(sales,profiles,false);
 }
 window.abrirAdmin=async function(){
   if(!isAdmin){toast("Esta conta não tem acesso de administrador.");return;}
@@ -376,6 +446,7 @@ function renderTeam(profiles,sales,r){
       '<div class="cfhp-seller-metrics"><div><small>VENDAS</small><b>'+own.length+'</b></div><div><small>TOTAL</small><b>'+dinheiro(total)+'</b></div><div><small>DESCONTOS</small><b>'+dinheiro(desc)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(comm)+'</b></div></div>'+
       '<div class="cfhp-goal-control"><label>META INDIVIDUAL MENSAL</label><div class="cfhp-goal-row"><input id="goal-'+p.id+'" type="number" min="1" step="1000" value="'+Number(p.monthly_goal||40000)+'"><button class="btn primary" data-goal-save="'+esc(p.id)+'">Salvar meta</button></div><div class="cfhp-goal-current">Meta atual: <strong>'+dinheiro(p.monthly_goal||40000)+'</strong></div></div>'+
       detail+
+      '<details class="cfhp-commission-details"><summary>Comissão por forma de pagamento</summary>'+commissionBreakdownMarkup(own,[p],true)+'</details>'+
       '<button class="btn secondary full" style="margin-top:9px;height:42px" data-view="'+esc(p.id)+'">Ver histórico da vendedora</button>'+
       '<details><summary>Editar comissão</summary><div class="cfhp-admin-edit"><div><label>À VISTA %</label><input id="cash-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_cash||0)+'"></div><div><label>ENTRADA %</label><input id="entry-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_entry||0)+'"></div><div><label>CARTÃO/CARNÊ %</label><input id="credit-'+p.id+'" type="number" step="0.01" value="'+Number(p.commission_credit||0)+'"></div></div><button class="btn primary full" style="margin-top:8px;height:42px" data-save="'+esc(p.id)+'">Salvar comissão</button></details>';
     card.querySelector("[data-view]").onclick=function(){viewSeller(p.id,p.name);};
@@ -393,8 +464,11 @@ function renderSales(sales,profiles,title){
     var row=document.createElement("div");row.className="saleRow";
     var when=String(v.sale_date).split("-").reverse().join("/");
     var h="";try{h=new Date(v.sold_at).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});}catch(e){}
+    var methodLabel=({avista:"À vista",cartao:"Cartão",cheque:"Cheque",crediario:"Carnê/crediário"})[v.payment_method]||v.payment_method;
+    var cp=commissionParts(v,profiles);
+    var extra=v.payment_method==="crediario"?' · Comissão entrada '+dinheiro(cp.entry)+' + saldo '+dinheiro(cp.credit):'';
     row.innerHTML='<div class="saleTop"><span>'+esc(map[v.user_id]||"Vendedora")+' · '+when+' '+esc(h)+'</span><strong>'+dinheiro(v.final_total)+'</strong></div>'+
-      '<div class="saleMeta">'+esc(v.payment_method)+' · Desconto '+dinheiro(v.discount_amount||0)+' · Comissão '+dinheiro(v.commission_amount||0)+'</div>';
+      '<div class="saleMeta">'+esc(methodLabel)+' · Desconto '+dinheiro(v.discount_amount||0)+' · Comissão '+dinheiro(v.commission_amount||0)+extra+'</div>';
     l.appendChild(row);
   });
 }
