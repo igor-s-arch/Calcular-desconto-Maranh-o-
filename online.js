@@ -289,7 +289,7 @@ function sum(p,sales){
 var adminFilterMode="today",adminPeriodStart="",adminPeriodEnd="",adminProfilesCache=[],adminSalesCache=[];
 
 function todayRange(){var d=window.hojeISO();return {start:d,end:d,label:"Hoje"};}
-function monthRange(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0");return {start:y+"-"+m+"-01",end:y+"-"+m+"-31",label:"Este mês"};}
+function monthRange(){var d=new Date(),y=d.getFullYear(),n=d.getMonth()+1,m=String(n).padStart(2,"0"),last=new Date(y,n,0).getDate();return {start:y+"-"+m+"-01",end:y+"-"+m+"-"+String(last).padStart(2,"0"),label:"Este mês"};}
 function currentAdminRange(){
   if(adminFilterMode==="today")return todayRange();
   if(adminFilterMode==="month")return monthRange();
