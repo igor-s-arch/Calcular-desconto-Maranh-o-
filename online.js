@@ -4,7 +4,7 @@
 
 var SUPA_URL="https://lfsbbzunrattlkfssbjm.supabase.co";
 var SUPA_KEY="sb_publishable_5QPnWPkwsW-OShMuXjQWTw_e7q7yhdI";
-var VAPID_PUBLIC="BHYwHJoB7xmUDOJ45boyHvTiwHcRFOWW5DQNh5M2TcWMEFIy894YjuWA88F4kPjqmb47enNDSGvdLi9cfQzuezs";
+var VAPID_PUBLIC="BEysYfKYsnjwtr6opvc-yIA9csSVV4h2N1TksHLZl1gyDpFOJXh3vpW3c8c0dqnPAJoQyYS_XHg-MfOAsbo8vKc";
 if(!window.supabase){console.error("Supabase JS não carregou.");return;}
 
 var sb=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
