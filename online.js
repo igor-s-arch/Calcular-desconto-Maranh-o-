@@ -376,7 +376,13 @@ async function loadAdminData(){
     if(pr.error)throw pr.error;
     var allSales=await fetchAllAdminSales(r.start,r.end,null);
     var month=monthRange();
-    var monthSales=await fetchAllAdminSales(month.start,month.end,null);
+    var monthSales=[];
+    try{
+      monthSales=await fetchAllAdminSales(month.start,month.end,null);
+    }catch(monthError){
+      console.warn("Não foi possível carregar vendas do mês para a barra de metas:",monthError);
+      monthSales=allSales;
+    }
     adminProfilesCache=pr.data||[];
     adminSalesCache=allSales;
     renderAdminSummary(adminProfilesCache,adminSalesCache,r);
