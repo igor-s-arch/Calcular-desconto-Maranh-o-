@@ -391,8 +391,11 @@ async function loadAdminData(){
     await loadStoreProgress();
     var lab=document.getElementById("cfhpAdminFilterLabel");if(lab)lab.textContent=filterLabel(r);
   }catch(e){
-    console.error(e);
-    if(team)team.innerHTML='<div class="empty">Não foi possível carregar o painel online.</div>';
+    console.error("Erro ao carregar painel ADM:",e);
+    var msg=String(e&& (e.message||e.details||e.hint)||"Falha desconhecida");
+    if(team)team.innerHTML='<div class="empty">Falha ao carregar vendas: '+esc(msg)+'</div>';
+    var breakdown=document.querySelector("#cfhpCommissionBreakdown .cfhp-commission-breakdown");
+    if(breakdown)breakdown.innerHTML='<div class="empty">Falha ao carregar comissões: '+esc(msg)+'</div>';
   }
 }
 function renderAdminSummary(profiles,sales,r){
