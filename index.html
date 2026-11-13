@@ -830,7 +830,7 @@ function notificarProgresso(venda){
 }
 async function abrirCamera(){
   var modal=document.getElementById("cameraModal"),video=document.getElementById("video"),status=document.getElementById("status");
-  document.getElementById("resultadoLeitura").style.display="none";precoLido=0;codigoLido="";textoEtiquetaLido="";status.textContent="Posicione a etiqueta inteira no centro."modal.style.display="block";
+  document.getElementById("resultadoLeitura").style.display="none";precoLido=0;codigoLido="";textoEtiquetaLido="";status.textContent="Posicione a etiqueta inteira no centro.";modal.style.display="block";
   try{
     streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false});
     video.srcObject=streamCamera;await video.play();
