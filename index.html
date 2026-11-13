@@ -416,6 +416,18 @@ var streamCamera=null;
 var precoLido=0;
 var leituraAutomaticaAtiva=false;
 var leituraEmAndamento=false;
+var workerOCR=null;
+var workerOCRPromise=null;
+async function obterWorkerOCR(){
+  if(workerOCR)return workerOCR;
+  if(!workerOCRPromise){
+    workerOCRPromise=Tesseract.createWorker("eng",1).then(async function(w){
+      await w.setParameters({tessedit_char_whitelist:"R$0123456789.,",preserve_interword_spaces:"1",tessedit_pageseg_mode:Tesseract.PSM.SINGLE_BLOCK});
+      workerOCR=w;return w;
+    }).catch(function(e){workerOCRPromise=null;throw e;});
+  }
+  return workerOCRPromise;
+}
 var fotoSelecionada="";
 var STORAGE={
   sales:"cfhp_v2_sales",
@@ -821,16 +833,16 @@ function notificarProgresso(venda){
 async function abrirCamera(){
   var modal=document.getElementById("cameraModal"),video=document.getElementById("video"),status=document.getElementById("status");
   leituraAutomaticaAtiva=false;leituraEmAndamento=false;precoLido=0;
-  status.textContent="📷 Preparando leitura automática...";
+  status.textContent="📷 Abrindo câmera e preparando leitor...";
   modal.style.display="block";
   try{
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error("Câmera indisponível neste navegador ou endereço.");
-    streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
+    streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:960},height:{ideal:540},frameRate:{ideal:24,max:30}},audio:false});
     video.srcObject=streamCamera;
     await video.play();
     leituraAutomaticaAtiva=true;
-    status.textContent="🔎 Leitura automática ativa. Aponte para o preço da etiqueta.";
-    setTimeout(capturarEtiqueta,500);
+    status.textContent="🔎 Preparando leitura rápida...";
+    obterWorkerOCR().then(function(){if(leituraAutomaticaAtiva){status.textContent="Aponte para o preço da etiqueta.";capturarEtiqueta();}}).catch(function(e){console.error(e);status.textContent="Não foi possível preparar a leitura. Tente novamente.";});
   }catch(e){
     console.error(e);
     status.textContent="Não foi possível abrir a câmera. Verifique a permissão do navegador e use o endereço HTTPS.";
@@ -839,20 +851,16 @@ async function abrirCamera(){
 async function capturarEtiqueta(){
   if(!leituraAutomaticaAtiva||leituraEmAndamento||!streamCamera)return;
   var video=document.getElementById("video"),canvas=document.getElementById("canvas"),status=document.getElementById("status");
-  if(!video.videoWidth){setTimeout(capturarEtiqueta,700);return}
+  if(!video.videoWidth){setTimeout(capturarEtiqueta,300);return}
   leituraEmAndamento=true;
-  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
-  var ctx=canvas.getContext("2d");ctx.drawImage(video,0,0,canvas.width,canvas.height);
   try{
-    var largura=canvas.width,altura=canvas.height,reg=document.createElement("canvas");
-    var x=Math.floor(largura*.20),y=Math.floor(altura*.25),w=Math.floor(largura*.80),h=Math.floor(altura*.70);
-    reg.width=w*2;reg.height=h*2;reg.getContext("2d").drawImage(canvas,x,y,w,h,0,0,reg.width,reg.height);
-    var leitura=await Tesseract.recognize(reg,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo automaticamente... "+Math.round(i.progress*100)+"%" }});
+    var largura=video.videoWidth,altura=video.videoHeight,reg=document.createElement("canvas");
+    var x=Math.floor(largura*.22),y=Math.floor(altura*.28),w=Math.floor(largura*.76),h=Math.floor(altura*.62);
+    reg.width=Math.floor(w*1.5);reg.height=Math.floor(h*1.5);
+    reg.getContext("2d",{willReadFrequently:true}).drawImage(video,x,y,w,h,0,0,reg.width,reg.height);
+    var worker=await obterWorkerOCR();
+    var leitura=await worker.recognize(reg);
     var cands=encontrarPrecos(leitura.data.text);
-    if(!cands.length){
-      var full=await Tesseract.recognize(canvas,"por");
-      cands=encontrarPrecos(full.data.text);
-    }
     cands.sort(function(a,b){return b.confianca-a.confianca});
     if(cands.length){
       var valorEncontrado=cands[0].valor;
@@ -863,14 +871,14 @@ async function capturarEtiqueta(){
       setTimeout(function(){var campo=document.getElementById("valor");campo.focus();campo.scrollIntoView({behavior:"smooth",block:"center"})},250);
       return;
     }
-    status.textContent="🔎 Aponte para o preço e mantenha a etiqueta parada...";
+    status.textContent="🔎 Mantenha o preço dentro da área da câmera...";
   }catch(e){
     console.error(e);
-    status.textContent="Tentando ler novamente... mantenha o preço visível.";
+    status.textContent="Tentando ler novamente...";
   }finally{
     leituraEmAndamento=false;
   }
-  if(leituraAutomaticaAtiva)setTimeout(capturarEtiqueta,900);
+  if(leituraAutomaticaAtiva)setTimeout(capturarEtiqueta,250);
 }
 function criarImagemTratada(c){
   var n=document.createElement("canvas");n.width=c.width;n.height=c.height;var ctx=n.getContext("2d");ctx.drawImage(c,0,0);var im=ctx.getImageData(0,0,n.width,n.height),d=im.data;
