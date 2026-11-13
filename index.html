@@ -827,29 +827,27 @@ async function abrirCamera(){
   var modal=document.getElementById("cameraModal"),video=document.getElementById("video"),status=document.getElementById("status");
   document.getElementById("resultadoLeitura").style.display="none";precoLido=0;status.textContent="Posicione o preço no centro.";modal.style.display="block";
   try{
-    streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
     video.srcObject=streamCamera;
+    await video.play();
   }catch(e){status.textContent="Não foi possível abrir a câmera.";alert("Permita o acesso à câmera.")}
 }
 async function capturarEtiqueta(){
   var video=document.getElementById("video"),canvas=document.getElementById("canvas"),status=document.getElementById("status");
   if(!video.videoWidth){status.textContent="A câmera ainda não está pronta.";return}
-  status.textContent="🔎 Analisando etiqueta...";
+  status.textContent="🔎 Lendo preço...";
   canvas.width=video.videoWidth;canvas.height=video.videoHeight;var ctx=canvas.getContext("2d");ctx.drawImage(video,0,0,canvas.width,canvas.height);
   try{
-    var leituras=[];
-    var full=await Tesseract.recognize(canvas,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo etiqueta... "+Math.round(i.progress*100)+"%"}});
-    leituras.push({texto:full.data.text,prioridade:1});
     var largura=canvas.width,altura=canvas.height,reg=document.createElement("canvas");
     var x=Math.floor(largura*.35),y=Math.floor(altura*.40),w=Math.floor(largura*.65),h=Math.floor(altura*.60);
     reg.width=w*2;reg.height=h*2;reg.getContext("2d").drawImage(canvas,x,y,w,h,0,0,reg.width,reg.height);
-    var crop=await Tesseract.recognize(reg,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Conferindo preço... "+Math.round(i.progress*100)+"%"}});
-    leituras.push({texto:crop.data.text,prioridade:3});
-    var tratado=criarImagemTratada(canvas);
-    var refined=await Tesseract.recognize(tratado,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Refinando leitura... "+Math.round(i.progress*100)+"%"}});
-    leituras.push({texto:refined.data.text,prioridade:2});
-    var cands=[];
-    leituras.forEach(function(l){encontrarPrecos(l.texto).forEach(function(p){cands.push({valor:p.valor,confianca:p.confianca+l.prioridade})})});
+    var leitura=await Tesseract.recognize(reg,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo preço... "+Math.round(i.progress*100)+"%"}});
+    var cands=encontrarPrecos(leitura.data.text);
+    if(!cands.length){
+      status.textContent="🔎 Conferindo etiqueta inteira...";
+      var full=await Tesseract.recognize(canvas,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Conferindo... "+Math.round(i.progress*100)+"%"}});
+      cands=encontrarPrecos(full.data.text);
+    }
     cands.sort(function(a,b){return b.confianca-a.confianca});
     if(cands.length){
       precoLido=cands[0].valor;document.getElementById("precoDetectado").textContent=dinheiro(precoLido);document.getElementById("resultadoLeitura").style.display="block";status.textContent="✅ Preço encontrado.";
@@ -870,7 +868,14 @@ function encontrarPrecos(texto){
   original.split(/\n/).forEach(function(line){var m=line.replace(/\s+/g," ").trim().match(/(?:R\s*\$|\$)\s*(\d{1,5})\s+(\d{2})(?:\b|$)/i);if(m){var v3=Number(m[1]+"."+m[2]);if(v3>0&&v3<100000)c.push({valor:v3,confianca:85})}});
   return c;
 }
-function usarPrecoDetectado(){if(!precoLido)return;valores.push(precoLido);atualizarLista();calcular();calcularParcelaAtualizada();precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="✅ Adicionado. Pode ler outra etiqueta."}
+function usarPrecoDetectado(){
+  if(!precoLido)return;
+  valores.push(precoLido);
+  atualizarLista();calcular();calcularParcelaAtualizada();
+  fecharCamera();
+  toast("Preço adicionado. Campo pronto para o próximo valor.");
+  setTimeout(function(){var campo=document.getElementById("valor");campo.focus();campo.scrollIntoView({behavior:"smooth",block:"center"})},250);
+}
 function tentarNovamente(){precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="Posicione o preço no centro."}
 function fecharCamera(){
   if(streamCamera){streamCamera.getTracks().forEach(function(t){t.stop()});streamCamera=null}
