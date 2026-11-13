@@ -1,4 +1,4 @@
-const CACHE="calcula-facil-hp-v14";
+const CACHE="calcula-facil-hp-v15";
 const ARQUIVOS=["./","./index.html","./manifest.json","./logo.png","./icon-192.png","./icon-512.png","./apple-touch-icon.png","./online.js"];
 
 self.addEventListener("install",event=>{
