@@ -401,14 +401,7 @@ canvas{display:none}
     <video id="video" autoplay playsinline></video>
     <canvas id="canvas"></canvas>
     <div class="modalBody">
-      <button class="btn primary full" onclick="capturarEtiqueta()">📸 Capturar</button>
-      <div class="status" id="status">Posicione o preço no centro.</div>
-      <div class="ocrResult" id="resultadoLeitura">
-        <small>PREÇO ENCONTRADO</small>
-        <strong id="precoDetectado">R$ 0,00</strong>
-        <button class="btn primary full" onclick="usarPrecoDetectado()">✓ Adicionar</button>
-        <button class="btn secondary full" style="margin-top:7px" onclick="tentarNovamente()">Tentar novamente</button>
-      </div>
+      <div class="status" id="status">📷 Preparando leitura automática...</div>
       <button class="btn secondary full" style="margin-top:8px" onclick="fecharCamera()">Fechar</button>
     </div>
   </div>
@@ -421,6 +414,8 @@ var formaPagamento="avista";
 var numeroParcelas=0;
 var streamCamera=null;
 var precoLido=0;
+var leituraAutomaticaAtiva=false;
+var leituraEmAndamento=false;
 var fotoSelecionada="";
 var STORAGE={
   sales:"cfhp_v2_sales",
@@ -825,34 +820,57 @@ function notificarProgresso(venda){
 }
 async function abrirCamera(){
   var modal=document.getElementById("cameraModal"),video=document.getElementById("video"),status=document.getElementById("status");
-  document.getElementById("resultadoLeitura").style.display="none";precoLido=0;status.textContent="Posicione o preço no centro.";modal.style.display="block";
+  leituraAutomaticaAtiva=false;leituraEmAndamento=false;precoLido=0;
+  status.textContent="📷 Preparando leitura automática...";
+  modal.style.display="block";
   try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error("Câmera indisponível neste navegador ou endereço.");
     streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
     video.srcObject=streamCamera;
     await video.play();
-  }catch(e){status.textContent="Não foi possível abrir a câmera.";alert("Permita o acesso à câmera.")}
+    leituraAutomaticaAtiva=true;
+    status.textContent="🔎 Leitura automática ativa. Aponte para o preço da etiqueta.";
+    setTimeout(capturarEtiqueta,500);
+  }catch(e){
+    console.error(e);
+    status.textContent="Não foi possível abrir a câmera. Verifique a permissão do navegador e use o endereço HTTPS.";
+  }
 }
 async function capturarEtiqueta(){
+  if(!leituraAutomaticaAtiva||leituraEmAndamento||!streamCamera)return;
   var video=document.getElementById("video"),canvas=document.getElementById("canvas"),status=document.getElementById("status");
-  if(!video.videoWidth){status.textContent="A câmera ainda não está pronta.";return}
-  status.textContent="🔎 Lendo preço...";
-  canvas.width=video.videoWidth;canvas.height=video.videoHeight;var ctx=canvas.getContext("2d");ctx.drawImage(video,0,0,canvas.width,canvas.height);
+  if(!video.videoWidth){setTimeout(capturarEtiqueta,700);return}
+  leituraEmAndamento=true;
+  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+  var ctx=canvas.getContext("2d");ctx.drawImage(video,0,0,canvas.width,canvas.height);
   try{
     var largura=canvas.width,altura=canvas.height,reg=document.createElement("canvas");
-    var x=Math.floor(largura*.35),y=Math.floor(altura*.40),w=Math.floor(largura*.65),h=Math.floor(altura*.60);
+    var x=Math.floor(largura*.20),y=Math.floor(altura*.25),w=Math.floor(largura*.80),h=Math.floor(altura*.70);
     reg.width=w*2;reg.height=h*2;reg.getContext("2d").drawImage(canvas,x,y,w,h,0,0,reg.width,reg.height);
-    var leitura=await Tesseract.recognize(reg,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo preço... "+Math.round(i.progress*100)+"%"}});
+    var leitura=await Tesseract.recognize(reg,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo automaticamente... "+Math.round(i.progress*100)+"%" }});
     var cands=encontrarPrecos(leitura.data.text);
     if(!cands.length){
-      status.textContent="🔎 Conferindo etiqueta inteira...";
-      var full=await Tesseract.recognize(canvas,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Conferindo... "+Math.round(i.progress*100)+"%"}});
+      var full=await Tesseract.recognize(canvas,"por");
       cands=encontrarPrecos(full.data.text);
     }
     cands.sort(function(a,b){return b.confianca-a.confianca});
     if(cands.length){
-      precoLido=cands[0].valor;document.getElementById("precoDetectado").textContent=dinheiro(precoLido);document.getElementById("resultadoLeitura").style.display="block";status.textContent="✅ Preço encontrado.";
-    }else{status.textContent="❌ Não encontrei o preço. Aproxime a etiqueta e tente novamente."}
-  }catch(e){console.error(e);status.textContent="❌ Erro ao ler a etiqueta. Tente novamente."}
+      var valorEncontrado=cands[0].valor;
+      valores.push(valorEncontrado);
+      atualizarLista();calcular();calcularParcelaAtualizada();
+      fecharCamera();
+      toast("✅ "+dinheiro(valorEncontrado)+" lido e adicionado automaticamente.");
+      setTimeout(function(){var campo=document.getElementById("valor");campo.focus();campo.scrollIntoView({behavior:"smooth",block:"center"})},250);
+      return;
+    }
+    status.textContent="🔎 Aponte para o preço e mantenha a etiqueta parada...";
+  }catch(e){
+    console.error(e);
+    status.textContent="Tentando ler novamente... mantenha o preço visível.";
+  }finally{
+    leituraEmAndamento=false;
+  }
+  if(leituraAutomaticaAtiva)setTimeout(capturarEtiqueta,900);
 }
 function criarImagemTratada(c){
   var n=document.createElement("canvas");n.width=c.width;n.height=c.height;var ctx=n.getContext("2d");ctx.drawImage(c,0,0);var im=ctx.getImageData(0,0,n.width,n.height),d=im.data;
@@ -878,8 +896,9 @@ function usarPrecoDetectado(){
 }
 function tentarNovamente(){precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="Posicione o preço no centro."}
 function fecharCamera(){
+  leituraAutomaticaAtiva=false;leituraEmAndamento=false;
   if(streamCamera){streamCamera.getTracks().forEach(function(t){t.stop()});streamCamera=null}
-  document.getElementById("video").srcObject=null;document.getElementById("cameraModal").style.display="none";document.getElementById("resultadoLeitura").style.display="none";precoLido=0;
+  document.getElementById("video").srcObject=null;document.getElementById("cameraModal").style.display="none";precoLido=0;
 }
 function initProfileMigration(){
   var p=getProfile(),changed=false;
