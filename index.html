@@ -397,15 +397,18 @@ canvas{display:none}
 
 <div class="modal" id="cameraModal">
   <div class="modalBox">
-    <div class="modalHead"><strong>📷 Ler etiqueta</strong><div style="font-size:12px;opacity:.8;margin-top:3px">Aponte para o preço</div></div>
+    <div class="modalHead"><strong>📷 Ler etiqueta</strong><div style="font-size:12px;opacity:.8;margin-top:3px">Enquadre o código de barras e as informações da etiqueta</div></div>
     <video id="video" autoplay playsinline></video>
     <canvas id="canvas"></canvas>
     <div class="modalBody">
       <button class="btn primary full" onclick="capturarEtiqueta()">📸 Capturar</button>
-      <div class="status" id="status">Posicione o preço no centro.</div>
+      <div class="status" id="status">Posicione a etiqueta inteira no centro.</div>
       <div class="ocrResult" id="resultadoLeitura">
-        <small>PREÇO ENCONTRADO</small>
+        <small>PREÇO IMPRESSO NA ETIQUETA</small>
         <strong id="precoDetectado">R$ 0,00</strong>
+        <div id="codigoDetectado" style="font-size:12px;color:#49677e;margin:7px 0;overflow-wrap:anywhere"></div>
+        <div id="textoDetectado" style="font-size:11px;color:#71869a;text-align:left;white-space:pre-wrap;max-height:110px;overflow:auto;margin:7px 0"></div>
+        <div class="notice" style="text-align:left;margin:8px 0">Este é o preço lido da etiqueta. Se houver promoção no sistema da loja, confira o preço vigente antes de finalizar a venda.</div>
         <button class="btn primary full" onclick="usarPrecoDetectado()">✓ Adicionar</button>
         <button class="btn secondary full" style="margin-top:7px" onclick="tentarNovamente()">Tentar novamente</button>
       </div>
@@ -421,6 +424,8 @@ var formaPagamento="avista";
 var numeroParcelas=0;
 var streamCamera=null;
 var precoLido=0;
+var codigoLido="";
+var textoEtiquetaLido="";
 var fotoSelecionada="";
 var STORAGE={
   sales:"cfhp_v2_sales",
@@ -825,10 +830,10 @@ function notificarProgresso(venda){
 }
 async function abrirCamera(){
   var modal=document.getElementById("cameraModal"),video=document.getElementById("video"),status=document.getElementById("status");
-  document.getElementById("resultadoLeitura").style.display="none";precoLido=0;status.textContent="Posicione o preço no centro.";modal.style.display="block";
+  document.getElementById("resultadoLeitura").style.display="none";precoLido=0;codigoLido="";textoEtiquetaLido="";status.textContent="Posicione a etiqueta inteira no centro."modal.style.display="block";
   try{
     streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false});
-    video.srcObject=streamCamera;
+    video.srcObject=streamCamera;await video.play();
   }catch(e){status.textContent="Não foi possível abrir a câmera.";alert("Permita o acesso à câmera.")}
 }
 async function capturarEtiqueta(){
@@ -837,9 +842,18 @@ async function capturarEtiqueta(){
   status.textContent="🔎 Analisando etiqueta...";
   canvas.width=video.videoWidth;canvas.height=video.videoHeight;var ctx=canvas.getContext("2d");ctx.drawImage(video,0,0,canvas.width,canvas.height);
   try{
+    codigoLido="";
+    if("BarcodeDetector" in window){
+      try{
+        var detector=new BarcodeDetector({formats:["ean_13","ean_8","upc_a","upc_e","code_128","itf","qr_code"]});
+        var codigos=await detector.detect(canvas);
+        if(codigos&&codigos.length)codigoLido=codigos[0].rawValue||"";
+      }catch(barcodeError){console.warn("Leitura do código de barras",barcodeError)}
+    }
     var leituras=[];
     var full=await Tesseract.recognize(canvas,"por",{logger:function(i){if(i.status==="recognizing text")status.textContent="🔎 Lendo etiqueta... "+Math.round(i.progress*100)+"%"}});
     leituras.push({texto:full.data.text,prioridade:1});
+    textoEtiquetaLido=full.data.text||"";
     var largura=canvas.width,altura=canvas.height,reg=document.createElement("canvas");
     var x=Math.floor(largura*.35),y=Math.floor(altura*.40),w=Math.floor(largura*.65),h=Math.floor(altura*.60);
     reg.width=w*2;reg.height=h*2;reg.getContext("2d").drawImage(canvas,x,y,w,h,0,0,reg.width,reg.height);
@@ -852,7 +866,12 @@ async function capturarEtiqueta(){
     leituras.forEach(function(l){encontrarPrecos(l.texto).forEach(function(p){cands.push({valor:p.valor,confianca:p.confianca+l.prioridade})})});
     cands.sort(function(a,b){return b.confianca-a.confianca});
     if(cands.length){
-      precoLido=cands[0].valor;document.getElementById("precoDetectado").textContent=dinheiro(precoLido);document.getElementById("resultadoLeitura").style.display="block";status.textContent="✅ Preço encontrado.";
+      precoLido=cands[0].valor;
+      document.getElementById("precoDetectado").textContent=dinheiro(precoLido);
+      document.getElementById("codigoDetectado").textContent=codigoLido?"Código lido: "+codigoLido:"Código de barras: não reconhecido neste aparelho. Você ainda pode usar a leitura do texto.";
+      document.getElementById("textoDetectado").textContent=textoEtiquetaLido?"Texto reconhecido:\n"+textoEtiquetaLido:"Não foi possível reconhecer o texto completo.";
+      document.getElementById("resultadoLeitura").style.display="block";
+      status.textContent=codigoLido?"✅ Código e preço identificados.":"✅ Preço identificado; código não disponível neste navegador.";
     }else{status.textContent="❌ Não encontrei o preço. Aproxime a etiqueta e tente novamente."}
   }catch(e){console.error(e);status.textContent="❌ Erro ao ler a etiqueta. Tente novamente."}
 }
@@ -870,11 +889,11 @@ function encontrarPrecos(texto){
   original.split(/\n/).forEach(function(line){var m=line.replace(/\s+/g," ").trim().match(/(?:R\s*\$|\$)\s*(\d{1,5})\s+(\d{2})(?:\b|$)/i);if(m){var v3=Number(m[1]+"."+m[2]);if(v3>0&&v3<100000)c.push({valor:v3,confianca:85})}});
   return c;
 }
-function usarPrecoDetectado(){if(!precoLido)return;valores.push(precoLido);atualizarLista();calcular();calcularParcelaAtualizada();precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="✅ Adicionado. Pode ler outra etiqueta."}
-function tentarNovamente(){precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="Posicione o preço no centro."}
+function usarPrecoDetectado(){if(!precoLido)return;valores.push(precoLido);atualizarLista();calcular();calcularParcelaAtualizada();precoLido=0;document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="✅ Preço da etiqueta adicionado. Se o produto estiver em promoção, ajuste para o preço vigente antes de finalizar."}
+function tentarNovamente(){precoLido=0;codigoLido="";textoEtiquetaLido="";document.getElementById("resultadoLeitura").style.display="none";document.getElementById("status").textContent="Posicione a etiqueta inteira no centro."}
 function fecharCamera(){
   if(streamCamera){streamCamera.getTracks().forEach(function(t){t.stop()});streamCamera=null}
-  document.getElementById("video").srcObject=null;document.getElementById("cameraModal").style.display="none";document.getElementById("resultadoLeitura").style.display="none";precoLido=0;
+  document.getElementById("video").srcObject=null;document.getElementById("cameraModal").style.display="none";document.getElementById("resultadoLeitura").style.display="none";precoLido=0;codigoLido="";textoEtiquetaLido="";
 }
 function initProfileMigration(){
   var p=getProfile(),changed=false;
