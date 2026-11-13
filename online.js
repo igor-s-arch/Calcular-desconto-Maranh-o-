@@ -375,10 +375,12 @@ async function loadAdminData(){
     var pr=await sb.from("cfhp_profiles").select("*").eq("app_code","cfhp").order("name");
     if(pr.error)throw pr.error;
     var allSales=await fetchAllAdminSales(r.start,r.end,null);
+    var month=monthRange();
+    var monthSales=await fetchAllAdminSales(month.start,month.end,null);
     adminProfilesCache=pr.data||[];
     adminSalesCache=allSales;
     renderAdminSummary(adminProfilesCache,adminSalesCache,r);
-    renderTeam(adminProfilesCache,adminSalesCache,r);
+    renderTeam(adminProfilesCache,adminSalesCache,r,monthSales);
     renderSales(adminSalesCache,adminProfilesCache,"Vendas — "+r.label);
     await loadStoreProgress();
     var lab=document.getElementById("cfhpAdminFilterLabel");if(lab)lab.textContent=filterLabel(r);
@@ -421,7 +423,8 @@ window.abrirAdmin=async function(){
   document.querySelectorAll(".cfhp-filter-btn").forEach(function(b){b.classList.toggle("active",b.dataset.filter==="today");});
   await loadAdminData();
 };
-function renderTeam(profiles,sales,r){
+function renderTeam(profiles,sales,r,monthSales){
+  monthSales=monthSales||[];
   var list=document.getElementById("cfhpTeamList");list.innerHTML="";
   var title=document.getElementById("cfhpTeamTitle");if(title)title.textContent="Todas as vendedoras — "+r.label.toLowerCase();
   if(!profiles.length){list.innerHTML='<div class="empty">Nenhuma vendedora cadastrada.</div>';return;}
@@ -430,6 +433,11 @@ function renderTeam(profiles,sales,r){
     var total=own.reduce(function(a,v){return a+Number(v.final_total||0);},0);
     var desc=own.reduce(function(a,v){return a+Number(v.discount_amount||0);},0);
     var comm=own.reduce(function(a,v){return a+Number(v.commission_amount||0);},0);
+    var monthlyOwn=monthSales.filter(function(v){return v.user_id===p.id;});
+    var monthlySold=monthlyOwn.reduce(function(a,v){return a+Number(v.final_total||0);},0);
+    var monthlyGoal=Number(p.monthly_goal||40000);
+    var monthlyPct=monthlyGoal>0?monthlySold/monthlyGoal*100:0;
+    var monthlyRemaining=Math.max(0,monthlyGoal-monthlySold);
     var card=document.createElement("div");card.className="cfhp-seller";
     var badge=own.length?'<span class="badge">'+own.length+' venda(s)</span>':'<span class="badge warn">Sem venda</span>';
     var detail='';
@@ -444,7 +452,7 @@ function renderTeam(profiles,sales,r){
     }
     card.innerHTML='<div class="cfhp-seller-head"><div><strong>'+esc(p.name)+'</strong><div style="font-size:10px;color:#8092a1;margin-top:2px">Usuário: <b>'+esc(p.username||"—")+'</b> · '+(p.role==="admin"?"Administrador":"Vendedora")+'</div></div>'+badge+'</div>'+
       '<div class="cfhp-seller-metrics"><div><small>VENDAS</small><b>'+own.length+'</b></div><div><small>TOTAL</small><b>'+dinheiro(total)+'</b></div><div><small>DESCONTOS</small><b>'+dinheiro(desc)+'</b></div><div><small>COMISSÃO</small><b>'+dinheiro(comm)+'</b></div></div>'+
-      '<div class="cfhp-goal-control"><label>META INDIVIDUAL MENSAL</label><div class="cfhp-goal-row"><input id="goal-'+p.id+'" type="number" min="1" step="1000" value="'+Number(p.monthly_goal||40000)+'"><button class="btn primary" data-goal-save="'+esc(p.id)+'">Salvar meta</button></div><div class="cfhp-goal-current">Meta atual: <strong>'+dinheiro(p.monthly_goal||40000)+'</strong></div></div>'+
+      '<div class="cfhp-goal-control"><label>META INDIVIDUAL MENSAL</label><div class="cfhp-goal-row"><input id="goal-'+p.id+'" type="number" min="1" step="1000" value="'+monthlyGoal+'"><button class="btn primary" data-goal-save="'+esc(p.id)+'">Salvar meta</button></div><div class="cfhp-goal-current">Meta atual: <strong>'+dinheiro(monthlyGoal)+'</strong></div><div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px;font-size:11px;color:#6f8394"><b>PROGRESSO DO MÊS</b><strong style="color:#17324b">'+monthlyPct.toFixed(1).replace(".",",")+'%</strong></div><div style="height:12px;background:#e5ebef;border-radius:999px;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+Math.min(100,monthlyPct)+'%;background:linear-gradient(90deg,#dfa92f,#f2ca64);border-radius:999px;transition:width .3s"></div></div><div style="display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:11px;color:#6f8394"><span>Vendido: <b style="color:#17324b">'+dinheiro(monthlySold)+'</b></span><span>Falta: <b style="color:#17324b">'+dinheiro(monthlyRemaining)+'</b></span></div></div>'+
       detail+
       '<details class="cfhp-commission-details"><summary>Comissão por forma de pagamento</summary>'+commissionBreakdownMarkup(own,[p],true)+'</details>'+
       '<button class="btn secondary full" style="margin-top:9px;height:42px" data-view="'+esc(p.id)+'">Ver histórico da vendedora</button>'+
