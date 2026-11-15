@@ -831,8 +831,19 @@ function enviarNotificacaoMeta(force){
 }
 function notificarProgresso(venda){
   if(!estaEmHorarioFuncionamento())return;
-  var p=getProfile(),r=calcularResumoMes();
-  var today=getSales().filter(function(v){return v.date===hojeISO()}).reduce(function(a,v){return a+Number(v.final||0)},0);
+  var p=getProfile(),r=calcularResumoMes(),vendasHoje=getSales().filter(function(v){return v.date===hojeISO()});
+  var today=vendasHoje.reduce(function(a,v){return a+Number(v.final||0)},0);
+  var ticket=vendasHoje.length?today/vendasHoje.length:0;
+  var ticketNivel=ticket>=1000?1000:ticket>=700?700:ticket>=500?500:0;
+  var ticketKey="cfhp-ticket-"+hojeISO()+"-"+ticketNivel;
+  if(ticketNivel&&!localStorage.getItem(ticketKey)){
+    var ticketTitulo=ticketNivel>=1000?"🏆 Ticket médio excelente!":ticketNivel>=700?"🔥 Ticket médio muito bom!":"👏 Ticket médio bom!";
+    showNotification(ticketTitulo,"Seu ticket médio está em "+dinheiro(ticket)+". Continue agregando produtos!");
+    localStorage.setItem(ticketKey,"1");
+  }else if(vendasHoje.length>=3&&ticket<400&&!localStorage.getItem("cfhp-ticket-atencao-"+hojeISO())){
+    showNotification("💡 Vamos aumentar o ticket médio?","Seu ticket médio está em "+dinheiro(ticket)+". Nossa meta é R$ 500,00. Ofereça produtos complementares!");
+    localStorage.setItem("cfhp-ticket-atencao-"+hojeISO(),"1");
+  }
   if(r.pct>=100){showNotification("🏆 Meta do mês alcançada!","Parabéns, "+p.nome+"! Você atingiu "+dinheiro(r.total)+" no mês.");return}
   if(today>=r.diaria&&r.diaria>0){showNotification("🔥 Meta diária alcançada!","Você já vendeu "+dinheiro(today)+" hoje. Continue assim!");return}
   var falta=Math.max(0,r.diaria-today);
