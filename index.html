@@ -398,7 +398,7 @@ canvas{display:none}
 <div class="modal" id="cameraModal">
   <div class="modalBox">
     <div class="modalHead"><strong>📷 Ler etiqueta</strong><div style="font-size:12px;opacity:.8;margin-top:3px">Aponte para o preço</div></div>
-    <video id="video" autoplay playsinline></video>
+    <video id="video" autoplay playsinline muted></video>
     <canvas id="canvas"></canvas>
     <div class="modalBody">
       <div class="status" id="status">📷 Preparando leitura automática...</div>
@@ -956,6 +956,12 @@ document.getElementById("entrada").addEventListener("keydown",function(e){if(e.k
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})})}
 migrateLegacy();
 initProfileMigration();
+// Prepara o OCR em segundo plano para acelerar a primeira leitura, sem abrir a câmera.
+(function aquecerLeitor(){
+  var iniciar=function(){obterWorkerOCR().catch(function(e){console.warn("Pré-carregamento do leitor:",e);});};
+  if("requestIdleCallback" in window)requestIdleCallback(iniciar,{timeout:2500});
+  else setTimeout(iniciar,1800);
+})();
 document.getElementById("filtroDataInicio").value=hojeISO();
 document.getElementById("filtroDataFim").value=hojeISO();
 renderHeader();
