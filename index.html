@@ -711,9 +711,15 @@ function labelPagamento(p){
   if(p==="crediario")return "Crediário";
   return p||"Venda";
 }
+function estaEmHorarioFuncionamento(){
+  var d=new Date(),dia=d.getDay(),minutos=d.getHours()*60+d.getMinutes();
+  if(dia>=1&&dia<=5)return minutos>=480&&minutos<=1090;
+  if(dia===0)return minutos>=480&&minutos<=720;
+  return false;
+}
 function diasVendaRestantes(){
   var d=new Date(),y=d.getFullYear(),m=d.getMonth(),last=new Date(y,m+1,0).getDate(),count=0;
-  for(var day=d.getDate();day<=last;day++){var x=new Date(y,m,day);if(x.getDay()!==0)count++}
+  for(var day=d.getDate();day<=last;day++){var x=new Date(y,m,day);if(x.getDay()!==6)count++}
   return Math.max(1,count);
 }
 function calcularResumoMes(){
@@ -815,6 +821,7 @@ function showNotification(title,body){
   }else{new Notification(title,{body:body})}
 }
 function enviarNotificacaoMeta(force){
+  if(!estaEmHorarioFuncionamento())return;
   var key=STORAGE.notice+"-"+hojeISO();
   if(!force&&localStorage.getItem(key))return;
   var p=getProfile(),r=calcularResumoMes();
@@ -823,6 +830,7 @@ function enviarNotificacaoMeta(force){
   localStorage.setItem(key,"1");
 }
 function notificarProgresso(venda){
+  if(!estaEmHorarioFuncionamento())return;
   var p=getProfile(),r=calcularResumoMes();
   var today=getSales().filter(function(v){return v.date===hojeISO()}).reduce(function(a,v){return a+Number(v.final||0)},0);
   if(r.pct>=100){showNotification("🏆 Meta do mês alcançada!","Parabéns, "+p.nome+"! Você atingiu "+dinheiro(r.total)+" no mês.");return}
